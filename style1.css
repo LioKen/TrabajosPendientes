@@ -1,12 +1,12 @@
 :root {
-    /* Nueva gama de colores */
+    /* Paleta de Colores Priorizada (Tu Principal, Azul) */
     --blanco: #ffffff;
     --oscuro: #202124;
-    --primario: #3367d6;       /* Azul profundo */
-    --secundario: #4285f4;      /* Azul claro */
+    --primario: #3367d6; /* Azul profundo */
+    --secundario: #4285f4; /* Azul claro */
     --gris: #80868B;
-    --grisclaro: #e8f0fe;       /* Fondo muy suave para inputs */
-    --fondo: #f1f3f4;          /* Fondo general */
+    --grisclaro: #e8f0fe; /* Fondo muy suave para inputs */
+    --fondo: #f1f3f4; /* Fondo general */
     --input-bg: #ffffff;
     --input-border: #d2e3fc;
     --input-focus: #3367d6;
@@ -15,9 +15,12 @@
     --error-bg: #fce8e6;
     --error-text: #d93025;
     --form-border: #3367d6;
+    --delete-btn-color: #d93025; /* Rojo para botón de eliminar */
 }
 
-/* Reset y configuración global */
+/* -------------------------------------- */
+/* 1. RESET Y ESTRUCTURA GENERAL */
+/* -------------------------------------- */
 html {
     font-size: 62.5%;
     box-sizing: border-box;
@@ -29,72 +32,46 @@ html {
 
 body {
     margin: 0;
-    padding-top: 0rem;
+    padding-top: 0; /* No necesitas padding superior si no hay header fijo */
     font-size: 16px;
-    font-family: 'Krub', sans-serif;
+    /* Asegúrate de que tu HTML carga 'Roboto' y 'Bebas Neue' */
+    font-family: 'Roboto', sans-serif; 
     background-color: var(--fondo);
     color: var(--oscuro);
 }
 
-/* Encabezados */
+h2, h3 {
+    margin: 0 0 1rem 0;
+}
+
 h2 {
     font-size: 1.8rem;
     font-weight: 500;
-    margin: 0;
 }
 
-/* Header principal con imagen industrial */
-header.header {
-    background-image: url('imagenes/industrial-background.jpg'); /* Ruta de la imagen industrial */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    /* Fallback en caso de no cargar la imagen */
-    background-color: var(--primario);
-    color: var(--blanco);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 5rem;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding: 0 2rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    animation: slideDown 0.6s ease-out;
+h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primario);
 }
 
-@keyframes slideDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.4rem;
+    color: var(--gris);
+    margin-top: 2rem;
 }
 
-@media (max-width: 768px) {
-    header.header {
-        padding: 0 1rem;
-        height: 4rem;
-        background-position: center;
-    }
-}
-
-/* Enlaces en el header */
-header.header a {
-    color: var(--blanco);
-    text-decoration: none;
-}
-
-.header__icono {
-    display: flex;
-    align-items: center;
-}
-
-/* Formulario */
+/* -------------------------------------- */
+/* 2. FORMULARIO Y HEADER */
+/* -------------------------------------- */
 .formulario {
     width: min(120rem, 96%);
-    margin: 2rem auto;
+    margin: 4rem auto; /* Ajusté el margen superior para el contenido */
     background-color: var(--blanco);
-    padding: 2.5rem; /* Aumentado para mayor separación */
+    padding: 2.5rem;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     border: 2px solid var(--form-border);
@@ -106,10 +83,9 @@ header.header a {
     to { opacity: 1; transform: scale(1); }
 }
 
-/* Encabezado del formulario con icono en el lado derecho */
 .form-header {
     display: flex;
-    justify-content: center; /* Centra el título */
+    justify-content: center; 
     align-items: center;
     position: relative;
     background-color: var(--header-bg);
@@ -117,10 +93,16 @@ header.header a {
     padding: 1rem;
     border-radius: 0.5rem;
     margin-bottom: 2rem;
-    animation: fadeInDown 0.5s ease-out;
 }
 
-/* Posicionar los engranajes a la izquierda y derecha */
+.form-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem; /* Lo hice un poco más grande */
+    text-align: center;
+    width: 100%;
+    margin: 0;
+}
+
 .header-icon-left,
 .header-icon-right {
     position: absolute;
@@ -140,75 +122,28 @@ header.header a {
     right: 1rem;
 }
 
-/* Efecto: al pasar el cursor sobre el encabezado, los engranajes giran ligeramente */
 .form-header:hover .header-icon-left,
 .form-header:hover .header-icon-right {
     transform: translateY(-50%) rotate(15deg);
 }
 
-/* Efecto en el título (opcional, por ejemplo, un sutil text-shadow) */
-.form-header:hover h2 {
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    transition: text-shadow 0.3s ease;
-}
-
-/* Asegurarse de que el título esté centrado en el HTML */
-.form-header h2 {
-    margin: 0;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.8rem;
-    text-align: center;
-    width: 100%;
-}
-
-
-
-
-/* Mensaje de error */
-.error-message {
-    background-color: var(--error-bg);
-    color: var(--error-text);
-    border: 1px solid var(--error-text);
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1.5rem;  /* Aumentado para separación */
-    text-align: center;
-    animation: shake 0.3s ease-in-out;
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-}
-
-/* Contenedor de campos */
-.contenedor-campos {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.8rem;  /* Aumentado para mayor separación */
-}
-
-@media (min-width: 768px) {
-    .contenedor-campos {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
+/* -------------------------------------- */
+/* 3. CAMPOS E INPUTS */
+/* -------------------------------------- */
 
 .campo {
     display: flex;
     flex-direction: column;
-    margin-bottom: 1.8rem;  /* Mayor separación entre campos */
+    margin-bottom: 1.8rem;
 }
 
 .campo label {
     font-size: 1.4rem;
-    margin-bottom: 0.8rem;  /* Espacio extra */
+    margin-bottom: 0.8rem;
     font-weight: 600;
     color: var(--oscuro);
 }
 
-/* Inputs y áreas de texto */
 .input-text {
     width: 100%;
     padding: 1rem;
@@ -225,6 +160,13 @@ header.header a {
     box-shadow: 0 0 5px rgba(66,133,244,0.5);
 }
 
+/* Estilo para inputs de solo lectura (como la OT) */
+.input-text[readonly] {
+    background-color: var(--grisclaro);
+    color: var(--gris);
+    font-weight: bold;
+}
+
 /* Personalización para selects */
 select.input-text {
     -webkit-appearance: none;
@@ -236,9 +178,142 @@ select.input-text {
     background-size: 1rem;
 }
 
-/* Botón de envío */
+/* -------------------------------------- */
+/* 4. CHECKBOXES */
+/* -------------------------------------- */
+
+.checkbox-group {
+    margin-bottom: 1rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.6rem;
+    font-weight: 400;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* -------------------------------------- */
+/* 5. AUTOCOMPLETAR */
+/* -------------------------------------- */
+
+.autocomplete-container {
+    position: relative;
+}
+
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--blanco);
+    border: 1px solid var(--input-border);
+    border-top: none;
+    max-height: 250px; /* Tamaño fijo para evitar saltos */
+    overflow-y: auto;
+    z-index: 1000;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.suggestions-list li {
+    padding: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.suggestions-list li:hover {
+    background-color: var(--grisclaro);
+}
+
+/* -------------------------------------- */
+/* 6. MÓDULO DE REPUESTOS (NUEVO) */
+/* -------------------------------------- */
+
+#moduloRepuestos {
+    border: 1px dashed var(--primario);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.item-repuesto {
+    display: flex;
+    gap: 10px; /* Separación entre los campos de repuesto */
+    margin-bottom: 10px;
+    align-items: flex-start; /* Alineación superior */
+}
+
+/* Ajuste de flex para los inputs dentro del item-repuesto */
+.item-repuesto .autocomplete-container {
+    flex: 2; /* Más espacio para la descripción */
+    min-width: 150px;
+}
+.item-repuesto input.cantidad-input {
+    flex: 0.5; /* Pequeño para la cantidad */
+    min-width: 60px;
+}
+.item-repuesto select.und-medida-select {
+    flex: 1; /* Espacio para la unidad */
+    min-width: 80px;
+}
+
+.item-repuesto input, .item-repuesto select {
+    margin: 0;
+}
+
+/* Botón de eliminar item de repuesto */
+.remove-item-btn {
+    background: none;
+    border: none;
+    color: var(--delete-btn-color);
+    font-size: 2.2rem;
+    cursor: pointer;
+    padding: 0 5px;
+    transition: color 0.2s ease;
+    align-self: center; /* Centrar verticalmente con los inputs */
+}
+
+.remove-item-btn:hover {
+    color: #a00;
+}
+
+/* Botón de añadir repuesto */
+#addItemBtn {
+    background-color: var(--secundario);
+    color: var(--blanco);
+    border: none;
+    padding: 0.8rem 1.6rem;
+    font-size: 1.6rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+    display: block; /* Ocupa todo el ancho disponible */
+    width: 100%;
+}
+
+#addItemBtn:hover {
+    background-color: #3b7afc; /* Un tono de azul ligeramente diferente */
+}
+
+/* -------------------------------------- */
+/* 7. BOTÓN DE ENVÍO Y MENSAJES */
+/* -------------------------------------- */
+
 .boton {
-    display: inline-block;
+    display: block;
     background-color: var(--primario);
     color: var(--blanco);
     padding: 1.2rem 3rem;
@@ -255,30 +330,37 @@ select.input-text {
 
 .boton:hover {
     background-color: var(--secundario);
-    transform: scale(1.02);
+    transform: scale(1.01);
 }
 
-/* Botón de agregar descripción */
-.add-btn {
-    background-color: var(--primario);
-    color: var(--blanco);
-    border: none;
-    padding: 0.8rem 1.6rem;
-    font-size: 1.6rem;
+.error-message {
+    background-color: var(--error-bg);
+    color: var(--error-text);
+    border: 1px solid var(--error-text);
+    padding: 1rem;
     border-radius: 0.5rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 0.5rem;
-    align-self: flex-start;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    animation: shake 0.3s ease-in-out;
 }
 
-.add-btn:hover {
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+#confirmationMessage {
+    margin-top: 2rem;
+    padding: 1rem;
     background-color: var(--secundario);
-}
-
-/* Separación entre entradas de descripción */
-.descripcion-item {
-    margin-bottom: 1rem;
+    color: var(--blanco);
+    border: 1px solid var(--secundario);
+    border-radius: 0.5rem;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: bold;
+    animation: fadeIn 0.5s ease-out;
 }
 
 /* Spinner de carga */
@@ -286,7 +368,7 @@ select.input-text {
     animation: rotate 2s linear infinite;
     height: 50px;
     width: 50px;
-    margin: auto;
+    margin: 20px auto;
 }
 .spinner .path {
     stroke: var(--primario);
@@ -302,64 +384,42 @@ select.input-text {
     100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
 }
 
-/* Mensaje de confirmación */
-#confirmationMessage {
-    margin-top: 2rem;
-    padding: 1rem;
-    background-color: var(--secundario);
-    color: var(--blanco);
-    border: 1px solid var(--secundario);
-    border-radius: 0.5rem;
-    text-align: center;
-    font-size: 1.6rem;
-    animation: fadeIn 0.5s ease-out;
+/* -------------------------------------- */
+/* 8. MEDIA QUERIES (RESPONSIVE) */
+/* -------------------------------------- */
+
+@media (min-width: 768px) {
+    /* Tu grid original de 3 columnas (aplicado a la mayoría de campos) */
+    .formulario > .campo {
+        /* Para usar el grid, debes envolver los campos en un contenedor, 
+           pero como los tienes directos en el formulario, mantendremos el flujo normal. */
+    }
+
+    /* Si quieres que los campos se organicen en un grid, deberías envolverlos
+       en un <div> con la clase .contenedor-campos. Como tu HTML no lo tiene,
+       sólo nos enfocaremos en los campos de repuestos. */
+       
+    .item-repuesto {
+        gap: 15px; /* Más espacio en pantallas grandes */
+    }
 }
 
-/* Footer */
-footer {
-    text-align: center;
-    padding: 1rem;
-    font-size: 1.4rem;
-    color: var(--gris);
-    margin-top: 2rem;
-}
-
-/* Autocompletar personalizado */
-.autocomplete-container {
-    position: relative;
-}
-
-.suggestions-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: var(--blanco);
-    border: 1px solid var(--input-border);
-    border-top: none;
-    max-height: 600px; /* Muestra al menos 10 opciones en PC */
-    overflow-y: auto;
-    z-index: 1000;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 1.6rem;
-}
-
-.suggestions-list li {
-    padding: 1.2rem; /* Mayor visibilidad */
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.suggestions-list li:hover {
-    background-color: var(--grisclaro);
-}
-
-/* En móviles, ajustar la lista de sugerencias */
 @media (max-width: 600px) {
-    .suggestions-list {
-        max-height: 700px;
-        font-size: 1.8rem;
+    .item-repuesto {
+        flex-direction: column; /* Apila los campos de repuesto en móvil */
+        gap: 0;
+    }
+    .item-repuesto .autocomplete-container,
+    .item-repuesto input,
+    .item-repuesto select {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .remove-item-btn {
+        align-self: flex-end; /* Mueve el botón de eliminar a la derecha */
+        margin-top: -30px; /* Para que quede cerca del item */
+    }
+    .form-header h2 {
+        font-size: 1.6rem;
     }
 }
