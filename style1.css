@@ -1,0 +1,365 @@
+:root {
+    /* Nueva gama de colores */
+    --blanco: #ffffff;
+    --oscuro: #202124;
+    --primario: #3367d6;       /* Azul profundo */
+    --secundario: #4285f4;      /* Azul claro */
+    --gris: #80868B;
+    --grisclaro: #e8f0fe;       /* Fondo muy suave para inputs */
+    --fondo: #f1f3f4;          /* Fondo general */
+    --input-bg: #ffffff;
+    --input-border: #d2e3fc;
+    --input-focus: #3367d6;
+    --header-bg: #3367d6;
+    --header-text: #ffffff;
+    --error-bg: #fce8e6;
+    --error-text: #d93025;
+    --form-border: #3367d6;
+}
+
+/* Reset y configuración global */
+html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+    padding-top: 0rem;
+    font-size: 16px;
+    font-family: 'Krub', sans-serif;
+    background-color: var(--fondo);
+    color: var(--oscuro);
+}
+
+/* Encabezados */
+h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Header principal con imagen industrial */
+header.header {
+    background-image: url('imagenes/industrial-background.jpg'); /* Ruta de la imagen industrial */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* Fallback en caso de no cargar la imagen */
+    background-color: var(--primario);
+    color: var(--blanco);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5rem;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 0 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    animation: slideDown 0.6s ease-out;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    header.header {
+        padding: 0 1rem;
+        height: 4rem;
+        background-position: center;
+    }
+}
+
+/* Enlaces en el header */
+header.header a {
+    color: var(--blanco);
+    text-decoration: none;
+}
+
+.header__icono {
+    display: flex;
+    align-items: center;
+}
+
+/* Formulario */
+.formulario {
+    width: min(120rem, 96%);
+    margin: 2rem auto;
+    background-color: var(--blanco);
+    padding: 2.5rem; /* Aumentado para mayor separación */
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: 2px solid var(--form-border);
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Encabezado del formulario con icono en el lado derecho */
+.form-header {
+    display: flex;
+    justify-content: center; /* Centra el título */
+    align-items: center;
+    position: relative;
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+    animation: fadeInDown 0.5s ease-out;
+}
+
+/* Posicionar los engranajes a la izquierda y derecha */
+.header-icon-left,
+.header-icon-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    fill: var(--header-text);
+    transition: transform 0.3s ease;
+}
+
+.header-icon-left {
+    left: 1rem;
+}
+
+.header-icon-right {
+    right: 1rem;
+}
+
+/* Efecto: al pasar el cursor sobre el encabezado, los engranajes giran ligeramente */
+.form-header:hover .header-icon-left,
+.form-header:hover .header-icon-right {
+    transform: translateY(-50%) rotate(15deg);
+}
+
+/* Efecto en el título (opcional, por ejemplo, un sutil text-shadow) */
+.form-header:hover h2 {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: text-shadow 0.3s ease;
+}
+
+/* Asegurarse de que el título esté centrado en el HTML */
+.form-header h2 {
+    margin: 0;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    text-align: center;
+    width: 100%;
+}
+
+
+
+
+/* Mensaje de error */
+.error-message {
+    background-color: var(--error-bg);
+    color: var(--error-text);
+    border: 1px solid var(--error-text);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;  /* Aumentado para separación */
+    text-align: center;
+    animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Contenedor de campos */
+.contenedor-campos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.8rem;  /* Aumentado para mayor separación */
+}
+
+@media (min-width: 768px) {
+    .contenedor-campos {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.8rem;  /* Mayor separación entre campos */
+}
+
+.campo label {
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;  /* Espacio extra */
+    font-weight: 600;
+    color: var(--oscuro);
+}
+
+/* Inputs y áreas de texto */
+.input-text {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.4rem;
+    border: 1px solid var(--input-border);
+    border-radius: 0.5rem;
+    background-color: var(--input-bg);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-text:focus {
+    outline: none;
+    border-color: var(--input-focus);
+    box-shadow: 0 0 5px rgba(66,133,244,0.5);
+}
+
+/* Personalización para selects */
+select.input-text {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10"><path fill="%233367d6" d="M7 10L0 0h14z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+}
+
+/* Botón de envío */
+.boton {
+    display: inline-block;
+    background-color: var(--primario);
+    color: var(--blanco);
+    padding: 1.2rem 3rem;
+    font-size: 1.8rem;
+    border: none;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.boton:hover {
+    background-color: var(--secundario);
+    transform: scale(1.02);
+}
+
+/* Botón de agregar descripción */
+.add-btn {
+    background-color: var(--primario);
+    color: var(--blanco);
+    border: none;
+    padding: 0.8rem 1.6rem;
+    font-size: 1.6rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 0.5rem;
+    align-self: flex-start;
+}
+
+.add-btn:hover {
+    background-color: var(--secundario);
+}
+
+/* Separación entre entradas de descripción */
+.descripcion-item {
+    margin-bottom: 1rem;
+}
+
+/* Spinner de carga */
+.spinner {
+    animation: rotate 2s linear infinite;
+    height: 50px;
+    width: 50px;
+    margin: auto;
+}
+.spinner .path {
+    stroke: var(--primario);
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+}
+@keyframes rotate {
+    100% { transform: rotate(360deg); }
+}
+@keyframes dash {
+    0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
+    50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
+    100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+}
+
+/* Mensaje de confirmación */
+#confirmationMessage {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: var(--secundario);
+    color: var(--blanco);
+    border: 1px solid var(--secundario);
+    border-radius: 0.5rem;
+    text-align: center;
+    font-size: 1.6rem;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.4rem;
+    color: var(--gris);
+    margin-top: 2rem;
+}
+
+/* Autocompletar personalizado */
+.autocomplete-container {
+    position: relative;
+}
+
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--blanco);
+    border: 1px solid var(--input-border);
+    border-top: none;
+    max-height: 600px; /* Muestra al menos 10 opciones en PC */
+    overflow-y: auto;
+    z-index: 1000;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.6rem;
+}
+
+.suggestions-list li {
+    padding: 1.2rem; /* Mayor visibilidad */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.suggestions-list li:hover {
+    background-color: var(--grisclaro);
+}
+
+/* En móviles, ajustar la lista de sugerencias */
+@media (max-width: 600px) {
+    .suggestions-list {
+        max-height: 700px;
+        font-size: 1.8rem;
+    }
+}

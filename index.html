@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reporte de Mantenimiento</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  
+  <link rel="preload" href="style1.css" as="style">
+  <link rel="stylesheet" href="style1.css">
+
+  
+</head>
+<body>
+  <main>
+    <section>
+              <form id="miFormulario" class="formulario">
+                  <div class="form-header">
+                    <div class="header-icon-left">
+                        <svg class="gear-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                          <path fill="#4285F4" d="M487.4 315.7l-41.4-24 7.4-45.5 41.4-24c5.7-3.3 7.8-10.6 5-16.3l-24-41.4-45.5 7.4-24-41.4c-3.3-5.7-10.6-7.8-16.3-5l-41.4 24-24-41.4c-3.3-5.7-10.6-7.8-16.3-5L59.3 60c-5.7 3.3-7.8 10.6-5 16.3l24 41.4L41.4 132c-5.7 3.3-7.8 10.6-5 16.3l24 41.4-7.4 45.5-41.4 24c-5.7 3.3-7.8 10.6-5 16.3l24 41.4 45.5-7.4 24 41.4c3.3 5.7 10.6 7.8 16.3 5l41.4-24 24 41.4c3.3 5.7 10.6 7.8 16.3 5l41.4-24c5.7-3.3 7.8-10.6 5-16.3l-24-41.4 7.4-45.5 41.4-24c5.7-3.3 7.8-10.6 5-16.3zM256 336c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80z"/>
+                        </svg>
+                      </div>
+                      <h2>Reporte de Mantenimiento</h2>
+                      <div class="header-icon-right">
+                        <svg class="gear-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                          <path fill="#4285F4" d="M487.4 315.7l-41.4-24 7.4-45.5 41.4-24c5.7-3.3 7.8-10.6 5-16.3l-24-41.4-45.5 7.4-24-41.4c-3.3-5.7-10.6-7.8-16.3-5l-41.4 24-24-41.4c-3.3-5.7-10.6-7.8-16.3-5L59.3 60c-5.7 3.3-7.8 10.6-5 16.3l24 41.4L41.4 132c-5.7 3.3-7.8 10.6-5 16.3l24 41.4-7.4 45.5-41.4 24c-5.7 3.3-7.8 10.6-5 16.3l24 41.4 45.5-7.4 24 41.4c3.3 5.7 10.6 7.8 16.3 5l41.4-24 24 41.4c3.3 5.7 10.6 7.8 16.3 5l41.4-24c5.7-3.3 7.8-10.6 5-16.3l-24-41.4 7.4-45.5 41.4-24c5.7-3.3 7.8-10.6 5-16.3zM256 336c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80z"/>
+                        </svg>
+                      </div>
+          </div>
+          
+          <div id="errorMessage" class="error-message" style="display: none;"></div>
+          
+          <div class="campo">
+            <label for="maquinaInput">MAQUINA</label>
+            <div class="autocomplete-container">
+              <input type="text" id="maquinaInput" name="maquina" class="input-text" placeholder="Selecciona o escribe la máquina" autocomplete="off" required>
+              <ul id="maquinaSuggestions" class="suggestions-list"></ul>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="tipo_de_actividadSelect">TIPO DE ACTIVIDAD</label>
+            <select id="tipo_de_actividadSelect" name="tipo_de_actividad" class="input-text" required>
+              <option value="">Selecciona el tipo de actividad</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="ot">OT</label>
+            <input type="text" id="ot" name="ot" class="input-text" placeholder="Ingresa la OT" required>
+          </div>
+
+          <div class="campo">
+            <label for="descripcion_evento">DESCRIPCIÓN DEL EVENTO</label>
+            <textarea id="descripcion_evento" name="descripcion_evento" class="input-text" placeholder="Describa el evento" required></textarea>
+          </div>
+
+          <div class="campo">
+            <label for="solucion_evento">SOLUCIÓN DEL EVENTO</label>
+            <textarea id="solucion_evento" name="solucion_evento" class="input-text" placeholder="Describa la solución" required></textarea>
+          </div>
+
+          <div class="campo">
+            <label for="causa_raiz">CAUSA RAIZ</label>
+            <textarea id="causa_raiz" name="causa_raiz" class="input-text" placeholder="Indique la causa raíz" required></textarea>
+          </div>
+
+          <div class="campo">
+            <label for="fecha_inicial">FECHA INICIAL</label>
+            <input type="date" id="fecha_inicial" name="fecha_inicial" class="input-text" required>
+          </div>
+
+          <div class="campo">
+            <label for="hora_inicial">HORA INICIAL</label>
+            <input type="time" id="hora_inicial" name="hora_inicial" class="input-text" required>
+          </div>
+
+          <div class="campo">
+            <label for="duracion">DURACIÓN</label>
+            <input type="number" id="duracion" name="duracion" class="input-text" placeholder="Ej. 2" required>
+          </div>
+          
+          <div class="campo">
+            <label for="estado_equipo">ESTADO DEL EQUIPO</label>
+            <select id="estado_equipo" name="estado_equipo" class="input-text" required>
+              <option value="">Selecciona el estado</option>
+              <option value="Operativo">Operativo</option>
+              <option value="No Operativo">No Operativo</option>
+              <option value="En Mantenimiento">En Mantenimiento</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="observaciones">OBSERVACIONES</label>
+            <textarea id="observaciones" name="observaciones" class="input-text" placeholder="Cualquier observación adicional"></textarea>
+          </div>
+
+          <div class="campo checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="prueba_funcionalidad" name="prueba_funcionalidad">
+              ¿Se realizó prueba de funcionalidad?
+            </label>
+          </div>
+
+          <div class="campo checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="operando_normal" name="operando_normal">
+              Operando normal
+            </label>
+          </div>
+
+          <div class="campo checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="requiere_seguimiento" name="requiere_seguimiento">
+              Requiere Seguimiento
+            </label>
+          </div>
+
+          <div class="campo checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="no_operativa_intervencion" name="no_operativa_intervencion">
+              No Operativa, Requiere intervención adicional
+            </label>
+          </div>
+          <div class="campo">
+            <label for="tecnicoInput">TÉCNICO</label>
+            <div class="autocomplete-container">
+              <input type="text" id="tecnicoInput" name="tecnico" class="input-text" placeholder="Selecciona o escribe el técnico" autocomplete="off" required>
+              <ul id="tecnicoSuggestions" class="suggestions-list"></ul>
+            </div>
+          </div>
+
+          <div style="text-align: center;">
+            <input class="boton" type="submit" value="Enviar">
+          </div>
+
+          <div id="spinner" style="display: none; text-align: center;">
+            <svg class="spinner" viewBox="0 0 50 50">
+              <circle class="path" cx="25" cy="25" r="20" fill="none" stroke="#4285F4" stroke-width="5"></circle>
+            </svg>
+          </div>
+          <div id="confirmationMessage" style="display: none; text-align: center; margin-top: 10px;"></div>
+        </form>
+    </section>
+  </main>
+
+  <footer>
+    Si tiene inconvenientes, comuníquese con ********
+  </footer>
+
+  <script>
+    // Función debounce para optimizar el autocompletado
+    function debounce(func, delay) {
+      let timeout;
+      return function(...args) {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), delay);
+      };
+    }
+
+    // Variables para datos (desde opciones.json)
+    let datosMaquina = [];
+    let datosTecnico = [];
+    // Opciones para el select "TIPO DE ACTIVIDAD"
+    let datosTipoDeActividad = ["Emergencia", "Correctivo", "Preventivo"];
+
+    // Cargar datos desde opciones.json
+    fetch('opciones.json')
+      .then(response => response.json())
+      .then(data => {
+        datosMaquina = data.maquina || [];
+        datosTecnico = data.tecnico || [];
+        populateSelect('tipo_de_actividadSelect', datosTipoDeActividad);
+      })
+      .catch(error => console.error('Error al cargar el JSON:', error));
+
+    // Poblar select
+    function populateSelect(selectId, optionsArray) {
+      const selectElement = document.getElementById(selectId);
+      optionsArray.forEach(optionValue => {
+        const option = document.createElement('option');
+        option.value = optionValue;
+        option.textContent = optionValue;
+        selectElement.appendChild(option);
+      });
+    }
+
+    // Mostrar sugerencias
+    function mostrarSugerencias(inputElement, suggestionsElement, datos) {
+      const query = inputElement.value.toLowerCase();
+      suggestionsElement.innerHTML = '';
+      let filtrados = [];
+      if (datos.length && typeof datos[0] === 'object') {
+        filtrados = datos.filter(item => item.descripcion.toLowerCase().includes(query));
+      } else {
+        filtrados = datos.filter(item => item.toLowerCase().includes(query));
+      }
+      const fragment = document.createDocumentFragment();
+      filtrados.forEach(item => {
+        const li = document.createElement('li');
+        if (typeof item === 'object') {
+          li.textContent = item.descripcion;
+          li.setAttribute('data-codigo', item.codigo);
+        } else {
+          li.textContent = item;
+        }
+        li.addEventListener('click', () => {
+          inputElement.value = (typeof item === 'object') ? item.descripcion : item;
+          suggestionsElement.innerHTML = '';
+          const container = inputElement.closest('.autocomplete-container');
+          if (container) {
+            let hiddenInput = container.querySelector('input.codigo-maquina-hidden');
+            if (!hiddenInput) {
+              hiddenInput = document.createElement('input');
+              hiddenInput.type = 'hidden';
+              hiddenInput.name = inputElement.getAttribute('name') + '_codigo';
+              hiddenInput.className = 'codigo-maquina-hidden';
+              container.appendChild(hiddenInput);
+            }
+            hiddenInput.value = li.getAttribute('data-codigo') || '';
+          }
+        });
+        fragment.appendChild(li);
+      });
+      suggestionsElement.appendChild(fragment);
+    }
+
+    // Configurar autocompletado para MAQUINA
+    const maquinaInput = document.getElementById('maquinaInput');
+    const maquinaSuggestions = document.getElementById('maquinaSuggestions');
+    maquinaInput.addEventListener('input', debounce(() => {
+      mostrarSugerencias(maquinaInput, maquinaSuggestions, datosMaquina);
+    }, 300));
+
+    // Configurar autocompletado para TÉCNICO
+    const tecnicoInput = document.getElementById('tecnicoInput');
+    const tecnicoSuggestions = document.getElementById('tecnicoSuggestions');
+    tecnicoInput.addEventListener('input', debounce(() => {
+      mostrarSugerencias(tecnicoInput, tecnicoSuggestions, datosTecnico);
+    }, 300));
+
+    // Cerrar sugerencias al hacer clic fuera
+    document.addEventListener('click', e => {
+      document.querySelectorAll('.autocomplete-container').forEach(container => {
+        if (!container.contains(e.target)) {
+          container.querySelectorAll('.suggestions-list').forEach(list => list.innerHTML = '');
+        }
+      });
+    });
+
+    // Funciones para mensajes de error
+    function showError(message) {
+      const errorDiv = document.getElementById('errorMessage');
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+    }
+    function clearError() {
+      const errorDiv = document.getElementById('errorMessage');
+      errorDiv.textContent = '';
+      errorDiv.style.display = 'none';
+    }
+
+    // Envío del formulario con integración a Google Sheets
+    document.getElementById('miFormulario').addEventListener('submit', function(e) {
+      e.preventDefault();
+      clearError();
+      const form = this;
+      const data = {
+        codigo_maquina: (() => {
+          const container = maquinaInput.closest('.autocomplete-container');
+          const hiddenInput = container.querySelector('input.codigo-maquina-hidden');
+          return hiddenInput ? hiddenInput.value.trim() : "";
+        })(),
+        tipo_de_actividad: document.getElementById('tipo_de_actividadSelect').value,
+        ot: form.querySelector('input[name="ot"]').value,
+        descripcion_evento: form.querySelector('textarea[name="descripcion_evento"]').value,
+        solucion_evento: form.querySelector('textarea[name="solucion_evento"]').value,
+        causa_raiz: form.querySelector('textarea[name="causa_raiz"]').value,
+        fecha_inicial: form.querySelector('input[name="fecha_inicial"]').value,
+        hora_inicial: form.querySelector('input[name="hora_inicial"]').value,
+        duracion: form.querySelector('input[name="duracion"]').value,
+        estado_equipo: document.getElementById('estado_equipo').value,
+        observaciones: form.querySelector('textarea[name="observaciones"]').value,
+        // *** NUEVOS CAMPOS CHECKBOX AGREGADOS AQUI ***
+        prueba_funcionalidad: document.getElementById('prueba_funcionalidad').checked ? 'Sí' : 'No',
+        operando_normal: document.getElementById('operando_normal').checked ? 'Sí' : 'No',
+        requiere_seguimiento: document.getElementById('requiere_seguimiento').checked ? 'Sí' : 'No',
+        no_operativa_intervencion: document.getElementById('no_operativa_intervencion').checked ? 'Sí' : 'No',
+        // *******************************************
+        maquina: maquinaInput.value,
+        tecnico: tecnicoInput.value
+      };
+
+      const tipoSelect = document.getElementById('tipo_de_actividadSelect');
+      if (tipoSelect.value === "") {
+        showError('Por favor, selecciona un tipo de actividad.');
+        tipoSelect.focus();
+        return;
+      }
+      
+      // VALIDACIÓN PARA ESTADO DEL EQUIPO
+      const estadoEquipoSelect = document.getElementById('estado_equipo');
+      if (estadoEquipoSelect.value === "") {
+        showError('Por favor, selecciona el estado del equipo.');
+        estadoEquipoSelect.focus();
+        return;
+      }
+
+
+      // --- VALIDACIÓN PARA MAQUINA ---
+      const maquinaValida = datosMaquina.some(item =>
+        (typeof item === 'object' && item.descripcion.toLowerCase() === maquinaInput.value.toLowerCase()) ||
+        (typeof item === 'string' && item.toLowerCase() === maquinaInput.value.toLowerCase())
+      );
+      if (!maquinaValida && maquinaInput.value.trim() !== "") {
+        showError('Por favor, selecciona una máquina válida de la lista.');
+        maquinaInput.focus();
+        return;
+      }
+
+      // --- VALIDACIÓN PARA TECNICO ---
+      const tecnicoValido = datosTecnico.some(item =>
+        (typeof item === 'object' && item.descripcion.toLowerCase() === tecnicoInput.value.toLowerCase()) ||
+        (typeof item === 'string' && item.toLowerCase() === tecnicoInput.value.toLowerCase())
+      );
+      if (!tecnicoValido && tecnicoInput.value.trim() !== "") {
+        showError('Por favor, selecciona un técnico válido de la lista.');
+        tecnicoInput.focus();
+        return;
+      }
+
+      const spinner = document.getElementById('spinner');
+      const confirmationMessage = document.getElementById('confirmationMessage');
+      spinner.style.display = 'block';
+      confirmationMessage.style.display = 'none';
+
+      // URL del Google Apps Script (reemplaza con tu URL)
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbz1lAhkTNBYTAebc69wzman-zidETvqDqfDZ1AeaUODq3iPx5AvnaJVlBbcaz5VzRk3VA/exec';
+      fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        spinner.style.display = 'none';
+        confirmationMessage.textContent = 'Su reporte ha sido enviada correctamente.';
+        confirmationMessage.style.display = 'block';
+        form.reset();
+      })
+      .catch(error => {
+        spinner.style.display = 'none';
+        confirmationMessage.textContent = 'Error al enviar datos, por favor intente de nuevo.';
+        confirmationMessage.style.display = 'block';
+        console.error('Error!', error.message);
+      });
+    });
+  </script>
+</body>
+</html>
