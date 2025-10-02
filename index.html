@@ -286,6 +286,7 @@
         duracion: form.querySelector('input[name="duracion"]').value,
         estado_equipo: document.getElementById('estado_equipo').value,
         observaciones: form.querySelector('textarea[name="observaciones"]').value,
+        
         // *** NUEVOS CAMPOS CHECKBOX AGREGADOS AQUI ***
         prueba_funcionalidad: document.getElementById('prueba_funcionalidad').checked ? 'Sí' : 'No',
         operando_normal: document.getElementById('operando_normal').checked ? 'Sí' : 'No',
@@ -339,8 +340,9 @@
       spinner.style.display = 'block';
       confirmationMessage.style.display = 'none';
 
+      
       // URL del Google Apps Script (reemplaza con tu URL)
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbz1lAhkTNBYTAebc69wzman-zidETvqDqfDZ1AeaUODq3iPx5AvnaJVlBbcaz5VzRk3VA/exec';
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbyeJIwicgnP_LfgbkSnqsAJcKzmQjdJyM2sNxhV3HX_DEAS94TvII-95ZU1PdvU0Ars/exec';
       fetch(scriptURL, {
         method: 'POST',
         mode: 'no-cors',
@@ -363,3 +365,4 @@
   </script>
 </body>
 </html>
+
