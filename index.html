@@ -107,22 +107,38 @@
         let datosUndDeMedida = [];
         
         // Cargar datos desde opciones.json (Deberás subir este JSON a tu servidor web o cargarlo vía Apps Script)
-        fetch('opciones.json')
-            .then(response => response.json())
-            .then(data => {
-                datosMaquina = data.maquina || [];
-                datosTecnico = data.tecnico || [];
-                datosRepuesto = data.items || []; // Tomamos los ítems de repuesto
-                datosUndDeMedida = data.und_de_medida || [];
+  fetch('opciones.json')
+    .then(response => response.json())
+    .then(data => {
+        // *** 1. ASIGNACIÓN DE DATOS (Mantenemos esta parte) ***
+        datosMaquina = data.maquina || [];
+        datosTecnico = data.tecnico || [];
+        datosRepuesto = data.items || [];
+        datosUndDeMedida = data.und_de_medida || [];
 
-                // Poblar select de Unidad de Medida del primer ítem
-                document.querySelectorAll('.und-medida-select').forEach(select => {
-                    populateUnidadSelect(select, datosUndDeMedida);
-                });
-                // Inicializar autocompletado para el primer input de repuesto
-                setupAutocompleteForDescripcion(document.querySelector('.descripcion-input'));
-            })
-            .catch(error => console.error('Error al cargar opciones.json:', error));
+        // Poblar select de Unidad de Medida del primer ítem
+        document.querySelectorAll('.und-medida-select').forEach(select => {
+            populateUnidadSelect(select, datosUndDeMedida);
+        });
+        
+        // Inicializar autocompletado para el primer input de repuesto
+        setupAutocompleteForDescripcion(document.querySelector('.descripcion-input'));
+
+        
+        // *** 2. ¡LA SOLUCIÓN! MOVER LA INICIALIZACIÓN AQUÍ ADENTRO ***
+        
+        // Configurar autocompletado para MAQUINA
+        const maquinaInput = document.getElementById('maquinaInput');
+        const maquinaSuggestions = document.getElementById('maquinaSuggestions');
+        setupAutocomplete(maquinaInput, maquinaSuggestions, datosMaquina);
+
+        // Configurar autocompletado para ASIGNADO A (usando datos de Técnico)
+        const asignadoInput = document.getElementById('asignado_aInput');
+        const asignadoSuggestions = document.getElementById('asignado_aSuggestions');
+        setupAutocomplete(asignadoInput, asignadoSuggestions, datosTecnico);
+
+    })
+    .catch(error => console.error('Error al cargar opciones.json:', error));
 
         /* --- FUNCIONES DE UTILIDAD Y AUTOCPMLETADO (Reutilizadas) --- */
 
@@ -372,4 +388,5 @@
     </script>
 </body>
 </html>
+
 
