@@ -1,414 +1,401 @@
-:root {
-    /* Paleta de Colores Priorizada (Tu Principal, Azul) */
-    --blanco: #ffffff;
-    --oscuro: #202124;
-    --primario: #3367d6; /* Azul profundo */
-    --secundario: #4285f4; /* Azul claro */
-    --gris: #80868B;
-    --grisclaro: #e8f0fe; /* Fondo muy suave para inputs */
-    --fondo: #f1f3f4; /* Fondo general */
-    --input-bg: #ffffff;
-    --input-border: #d2e3fc;
-    --input-focus: #3367d6;
-    --header-bg: #3367d6;
-    --header-text: #ffffff;
-    --error-bg: #fce8e6;
-    --error-text: #d93025;
-    --form-border: #3367d6;
-    --delete-btn-color: #d93025; /* Rojo para botón de eliminar */
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajo Pendiente</title>
+    <?!= HtmlService.createHtmlOutputFromFile('style1').getContent() ?>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body>
 
-/* -------------------------------------- */
-/* 1. RESET Y ESTRUCTURA GENERAL */
-/* -------------------------------------- */
-html {
-    font-size: 62.5%;
-    box-sizing: border-box;
-}
+    <form class="formulario" id="fallasForm">
+        <div class="form-header">
+            <svg class="header-icon-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M495.2 368.7c-5.7-18.3-15.6-35.1-28.5-49.6C448.3 301.6 422 288 394 288c-1.2 0-2.4 0-3.6 .1c2.1-15.2 3.6-31.1 3.6-48.1c0-14.7-1.7-28.9-4.8-42.5c23.5-12.8 45.4-30.8 63.8-53.1c11.2-13.8 20.3-29.3 27-45.9c3.2-8 3.2-16.7 0-24.7c-6.8-16.5-15.8-32.1-27.1-45.9C425.2 6.5 401.8 0 376 0c-43.2 0-82.9 20.8-107 54.3C258.9 57 256 57 253.1 54.3C228.9 20.8 189.2 0 146 0C120.2 0 96.8 6.5 76.7 19.3C65.5 33.1 56.5 48.7 49.8 65.3c-3.2 8-3.2 16.7 0 24.7c6.7 16.5 15.8 32.1 27.1 45.9c18.4 22.4 40.3 40.4 63.8 53.1c-3.1 13.6-4.8 27.8-4.8 42.5c0 17 1.5 32.9 3.6 48.1c-1.2-.1-2.4-.1-3.6-.1c-28 0-54.3 13.6-72.7 33.5c-12.9 14.5-22.8 31.3-28.5 49.6c-5.9 19.1-8.9 39.1-8.5 59.8c.6 27.1 11.2 53 29.8 74.3c18.5 21.3 43.8 37.6 72.1 47.9c11.1 4 22.8 6 34.6 6c18 0 35.7-3.9 51.5-11.6c4.6-2.2 9.5-2.2 14.1 0c15.8 7.7 33.5 11.6 51.5 11.6c11.8 0 23.5-2 34.6-6c28.3-10.3 53.6-26.6 72.1-47.9c18.6-21.3 29.2-47.2 29.8-74.3c.3-20.6-2.7-40.6-8.6-59.8zM256 368a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
+            <h2>Trabajos Pendientes</h2>
+            <svg class="header-icon-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M495.2 368.7c-5.7-18.3-15.6-35.1-28.5-49.6C448.3 301.6 422 288 394 288c-1.2 0-2.4 0-3.6 .1c2.1-15.2 3.6-31.1 3.6-48.1c0-14.7-1.7-28.9-4.8-42.5c23.5-12.8 45.4-30.8 63.8-53.1c11.2-13.8 20.3-29.3 27-45.9c3.2-8 3.2-16.7 0-24.7c-6.8-16.5-15.8-32.1-27.1-45.9C425.2 6.5 401.8 0 376 0c-43.2 0-82.9 20.8-107 54.3C258.9 57 256 57 253.1 54.3C228.9 20.8 189.2 0 146 0C120.2 0 96.8 6.5 76.7 19.3C65.5 33.1 56.5 48.7 49.8 65.3c-3.2 8-3.2 16.7 0 24.7c6.7 16.5 15.8 32.1 27.1 45.9c18.4 22.4 40.3 40.4 63.8 53.1c-3.1 13.6-4.8 27.8-4.8 42.5c0 17 1.5 32.9 3.6 48.1c-1.2-.1-2.4-.1-3.6-.1c-28 0-54.3 13.6-72.7 33.5c-12.9 14.5-22.8 31.3-28.5 49.6c-5.9 19.1-8.9 39.1-8.5 59.8c.6 27.1 11.2 53 29.8 74.3c18.5 21.3 43.8 37.6 72.1 47.9c11.1 4 22.8 6 34.6 6c18 0 35.7-3.9 51.5-11.6c4.6-2.2 9.5-2.2 14.1 0c15.8 7.7 33.5 11.6 51.5 11.6c11.8 0 23.5-2 34.6-6c28.3-10.3 53.6-26.6 72.1-47.9c18.6-21.3 29.2-47.2 29.8-74.3c.3-20.6-2.7-40.6-8.6-59.8zM256 368a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
+        </div>
 
-*, *::before, *::after {
-    box-sizing: inherit;
-}
+        <div id="errorMessage" class="error-message" style="display:none;"></div>
+        <div id="confirmationMessage" style="display:none;"></div>
+        
+        <h3>1. Información de la Intervención</h3>
 
-body {
-    margin: 0;
-    padding-top: 0;
-    font-size: 16px;
-    font-family: 'Roboto', sans-serif; 
-    background-color: var(--fondo);
-    color: var(--oscuro);
-}
+        <div class="campo">
+            <label for="ot">Orden de Trabajo (OT):</label>
+            <input type="text" id="ot" name="ot" class="input-text" value="PENDIENTE" readonly>
+        </div>
 
-h2, h3 {
-    margin: 0 0 0.8rem 0; /* Margen reducido aquí */
-}
+        <div style="display: flex; gap: 15px;">
+            <div class="campo" style="flex: 1;">
+                <label for="fecha_inicial">Fecha de Inicio del Evento:</label>
+                <input type="date" id="fecha_inicial" name="fecha_inicial" class="input-text" required>
+            </div>
+            <div class="campo" style="flex: 1;">
+                <label for="hora_inicial">Hora de Inicio del Evento:</label>
+                <input type="time" id="hora_inicial" name="hora_inicial" class="input-text" required>
+            </div>
+        </div>
 
-h2 {
-    font-size: 1.8rem;
-    font-weight: 500;
-}
+        <div class="campo">
+            <label for="duracion">Duración de la Intervención (Ej: 2.5 hrs):</label>
+            <input type="text" id="duracion" name="duracion" class="input-text" placeholder="Ej: 0.5, 2.5, 10" required>
+        </div>
+        
+        <h3>2. Equipo y Responsables</h3>
+        
+        <div class="campo">
+            <label for="codigo_maquina">Código de Máquina:</label>
+            <div class="autocomplete-container">
+                <input type="text" id="codigo_maquina" name="codigo_maquina" class="input-text" placeholder="Escriba el código de la máquina" required>
+                <ul id="suggestions_cod_maq" class="suggestions-list"></ul>
+            </div>
+        </div>
 
-h3 {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--primario);
-}
+        <div class="campo">
+            <label for="descripcion_maquina">Descripción de Máquina:</label>
+            <div class="autocomplete-container">
+                <input type="text" id="descripcion_maquina" name="descripcion_maquina" class="input-text" placeholder="Escriba la descripción de la máquina" required>
+                <ul id="suggestions_desc_maq" class="suggestions-list"></ul>
+            </div>
+        </div>
 
-/* Footer */
-footer {
-    text-align: center;
-    padding: 1rem;
-    font-size: 1.4rem;
-    color: var(--gris);
-    margin-top: 2rem;
-}
+        <div class="campo">
+            <label for="tecnico">Técnico Asignado:</label>
+            <select id="tecnico" name="tecnico" class="input-text" required>
+                <option value="">-- Cargando Técnicos... --</option>
+            </select>
+        </div>
 
-/* -------------------------------------- */
-/* 2. FORMULARIO Y HEADER */
-/* -------------------------------------- */
-.formulario {
-    width: min(120rem, 96%);
-    margin: 4rem auto;
-    background-color: var(--blanco);
-    padding: 2.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    border: 2px solid var(--form-border);
-    animation: fadeIn 0.8s ease-out;
-}
+        <div class="campo">
+            <label for="jefe_responsable">Jefe Responsable:</label>
+            <select id="jefe_responsable" name="jefe_responsable" class="input-text" required>
+                <option value="">-- Cargando Jefes... --</option>
+            </select>
+        </div>
+        
+        <div class="campo">
+            <label for="tipo_de_pedido">Tipo de Pedido:</label>
+            <select id="tipo_de_pedido" name="tipo_de_pedido" class="input-text" required>
+                <option value="">-- Cargando Tipos... --</option>
+            </select>
+        </div>
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-}
+        <h3>3. Detalle del Evento</h3>
 
-.form-header {
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    position: relative;
-    background-color: var(--header-bg);
-    color: var(--header-text);
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 2rem;
-}
+        <div class="campo">
+            <label for="tipo_de_actividad">Tipo de Actividad:</label>
+            <select id="tipo_de_actividad" name="tipo_de_actividad" class="input-text" required>
+                <option value="">-- Seleccione una Actividad --</option>
+            </select>
+        </div>
 
-.form-header h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.2rem;
-    text-align: center;
-    width: 100%;
-    margin: 0;
-}
+        <div class="campo">
+            <label for="descripcion_evento">Descripción Detallada del Evento/Falla:</label>
+            <textarea id="descripcion_evento" name="descripcion_evento" class="input-text" rows="4" placeholder="Describa la falla y las condiciones iniciales..." required></textarea>
+        </div>
+        
+        <div class="campo">
+            <label for="solucion_evento">Solución Aplicada:</label>
+            <textarea id="solucion_evento" name="solucion_evento" class="input-text" rows="4" placeholder="Describa los pasos y acciones tomadas para la reparación..." required></textarea>
+        </div>
 
-.header-icon-left,
-.header-icon-right {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 30px;
-    height: 30px;
-    fill: var(--header-text);
-    transition: transform 0.3s ease;
-}
+        <div class="campo">
+            <label for="causa_raiz">Causa Raíz del Evento/Falla:</label>
+            <textarea id="causa_raiz" name="causa_raiz" class="input-text" rows="2" placeholder="Ej: Falla mecánica por desgaste, error de operador..." required></textarea>
+        </div>
 
-.header-icon-left {
-    left: 1rem;
-}
+        <div class="campo">
+            <label for="estado_equipo">Estado del Equipo al Entregar:</label>
+            <input type="text" id="estado_equipo" name="estado_equipo" class="input-text" placeholder="Ej: Operativo, Stand-by, Fuera de servicio (requiere repuesto)..." required>
+        </div>
+        
+        <h3>4. Repuestos Utilizados (Opcional)</h3>
 
-.header-icon-right {
-    right: 1rem;
-}
+        <div id="moduloRepuestos">
+            <div id="itemsContainer">
+                </div>
+            <button type="button" id="addItemBtn">➕ Añadir Repuesto</button>
+        </div>
 
-.form-header:hover .header-icon-left,
-.form-header:hover .header-icon-right {
-    transform: translateY(-50%) rotate(15deg);
-}
+        <h3>5. Verificaciones y Estado Final</h3>
+        
+        <div class="checkbox-group">
+            <label class="checkbox-label">
+                <input type="checkbox" name="prueba_funcionalidad" value="on"> 
+                ¿Se realizó Prueba de Funcionalidad y fue exitosa?
+            </label>
+        </div>
+        <div class="checkbox-group">
+            <label class="checkbox-label">
+                <input type="checkbox" name="operando_normal" value="on"> 
+                El equipo está operando en condiciones normales (Producción).
+            </label>
+        </div>
+        <div class="checkbox-group">
+            <label class="checkbox-label">
+                <input type="checkbox" name="requiere_seguimiento" value="on"> 
+                El trabajo Requiere Seguimiento.
+            </label>
+        </div>
+        <div class="checkbox-group">
+            <label class="checkbox-label">
+                <input type="checkbox" name="no_operativa_intervencion" value="on"> 
+                La máquina No quedó operativa (Requiere intervención adicional).
+            </label>
+        </div>
+        
+        <div class="campo">
+            <label for="observaciones">Observaciones Adicionales:</label>
+            <textarea id="observaciones" name="observaciones" class="input-text" rows="2" placeholder="Información relevante no cubierta por otros campos..."></textarea>
+        </div>
 
-/* -------------------------------------- */
-/* 3. CAMPOS E INPUTS */
-/* -------------------------------------- */
+        <button type="submit" class="boton" id="submitBtn">Enviar Reporte de Intervención</button>
+        
+        <svg id="spinner" class="spinner" viewBox="0 0 50 50" style="display: none;">
+            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+        </svg>
 
-.campo {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1.2rem; /* <--- AJUSTE CLAVE A 1.2rem */
-}
+    </form>
 
-.campo label {
-    font-size: 1.4rem;
-    margin-bottom: 0.6rem; /* Margen ligeramente reducido */
-    font-weight: 600;
-    color: var(--oscuro);
-}
+    <footer>
+        <p>Sistema Trabajos Pendientes - V1.0</p>
+    </footer>
 
-.input-text {
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.4rem;
-    border: 1px solid var(--input-border);
-    border-radius: 0.5rem;
-    background-color: var(--input-bg);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Almacenes de listas (cargadas desde la hoja DATA)
+        let dataLists = {};
+        
+        // --- Funciones de Utilidad ---
 
-.input-text:focus {
-    outline: none;
-    border-color: var(--input-focus);
-    box-shadow: 0 0 5px rgba(66,133,244,0.5);
-}
+        // 1. Llenar SELECTs
+        function loadSelectOptions(elementId, optionsArray) {
+            const select = document.getElementById(elementId);
+            if (select) {
+                const placeholderText = select.options.length > 0 ? select.options[0].textContent : "-- Seleccione una Opción --";
+                select.innerHTML = `<option value="">${placeholderText}</option>`;
+                optionsArray.forEach(option => {
+                    if (option) { // Evita opciones vacías
+                        const opt = document.createElement('option');
+                        opt.value = option;
+                        opt.textContent = option;
+                        select.appendChild(opt);
+                    }
+                });
+            }
+        }
+        
+        // 2. Configurar Autocompletado para un input específico
+        function setupAutocomplete(inputId, listKey) {
+            const input = document.getElementById(inputId);
+            // Busca el <ul> dentro del mismo contenedor de autocompletado
+            const suggestionsList = input.parentNode.querySelector('.suggestions-list'); 
 
-/* Estilo para inputs de solo lectura (como la OT) */
-.input-text[readonly] {
-    background-color: var(--grisclaro);
-    color: var(--gris);
-    font-weight: bold;
-}
+            if (!input || !suggestionsList || !dataLists[listKey]) return;
 
-/* Personalización para selects */
-select.input-text {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10"><path fill="%233367d6" d="M7 10L0 0h14z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    background-size: 1rem;
-}
+            const listSource = dataLists[listKey];
 
-/* -------------------------------------- */
-/* 4. CHECKBOXES */
-/* -------------------------------------- */
+            input.addEventListener('input', function() {
+                const val = input.value.toString().toLowerCase().trim();
+                suggestionsList.innerHTML = '';
+                
+                if (val.length < 2) { // Muestra sugerencias a partir de 2 caracteres
+                    suggestionsList.style.display = 'none';
+                    return;
+                }
 
-.checkbox-group {
-    margin-bottom: 1rem;
-}
+                const filteredList = listSource.filter(item => 
+                    item.toString().toLowerCase().includes(val)
+                ).slice(0, 10);
 
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 1.6rem;
-    font-weight: 400;
-}
+                filteredList.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    li.addEventListener('click', () => {
+                        input.value = item;
+                        suggestionsList.style.display = 'none';
+                    });
+                    suggestionsList.appendChild(li);
+                });
 
-.checkbox-label input[type="checkbox"] {
-    margin-right: 10px;
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
+                suggestionsList.style.display = filteredList.length > 0 ? 'block' : 'none';
+            });
+            
+            document.addEventListener('click', (e) => {
+                if (e.target !== input && !suggestionsList.contains(e.target)) {
+                    suggestionsList.style.display = 'none';
+                }
+            });
+        }
 
-/* -------------------------------------- */
-/* 5. AUTOCOMPLETAR */
-/* -------------------------------------- */
 
-.autocomplete-container {
-    position: relative;
-}
+        // --- Módulo de Repuestos ---
+        const itemsContainer = document.getElementById('itemsContainer');
+        const addItemBtn = document.getElementById('addItemBtn');
+        let repuestoIndex = 0;
 
-.suggestions-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: var(--blanco);
-    border: 1px solid var(--input-border);
-    border-top: none;
-    max-height: 250px;
-    overflow-y: auto;
-    z-index: 1000;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 1.4rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
+        function createRepuestoItem(index) {
+            const itemDiv = document.createElement('div');
+            itemDiv.classList.add('item-repuesto');
+            itemDiv.setAttribute('data-index', index);
+            
+            const itemHtml = `
+                <div class="autocomplete-container">
+                    <input type="text" id="repuesto_${index}_codigo" name="repuesto_${index}_codigo" class="input-text" placeholder="Código Repuesto">
+                    <ul id="suggestions_rep_cod_${index}" class="suggestions-list"></ul>
+                </div>
+                
+                <div class="autocomplete-container">
+                    <input type="text" id="repuesto_${index}_descripcion" name="repuesto_${index}_descripcion" class="input-text" placeholder="Descripción Repuesto">
+                    <ul id="suggestions_rep_desc_${index}" class="suggestions-list"></ul>
+                </div>
+                
+                <input type="number" id="repuesto_${index}_cantidad" name="repuesto_${index}_cantidad" class="input-text cantidad-input" placeholder="Cant." min="0.01" step="any">
+                
+                <select id="repuesto_${index}_unidad" name="repuesto_${index}_unidad" class="input-text und-medida-select">
+                    <option value="">UND</option>
+                    </select>
+                
+                <button type="button" class="remove-item-btn" data-index="${index}">&times;</button>
+            `;
+            
+            itemDiv.innerHTML = itemHtml;
+            itemsContainer.appendChild(itemDiv);
+            
+            // 3. Configurar Autocompletado para este nuevo item
+            setupAutocomplete(`repuesto_${index}_codigo`, 'Codigo_Repuesto');
+            setupAutocomplete(`repuesto_${index}_descripcion`, 'Descripcion_Repuesto');
+            
+            // 4. Llenar el Select de Unidad de Medida
+            loadSelectOptions(`repuesto_${index}_unidad`, dataLists.Unidad_Medida || []);
+            // Ajustar el valor por defecto para que muestre UND o KG
+            const defaultUnit = document.getElementById(`repuesto_${index}_unidad`);
+            if (defaultUnit.options.length > 1) {
+                defaultUnit.selectedIndex = 1; // Selecciona la primera unidad cargada
+            }
 
-.suggestions-list li {
-    padding: 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
+            repuestoIndex++;
+        }
 
-.suggestions-list li:hover {
-    background-color: var(--grisclaro);
-}
+        function removeRepuestoItem(indexToRemove) {
+            const item = document.querySelector(`.item-repuesto[data-index="${indexToRemove}"]`);
+            if (item) {
+                item.remove();
+            }
+        }
 
-/* -------------------------------------- */
-/* 6. MÓDULO DE REPUESTOS (NUEVO) */
-/* -------------------------------------- */
+        addItemBtn.addEventListener('click', () => createRepuestoItem(repuestoIndex));
+        
+        // Manejador para eliminar el item
+        itemsContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-item-btn')) {
+                const indexToRemove = e.target.getAttribute('data-index');
+                removeRepuestoItem(indexToRemove);
+            }
+        });
 
-#moduloRepuestos {
-    border: 1px dashed var(--primario);
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    margin-top: 1.5rem;
-}
+        // Crear el primer ítem al cargar la página
+        createRepuestoItem(repuestoIndex); 
 
-.item-repuesto {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-    align-items: flex-start;
-}
 
-/* Ajuste de flex para los inputs dentro del item-repuesto */
-.item-repuesto .autocomplete-container {
-    flex: 2;
-    min-width: 150px;
-}
-.item-repuesto input.cantidad-input {
-    flex: 0.5;
-    min-width: 60px;
-}
-.item-repuesto select.und-medida-select {
-    flex: 1;
-    min-width: 80px;
-}
+        // --- Carga Inicial de Datos (Google Apps Script) ---
+        google.script.run.withSuccessHandler(data => {
+            // Guardar todas las listas de la hoja DATA
+            dataLists = data; 
 
-.item-repuesto input, .item-repuesto select {
-    margin: 0;
-}
+            // Configurar SELECTs Principales
+            loadSelectOptions('tecnico', dataLists.Tecnico || []);
+            loadSelectOptions('jefe_responsable', dataLists.Jefe_Responsable || []);
+            loadSelectOptions('tipo_de_pedido', dataLists.Tipo_de_Pedido || []);
+            loadSelectOptions('tipo_de_actividad', dataLists.Tipo_de_Actividad || []);
+            
+            // Configurar Autocompletado Principal
+            setupAutocomplete('codigo_maquina', 'Codigo_Maquina');
+            setupAutocomplete('descripcion_maquina', 'Descripcion_Maquina');
 
-/* Botón de eliminar item de repuesto */
-.remove-item-btn {
-    background: none;
-    border: none;
-    color: var(--delete-btn-color);
-    font-size: 2.2rem;
-    cursor: pointer;
-    padding: 0 5px;
-    transition: color 0.2s ease;
-    align-self: center;
-}
+            // Actualizar todas las unidades de medida en el módulo de repuestos (incluido el primero)
+            document.querySelectorAll('.und-medida-select').forEach(select => {
+                loadSelectOptions(select.id, dataLists.Unidad_Medida || []);
+            });
 
-.remove-item-btn:hover {
-    color: #a00;
-}
+        }).getInitialData();
 
-/* Botón de añadir repuesto */
-#addItemBtn {
-    background-color: var(--secundario);
-    color: var(--blanco);
-    border: none;
-    padding: 0.8rem 1.6rem;
-    font-size: 1.6rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 1rem;
-    display: block;
-    width: 100%;
-}
 
-#addItemBtn:hover {
-    background-color: #3b7afc;
-}
+        // --- Manejo del Envío del Formulario ---
+        const form = document.getElementById('fallasForm');
+        const submitButton = document.getElementById('submitBtn');
+        const spinner = document.getElementById('spinner');
+        const errorDiv = document.getElementById('errorMessage');
+        const confirmationDiv = document.getElementById('confirmationMessage');
 
-/* -------------------------------------- */
-/* 7. BOTÓN DE ENVÍO Y MENSAJES */
-/* -------------------------------------- */
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Ocultar mensajes previos
+            errorDiv.style.display = 'none';
+            confirmationDiv.style.display = 'none';
 
-.boton {
-    display: block;
-    background-color: var(--primario);
-    color: var(--blanco);
-    padding: 1.2rem 3rem;
-    font-size: 1.8rem;
-    border: none;
-    border-radius: 0.5rem;
-    text-transform: uppercase;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    width: 100%;
-    margin-top: 2rem;
-}
+            // Mostrar spinner y deshabilitar botón
+            spinner.style.display = 'block';
+            submitButton.disabled = true;
 
-.boton:hover {
-    background-color: var(--secundario);
-    transform: scale(1.01);
-}
+            const formData = new FormData(form);
+            const data = {};
+            
+            // Recolectar datos. FormData.forEach es clave para manejar repuestos
+            formData.forEach((value, key) => {
+                // Para checkboxes que no están marcados (no se envían), establecerlos a 'off' o 'undefined'
+                if (data[key] === undefined) { 
+                    data[key] = value;
+                } else {
+                    // Manejar repuestos múltiples
+                    data[key] = value; 
+                }
+            });
 
-.error-message {
-    background-color: var(--error-bg);
-    color: var(--error-text);
-    border: 1px solid var(--error-text);
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    animation: shake 0.3s ease-in-out;
-}
+            // Revisa el estado de los checkboxes no marcados (que FormData omite)
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                if (!formData.has(checkbox.name)) {
+                    data[checkbox.name] = undefined; 
+                }
+            });
+            
+            // Llamar a la función de GAS para guardar datos
+            google.script.run
+                .withSuccessHandler(onSuccess)
+                .withFailureHandler(onError)
+                .processForm(data); // Llama a la función processForm(data)
+        });
 
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-}
+        function onSuccess(result) {
+            spinner.style.display = 'none';
+            submitButton.disabled = false;
+            
+            if (result.success) {
+                // Mostrar OT si se generó
+                const otMsg = result.ot ? ` (OT: ${result.ot})` : '';
+                confirmationDiv.textContent = `Reporte enviado exitosamente${otMsg}.`;
+                confirmationDiv.style.display = 'block';
+                form.reset(); // Limpiar formulario
+                
+                // Reiniciar el módulo de repuestos para una nueva entrada
+                itemsContainer.innerHTML = '';
+                repuestoIndex = 0;
+                createRepuestoItem(0); 
 
-#confirmationMessage {
-    margin-top: 2rem;
-    padding: 1rem;
-    background-color: var(--secundario);
-    color: var(--blanco);
-    border: 1px solid var(--secundario);
-    border-radius: 0.5rem;
-    text-align: center;
-    font-size: 1.6rem;
-    font-weight: bold;
-    animation: fadeIn 0.5s ease-out;
-}
+            } else {
+                onError(result.message || "Error desconocido al procesar el formulario.");
+            }
+        }
 
-/* Spinner de carga */
-.spinner {
-    animation: rotate 2s linear infinite;
-    height: 50px;
-    width: 50px;
-    margin: 20px auto;
-}
-.spinner .path {
-    stroke: var(--primario);
-    stroke-linecap: round;
-    animation: dash 1.5s ease-in-out infinite;
-}
-@keyframes rotate {
-    100% { transform: rotate(360deg); }
-}
-@keyframes dash {
-    0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
-    50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
-    100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
-}
-
-/* -------------------------------------- */
-/* 8. MEDIA QUERIES (RESPONSIVE) */
-/* -------------------------------------- */
-
-@media (min-width: 768px) {
-    .item-repuesto {
-        gap: 15px;
-    }
-}
-
-@media (max-width: 600px) {
-    .item-repuesto {
-        flex-direction: column;
-        gap: 0;
-    }
-    .item-repuesto .autocomplete-container,
-    .item-repuesto input,
-    .item-repuesto select {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-    .remove-item-btn {
-        align-self: flex-end;
-        margin-top: -30px;
-    }
-    .form-header h2 {
-        font-size: 1.6rem;
-    }
-}
+        function onError(error) {
+            spinner.style.display = 'none';
+            submitButton.disabled = false;
+            errorDiv.textContent = 'Error: ' + (error.message || error.toString());
+            errorDiv.style.display = 'block';
+        }
+    });
+</script>
+</body>
+</html>
