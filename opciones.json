@@ -175,10 +175,7 @@
 "JAIME SANCHEZ",
 "NO ENCONTRADO"
   ]
-}
 
-
-{
     "items": [
         {
             "codigo": 40300490,
@@ -32506,6 +32503,7 @@
     "Und",
     "Metro"
   ],
+  
   "tipo_de_pedido": [
     "Emergencia",
     "Normal"
