@@ -168,20 +168,22 @@
     </footer>
 
 <script>
+    // 🔴 1. URL de la API de Apps Script (Ya la tienes bien definida)
+    // ESTA DEBE SER LA URL DEL DESPLIEGUE CONFIGURADO como API (Execute as: User accessing the app)
+    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbwqUvGiQGTd3vkiZ8FDKNvG47pZDsc8LrlX185e7EwOXI5DN8pGkXLlcay0ylw2Wnvl/exec';
+    
     document.addEventListener('DOMContentLoaded', function() {
-        // Almacenes de listas (cargadas desde la hoja DATA)
         let dataLists = {};
         
-        // --- Funciones de Utilidad ---
-
-        // 1. Llenar SELECTs
-        function loadSelectOptions(elementId, optionsArray) {
+        // --- Funciones de Utilidad (SE MANTIENEN IGUAL) ---
+        function loadSelectOptions(elementId, optionsArray) { 
+            // ... (Tu función de llenar SELECTs) ...
             const select = document.getElementById(elementId);
             if (select) {
                 const placeholderText = select.options.length > 0 ? select.options[0].textContent : "-- Seleccione una Opción --";
                 select.innerHTML = `<option value="">${placeholderText}</option>`;
                 optionsArray.forEach(option => {
-                    if (option) { // Evita opciones vacías
+                    if (option) { 
                         const opt = document.createElement('option');
                         opt.value = option;
                         opt.textContent = option;
@@ -191,10 +193,9 @@
             }
         }
         
-        // 2. Configurar Autocompletado para un input específico
         function setupAutocomplete(inputId, listKey) {
+            // ... (Tu función de autocompletado) ...
             const input = document.getElementById(inputId);
-            // Busca el <ul> dentro del mismo contenedor de autocompletado
             const suggestionsList = input.parentNode.querySelector('.suggestions-list'); 
 
             if (!input || !suggestionsList || !dataLists[listKey]) return;
@@ -205,7 +206,7 @@
                 const val = input.value.toString().toLowerCase().trim();
                 suggestionsList.innerHTML = '';
                 
-                if (val.length < 2) { // Muestra sugerencias a partir de 2 caracteres
+                if (val.length < 2) { 
                     suggestionsList.style.display = 'none';
                     return;
                 }
@@ -235,7 +236,7 @@
         }
 
 
-        // --- Módulo de Repuestos ---
+        // --- Módulo de Repuestos (SE MANTIENE IGUAL) ---
         const itemsContainer = document.getElementById('itemsContainer');
         const addItemBtn = document.getElementById('addItemBtn');
         let repuestoIndex = 0;
@@ -268,16 +269,13 @@
             itemDiv.innerHTML = itemHtml;
             itemsContainer.appendChild(itemDiv);
             
-            // 3. Configurar Autocompletado para este nuevo item
             setupAutocomplete(`repuesto_${index}_codigo`, 'Codigo_Repuesto');
             setupAutocomplete(`repuesto_${index}_descripcion`, 'Descripcion_Repuesto');
             
-            // 4. Llenar el Select de Unidad de Medida
             loadSelectOptions(`repuesto_${index}_unidad`, dataLists.Unidad_Medida || []);
-            // Ajustar el valor por defecto para que muestre UND o KG
             const defaultUnit = document.getElementById(`repuesto_${index}_unidad`);
             if (defaultUnit.options.length > 1) {
-                defaultUnit.selectedIndex = 1; // Selecciona la primera unidad cargada
+                defaultUnit.selectedIndex = 1; 
             }
 
             repuestoIndex++;
@@ -292,7 +290,6 @@
 
         addItemBtn.addEventListener('click', () => createRepuestoItem(repuestoIndex));
         
-        // Manejador para eliminar el item
         itemsContainer.addEventListener('click', (e) => {
             if (e.target.classList.contains('remove-item-btn')) {
                 const indexToRemove = e.target.getAttribute('data-index');
@@ -304,27 +301,40 @@
         createRepuestoItem(repuestoIndex); 
 
 
-        // --- Carga Inicial de Datos (Google Apps Script) ---
-        google.script.run.withSuccessHandler(data => {
-            // Guardar todas las listas de la hoja DATA
-            dataLists = data; 
+        // 🔴 2. Carga Inicial de Datos (Cambiando a FETCH GET)
+        // Antes: google.script.run...getInitialData();
+        fetch(GAS_API_URL + '?method=getInitialData', {
+            method: 'GET',
+            mode: 'cors'
+        })
+        .then(response => response.json())
+        .then(data => {
+             // Asume que la respuesta JSON de GAS es: { success: true, initialData: {...} }
+            if (data.success && data.initialData) {
+                dataLists = data.initialData; // Usar data.initialData, no data directo
+                
+                // Configurar SELECTs Principales
+                loadSelectOptions('tecnico', dataLists.Tecnico || []);
+                loadSelectOptions('jefe_responsable', dataLists.Jefe_Responsable || []);
+                loadSelectOptions('tipo_de_pedido', dataLists.Tipo_de_Pedido || []);
+                loadSelectOptions('tipo_de_actividad', dataLists.Tipo_de_Actividad || []);
+                
+                // Configurar Autocompletado Principal
+                setupAutocomplete('codigo_maquina', 'Codigo_Maquina');
+                setupAutocomplete('descripcion_maquina', 'Descripcion_Maquina');
 
-            // Configurar SELECTs Principales
-            loadSelectOptions('tecnico', dataLists.Tecnico || []);
-            loadSelectOptions('jefe_responsable', dataLists.Jefe_Responsable || []);
-            loadSelectOptions('tipo_de_pedido', dataLists.Tipo_de_Pedido || []);
-            loadSelectOptions('tipo_de_actividad', dataLists.Tipo_de_Actividad || []);
-            
-            // Configurar Autocompletado Principal
-            setupAutocomplete('codigo_maquina', 'Codigo_Maquina');
-            setupAutocomplete('descripcion_maquina', 'Descripcion_Maquina');
-
-            // Actualizar todas las unidades de medida en el módulo de repuestos (incluido el primero)
-            document.querySelectorAll('.und-medida-select').forEach(select => {
-                loadSelectOptions(select.id, dataLists.Unidad_Medida || []);
-            });
-
-        }).getInitialData();
+                // Actualizar todas las unidades de medida en el módulo de repuestos (incluido el primero)
+                document.querySelectorAll('.und-medida-select').forEach(select => {
+                    loadSelectOptions(select.id, dataLists.Unidad_Medida || []);
+                });
+            } else {
+                onError(data.message || "Error al cargar datos iniciales del servidor.");
+            }
+        })
+        .catch(error => {
+            onError("Fallo de conexión de red al cargar datos iniciales.");
+            console.error(error);
+        });
 
 
         // --- Manejo del Envío del Formulario ---
@@ -346,31 +356,27 @@
             submitButton.disabled = true;
 
             const formData = new FormData(form);
-            const data = {};
             
-            // Recolectar datos. FormData.forEach es clave para manejar repuestos
-            formData.forEach((value, key) => {
-                // Para checkboxes que no están marcados (no se envían), establecerlos a 'off' o 'undefined'
-                if (data[key] === undefined) { 
-                    data[key] = value;
-                } else {
-                    // Manejar repuestos múltiples
-                    data[key] = value; 
-                }
-            });
+            // 🔴 3. Envío del Formulario (Cambiando a FETCH POST)
+            // Antes: google.script.run...processForm(data);
 
-            // Revisa el estado de los checkboxes no marcados (que FormData omite)
-            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                if (!formData.has(checkbox.name)) {
-                    data[checkbox.name] = undefined; 
-                }
+            fetch(GAS_API_URL, {
+                method: 'POST',
+                // Convertimos FormData al formato que doPost(e) espera
+                body: new URLSearchParams(formData), 
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                mode: 'cors'
+            })
+            .then(response => response.json()) // Esperar la respuesta JSON de GAS
+            .then(result => {
+                onSuccess(result);
+            })
+            .catch(error => {
+                onError("Error de conexión con el servidor. " + error.message);
+                console.error(error);
             });
-            
-            // Llamar a la función de GAS para guardar datos
-            google.script.run
-                .withSuccessHandler(onSuccess)
-                .withFailureHandler(onError)
-                .processForm(data); // Llama a la función processForm(data)
         });
 
         function onSuccess(result) {
@@ -378,17 +384,15 @@
             submitButton.disabled = false;
             
             if (result.success) {
-                // Mostrar OT si se generó
                 const otMsg = result.ot ? ` (OT: ${result.ot})` : '';
                 confirmationDiv.textContent = `Reporte enviado exitosamente${otMsg}.`;
                 confirmationDiv.style.display = 'block';
-                form.reset(); // Limpiar formulario
+                form.reset(); 
                 
-                // Reiniciar el módulo de repuestos para una nueva entrada
+                // Reiniciar el módulo de repuestos
                 itemsContainer.innerHTML = '';
                 repuestoIndex = 0;
                 createRepuestoItem(0); 
-
             } else {
                 onError(result.message || "Error desconocido al procesar el formulario.");
             }
@@ -404,5 +408,6 @@
 </script>
 </body>
 </html>
+
 
 
