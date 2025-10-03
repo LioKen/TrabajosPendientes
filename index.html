@@ -168,16 +168,15 @@
     </footer>
 
 <script>
-    // 🔴 1. URL de la API de Apps Script (Ya la tienes bien definida)
-    // ESTA DEBE SER LA URL DEL DESPLIEGUE CONFIGURADO como API (Execute as: User accessing the app)
-    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbwfCKNHH2dIyKLFIYcxBC0TKwQ5v7PBsH3qvLDPlfmDIsP8VHMdnerER_alOhKf5Rm7/exec';
+    // 🔴 1. URL de la API de Apps Script (Tu URL actual)
+    // Asegúrate que esta URL es la del ÚLTIMO DESPLIEGUE hecho después de modificar doPost(e)
+    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbwN9qqiXy7RF0nXyoD3Vq49z0SwuUO-UBuGHIRsg3AQhNVZ4dYXZXjntNZ0nuwt_lgi/exec';
     
     document.addEventListener('DOMContentLoaded', function() {
         let dataLists = {};
         
-        // --- Funciones de Utilidad (SE MANTIENEN IGUAL) ---
+        // --- Funciones de Utilidad (SIN CAMBIOS) ---
         function loadSelectOptions(elementId, optionsArray) { 
-            // ... (Tu función de llenar SELECTs) ...
             const select = document.getElementById(elementId);
             if (select) {
                 const placeholderText = select.options.length > 0 ? select.options[0].textContent : "-- Seleccione una Opción --";
@@ -194,7 +193,6 @@
         }
         
         function setupAutocomplete(inputId, listKey) {
-            // ... (Tu función de autocompletado) ...
             const input = document.getElementById(inputId);
             const suggestionsList = input.parentNode.querySelector('.suggestions-list'); 
 
@@ -236,7 +234,7 @@
         }
 
 
-        // --- Módulo de Repuestos (SE MANTIENE IGUAL) ---
+        // --- Módulo de Repuestos (SIN CAMBIOS) ---
         const itemsContainer = document.getElementById('itemsContainer');
         const addItemBtn = document.getElementById('addItemBtn');
         let repuestoIndex = 0;
@@ -301,17 +299,22 @@
         createRepuestoItem(repuestoIndex); 
 
 
-        // 🔴 2. Carga Inicial de Datos (Cambiando a FETCH GET)
-        // Antes: google.script.run...getInitialData();
+        // 🔴 2. Carga Inicial de Datos (MODIFICACIÓN CLAVE: Cambiado de GET a POST)
+        // Esto obliga a usar doPost(e) en GAS, lo que resuelve el error CORS.
         fetch(GAS_API_URL + '?method=getInitialData', {
-            method: 'GET',
+            method: 'POST', // <-- CAMBIADO DE 'GET' a 'POST'
             mode: 'cors'
         })
-        .then(response => response.json())
+        .then(response => {
+            // Manejar un posible error 500 si el servidor falla antes de devolver JSON
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status} - Verifica la configuración del despliegue en Apps Script.`);
+            }
+            return response.json();
+        })
         .then(data => {
-             // Asume que la respuesta JSON de GAS es: { success: true, initialData: {...} }
             if (data.success && data.initialData) {
-                dataLists = data.initialData; // Usar data.initialData, no data directo
+                dataLists = data.initialData; 
                 
                 // Configurar SELECTs Principales
                 loadSelectOptions('tecnico', dataLists.Tecnico || []);
@@ -323,7 +326,7 @@
                 setupAutocomplete('codigo_maquina', 'Codigo_Maquina');
                 setupAutocomplete('descripcion_maquina', 'Descripcion_Maquina');
 
-                // Actualizar todas las unidades de medida en el módulo de repuestos (incluido el primero)
+                // Actualizar todas las unidades de medida en el módulo de repuestos 
                 document.querySelectorAll('.und-medida-select').forEach(select => {
                     loadSelectOptions(select.id, dataLists.Unidad_Medida || []);
                 });
@@ -332,12 +335,12 @@
             }
         })
         .catch(error => {
-            onError("Fallo de conexión de red al cargar datos iniciales.");
+            onError("Fallo de conexión o error en el servidor. Mensaje: " + error.message);
             console.error(error);
         });
 
 
-        // --- Manejo del Envío del Formulario ---
+        // --- Manejo del Envío del Formulario (SIN CAMBIOS) ---
         const form = document.getElementById('fallasForm');
         const submitButton = document.getElementById('submitBtn');
         const spinner = document.getElementById('spinner');
@@ -347,19 +350,15 @@
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Ocultar mensajes previos
             errorDiv.style.display = 'none';
             confirmationDiv.style.display = 'none';
 
-            // Mostrar spinner y deshabilitar botón
             spinner.style.display = 'block';
             submitButton.disabled = true;
 
             const formData = new FormData(form);
             
-            // 🔴 3. Envío del Formulario (Cambiando a FETCH POST)
-            // Antes: google.script.run...processForm(data);
-
+            // 🔴 3. Envío del Formulario (Ya estaba bien como POST)
             fetch(GAS_API_URL, {
                 method: 'POST',
                 // Convertimos FormData al formato que doPost(e) espera
@@ -369,7 +368,7 @@
                 },
                 mode: 'cors'
             })
-            .then(response => response.json()) // Esperar la respuesta JSON de GAS
+            .then(response => response.json()) 
             .then(result => {
                 onSuccess(result);
             })
@@ -389,7 +388,6 @@
                 confirmationDiv.style.display = 'block';
                 form.reset(); 
                 
-                // Reiniciar el módulo de repuestos
                 itemsContainer.innerHTML = '';
                 repuestoIndex = 0;
                 createRepuestoItem(0); 
@@ -408,6 +406,7 @@
 </script>
 </body>
 </html>
+
 
 
 
