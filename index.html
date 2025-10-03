@@ -1,598 +1,414 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reporte de Mantenimiento y Solicitud de Repuestos</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-  
-  <link rel="preload" href="style1.css" as="style">
-  <link rel="stylesheet" href="style1.css">
-</head>
-<body>
-  <main>
-    <section>
-      <form id="miFormulario" class="formulario">
-        <div class="form-header">
-          <div class="header-icon-left">
-            <svg class="gear-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-              <path fill="#4285F4" d="M487.4 315.7l-41.4-24 7.4-45.5 41.4-24c5.7-3.3 7.8-10.6 5-16.3l-24-41.4-45.5 7.4-24-41.4c-3.3-5.7-10.6-7.8-16.3-5l-41.4 24-24-41.4c-3.3-5.7-10.6-7.8-16.3-5L59.3 60c-5.7 3.3-7.8 10.6-5 16.3l24 41.4L41.4 132c-5.7 3.3-7.8 10.6-5 16.3l24 41.4-7.4 45.5-41.4 24c-5.7 3.3-7.8 10.6-5 16.3l24 41.4 45.5-7.4 24 41.4c3.3 5.7 10.6 7.8 16.3 5l41.4-24 24 41.4c3.3 5.7 10.6 7.8 16.3 5l41.4-24c5.7-3.3 7.8-10.6 5-16.3l-24-41.4 7.4-45.5 41.4-24c5.7-3.3 7.8-10.6 5-16.3zM256 336c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80z"/>
-          </div>
-          <h2>Reporte de Mantenimiento</h2>
-          <div class="header-icon-right">
-            <svg class="gear-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-              <path fill="#4285F4" d="M487.4 315.7l-41.4-24 7.4-45.5 41.4-24c5.7-3.3 7.8-10.6 5-16.3l-24-41.4-45.5 7.4-24-41.4c-3.3-5.7-10.6-7.8-16.3-5l-41.4 24-24-41.4c-3.3-5.7-10.6-7.8-16.3-5L59.3 60c-5.7 3.3-7.8 10.6-5 16.3l24 41.4L41.4 132c-5.7 3.3-7.8 10.6-5 16.3l24 41.4-7.4 45.5-41.4 24c-5.7 3.3-7.8 10.6-5 16.3l24 41.4 45.5-7.4 24 41.4c3.3 5.7 10.6 7.8 16.3 5l41.4-24 24 41.4c3.3 5.7 10.6 7.8 16.3 5l41.4-24c5.7-3.3 7.8-10.6 5-16.3l-24-41.4 7.4-45.5 41.4-24c5.7-3.3 7.8-10.6 5-16.3zM256 336c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80z"/>
-            </svg>
-          </div>
-        </div>
-        
-        <div id="errorMessage" class="error-message" style="display: none;"></div>
-        
-                <div class="campo">
-          <label for="maquinaInput">MAQUINA</label>
-          <div class="autocomplete-container">
-            <input type="text" id="maquinaInput" name="maquina" class="input-text" placeholder="Selecciona o escribe la máquina" autocomplete="off" required>
-            <ul id="maquinaSuggestions" class="suggestions-list"></ul>
-          </div>
-        </div>
+:root {
+    /* Paleta de Colores Priorizada (Tu Principal, Azul) */
+    --blanco: #ffffff;
+    --oscuro: #202124;
+    --primario: #3367d6; /* Azul profundo */
+    --secundario: #4285f4; /* Azul claro */
+    --gris: #80868B;
+    --grisclaro: #e8f0fe; /* Fondo muy suave para inputs */
+    --fondo: #f1f3f4; /* Fondo general */
+    --input-bg: #ffffff;
+    --input-border: #d2e3fc;
+    --input-focus: #3367d6;
+    --header-bg: #3367d6;
+    --header-text: #ffffff;
+    --error-bg: #fce8e6;
+    --error-text: #d93025;
+    --form-border: #3367d6;
+    --delete-btn-color: #d93025; /* Rojo para botón de eliminar */
+}
 
-        <div class="campo">
-          <label for="tipo_de_actividadSelect">TIPO DE ACTIVIDAD</label>
-          <select id="tipo_de_actividadSelect" name="tipo_de_actividad" class="input-text" required>
-            <option value="">Selecciona el tipo de actividad</option>
-          </select>
-        </div>
+/* -------------------------------------- */
+/* 1. RESET Y ESTRUCTURA GENERAL */
+/* -------------------------------------- */
+html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
 
-                <div class="campo">
-          <label>OT GENERADA</label>
-          <input type="text" id="otDisplay" class="input-text" placeholder="OT se genera al enviar" readonly>
-        </div>
+*, *::before, *::after {
+    box-sizing: inherit;
+}
 
-        <div class="campo">
-          <label for="descripcion_evento">DESCRIPCIÓN DEL EVENTO</label>
-          <textarea id="descripcion_evento" name="descripcion_evento" class="input-text" placeholder="Describa el evento" required></textarea>
-        </div>
+body {
+    margin: 0;
+    padding-top: 0;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif; 
+    background-color: var(--fondo);
+    color: var(--oscuro);
+}
 
-        <div class="campo">
-          <label for="solucion_evento">SOLUCIÓN DEL EVENTO</label>
-          <textarea id="solucion_evento" name="solucion_evento" class="input-text" placeholder="Describa la solución" required></textarea>
-        </div>
+h2, h3 {
+    margin: 0 0 0.8rem 0; /* Margen reducido aquí */
+}
 
-        <div class="campo">
-          <label for="causa_raiz">CAUSA RAIZ</label>
-          <textarea id="causa_raiz" name="causa_raiz" class="input-text" placeholder="Indique la causa raíz" required></textarea>
-        </div>
+h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+}
 
-        <div class="campo">
-          <label for="fecha_inicial">FECHA INICIAL</label>
-          <input type="date" id="fecha_inicial" name="fecha_inicial" class="input-text" required>
-        </div>
+h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primario);
+}
 
-        <div class="campo">
-          <label for="hora_inicial">HORA INICIAL</label>
-          <input type="time" id="hora_inicial" name="hora_inicial" class="input-text" required>
-        </div>
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.4rem;
+    color: var(--gris);
+    margin-top: 2rem;
+}
 
-        <div class="campo">
-          <label for="duracion">DURACIÓN</label>
-          <input type="number" id="duracion" name="duracion" class="input-text" placeholder="Ej. 2" required>
-        </div>
-        
-        <div class="campo">
-          <label for="estado_equipo">ESTADO DEL EQUIPO</label>
-          <select id="estado_equipo" name="estado_equipo" class="input-text" required>
-            <option value="">Selecciona el estado</option>
-            <option value="Operativo">Operativo</option>
-            <option value="No Operativo">No Operativo</option>
-            <option value="En Mantenimiento">En Mantenimiento</option>
-          </select>
-        </div>
+/* -------------------------------------- */
+/* 2. FORMULARIO Y HEADER */
+/* -------------------------------------- */
+.formulario {
+    width: min(120rem, 96%);
+    margin: 4rem auto;
+    background-color: var(--blanco);
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: 2px solid var(--form-border);
+    animation: fadeIn 0.8s ease-out;
+}
 
-        <div class="campo">
-          <label for="observaciones">OBSERVACIONES</label>
-          <textarea id="observaciones" name="observaciones" class="input-text" placeholder="Cualquier observación adicional"></textarea>
-        </div>
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
 
-                <div class="campo checkbox-group">
-          <label class="checkbox-label"><input type="checkbox" id="prueba_funcionalidad" name="prueba_funcionalidad"> ¿Se realizó prueba de funcionalidad?</label>
-        </div>
-        <div class="campo checkbox-group">
-          <label class="checkbox-label"><input type="checkbox" id="operando_normal" name="operando_normal"> Operando normal</label>
-        </div>
-        <div class="campo checkbox-group">
-          <label class="checkbox-label"><input type="checkbox" id="requiere_seguimiento" name="requiere_seguimiento"> Requiere Seguimiento</label>
-        </div>
-        <div class="campo checkbox-group">
-          <label class="checkbox-label"><input type="checkbox" id="no_operativa_intervencion" name="no_operativa_intervencion"> No Operativa, Requiere intervención adicional</label>
-        </div>
+.form-header {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    position: relative;
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+}
 
-        <div class="campo">
-          <label for="tecnicoInput">TÉCNICO</label>
-          <div class="autocomplete-container">
-            <input type="text" id="tecnicoInput" name="tecnico" class="input-text" placeholder="Selecciona o escribe el técnico" autocomplete="off" required>
-            <ul id="tecnicoSuggestions" class="suggestions-list"></ul>
-          </div>
-        </div>
+.form-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+}
 
-                <hr style="margin: 30px 0; border-top: 2px solid #ddd;">
-        
-        <div class="campo checkbox-group">
-          <label class="checkbox-label">
-            <input type="checkbox" id="requiereRepuestos">
-            **✅ ¿Se requieren repuestos para esta OT?**
-          </label>
-        </div>
+.header-icon-left,
+.header-icon-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    fill: var(--header-text);
+    transition: transform 0.3s ease;
+}
 
-        <div id="moduloRepuestos" style="display:none; padding-top: 20px;">
-          <h3>Solicitud de Repuestos (Hoja Enlazada)</h3>
+.header-icon-left {
+    left: 1rem;
+}
 
-          <div class="campo">
-            <label>OT Enlazada</label>
-            <input name="ot_repuestos_enlazada" id="otRepuestosEnlazada" class="input-text" type="text" readonly>
-          </div>
-          
-                    <div class="campo">
-            <label>ITEMS REQUERIDOS (Descripción / Cantidad / Unidad)</label>
-            <div id="itemsContainer">
-                            <div class="item-repuesto">
-                <div class="autocomplete-container" style="flex: 2;">
-                  <input type="text" name="descripcion[]" class="input-text descripcion-input" placeholder="Descripción del Repuesto" autocomplete="off">
-                  <ul class="suggestions-list"></ul>
-                </div>
-                <input type="number" name="cantidad[]" class="input-text cantidad-input" placeholder="Cant." min="1" required style="flex: 0.5;">
-                <select name="und_de_medida[]" class="input-text und-medida-select" required style="flex: 1;">
-                  <option value="">Und. Medida</option>
-                </select>
-              </div>
-            </div>
-            <button type="button" id="addItemBtn" class="add-btn">+ Agregar Otro Repuesto</button>
-          </div>
-          
-          <style>
-              .item-repuesto {
-                  display: flex;
-                  gap: 5px;
-                  margin-bottom: 10px;
-                  align-items: center;
-              }
-              .item-repuesto .autocomplete-container {
-                  position: relative;
-                  flex: 2; /* Para que la descripción ocupe más espacio */
-              }
-              .item-repuesto input, .item-repuesto select {
-                  margin: 0;
-                  height: 40px;
-                  min-width: 0; /* Asegura que se adapten al flex */
-              }
-          </style>
+.header-icon-right {
+    right: 1rem;
+}
 
-          <div class="campo">
-            <label>TIPO DE PEDIDO</label>
-            <select id="tipo_de_pedidoSelect" name="tipo_de_pedido" class="input-text" required>
-              <option value="">Selecciona el tipo de pedido</option>
-            </select>
-          </div>
+.form-header:hover .header-icon-left,
+.form-header:hover .header-icon-right {
+    transform: translateY(-50%) rotate(15deg);
+}
 
-          <div class="campo">
-            <label for="detalle_ubicacion_maquina">DETALLE UBICACION EN MAQUINA</label>
-            <input name="detalle_ubicacion_maquina" id="detalle_ubicacion_maquina" class="input-text" type="text" placeholder="Ej: Eje Z, lado izquierdo" required>
-          </div>
-          
-          <div class="campo">
-            <label for="solicitanteInput">SOLICITANTE</label>
-            <div class="autocomplete-container">
-              <input type="text" id="solicitanteInput" name="solicitante" class="input-text" placeholder="Selecciona o escribe el solicitante" autocomplete="off" required>
-              <ul id="solicitanteSuggestions" class="suggestions-list"></ul>
-            </div>
-          </div>
+/* -------------------------------------- */
+/* 3. CAMPOS E INPUTS */
+/* -------------------------------------- */
 
-          <div class="campo">
-            <label for="jefeResponsableSelect">JEFE RESPONSABLE</label>
-            <select name="jefe_responsable" id="jefeResponsableSelect" class="input-text" required>
-              <option value="">Selecciona el jefe</option>
-            </select>
-          </div>
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.2rem; /* <--- AJUSTE CLAVE A 1.2rem */
+}
 
-        </div>
-        
-        <div style="text-align: center; margin-top: 20px;">
-          <input class="boton" type="submit" value="Enviar Reporte">
-        </div>
+.campo label {
+    font-size: 1.4rem;
+    margin-bottom: 0.6rem; /* Margen ligeramente reducido */
+    font-weight: 600;
+    color: var(--oscuro);
+}
 
-        <div id="spinner" style="display: none; text-align: center;">
-          <svg class="spinner" viewBox="0 0 50 50">
-            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke="#4285F4" stroke-width="5"></circle>
-          </svg>
-        </div>
-        <div id="confirmationMessage" style="display: none; text-align: center; margin-top: 10px;"></div>
-      </form>
-    </section>
-  </main>
+.input-text {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.4rem;
+    border: 1px solid var(--input-border);
+    border-radius: 0.5rem;
+    background-color: var(--input-bg);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
 
-  <footer>
-    Si tiene inconvenientes, comuníquese con ********
-  </footer>
+.input-text:focus {
+    outline: none;
+    border-color: var(--input-focus);
+    box-shadow: 0 0 5px rgba(66,133,244,0.5);
+}
 
-  <script>
-    // =========================================
-    // FUNCIONES DE UTILIDAD (Mantenidas)
-    // =========================================
-    function debounce(func, delay) {
-      let timeout;
-      return function(...args) {
-        const context = this;
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(context, args), delay);
-      };
-    }
+/* Estilo para inputs de solo lectura (como la OT) */
+.input-text[readonly] {
+    background-color: var(--grisclaro);
+    color: var(--gris);
+    font-weight: bold;
+}
 
-    function populateSelect(selectElement, optionsArray) {
-      // Asegura que se pase el elemento, no el ID
-      if (typeof selectElement === 'string') {
-          selectElement = document.getElementById(selectElement);
-      }
-      if (!selectElement) return;
+/* Personalización para selects */
+select.input-text {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10"><path fill="%233367d6" d="M7 10L0 0h14z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+}
 
-      optionsArray.forEach(optionValue => {
-        const option = document.createElement('option');
-        option.value = optionValue;
-        option.textContent = optionValue;
-        selectElement.appendChild(option);
-      });
-    }
+/* -------------------------------------- */
+/* 4. CHECKBOXES */
+/* -------------------------------------- */
 
-    function mostrarSugerencias(inputElement, suggestionsElement, datos) {
-      const query = inputElement.value.toLowerCase();
-      suggestionsElement.innerHTML = '';
-      let filtrados = [];
-      if (datos.length && typeof datos[0] === 'object') {
-        filtrados = datos.filter(item => item.descripcion.toLowerCase().includes(query));
-      } else {
-        filtrados = datos.filter(item => item.toLowerCase().includes(query));
-      }
-      const fragment = document.createDocumentFragment();
-      filtrados.forEach(item => {
-        const li = document.createElement('li');
-        if (typeof item === 'object') {
-          li.textContent = item.descripcion;
-          li.setAttribute('data-codigo', item.codigo);
-        } else {
-          li.textContent = item;
-        }
-        li.addEventListener('click', () => {
-          inputElement.value = (typeof item === 'object') ? item.descripcion : item;
-          suggestionsElement.innerHTML = '';
-          // Aquí se mantiene la lógica de hidden input para máquina (aunque no se usa en el Apps Script)
-          const container = inputElement.closest('.autocomplete-container');
-          if (container && li.getAttribute('data-codigo')) {
-            let hiddenInput = container.querySelector('input.codigo-maquina-hidden');
-            if (!hiddenInput) {
-              hiddenInput = document.createElement('input');
-              hiddenInput.type = 'hidden';
-              hiddenInput.name = inputElement.getAttribute('name') + '_codigo';
-              hiddenInput.className = 'codigo-maquina-hidden';
-              container.appendChild(hiddenInput);
-            }
-            hiddenInput.value = li.getAttribute('data-codigo') || '';
-          }
-        });
-        fragment.appendChild(li);
-      });
-      suggestionsElement.appendChild(fragment);
-    }
-    
-    function showError(message) {
-      const errorDiv = document.getElementById('errorMessage');
-      errorDiv.textContent = message;
-      errorDiv.style.display = 'block';
-    }
-    function clearError() {
-      const errorDiv = document.getElementById('errorMessage');
-      errorDiv.textContent = '';
-      errorDiv.style.display = 'none';
-    }
+.checkbox-group {
+    margin-bottom: 1rem;
+}
 
-    // Función para configurar el autocompletado de la DESCRIPCION de repuestos
-    function setupAutocompleteForDescripcion(input) {
-        const container = input.closest('.autocomplete-container');
-        const suggestionsList = container.querySelector('.suggestions-list');
-        input.addEventListener('input', debounce(() => {
-            mostrarSugerencias(input, suggestionsList, datosDescripcion);
-        }, 300));
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.6rem;
+    font-weight: 400;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* -------------------------------------- */
+/* 5. AUTOCOMPLETAR */
+/* -------------------------------------- */
+
+.autocomplete-container {
+    position: relative;
+}
+
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--blanco);
+    border: 1px solid var(--input-border);
+    border-top: none;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 1000;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.suggestions-list li {
+    padding: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.suggestions-list li:hover {
+    background-color: var(--grisclaro);
+}
+
+/* -------------------------------------- */
+/* 6. MÓDULO DE REPUESTOS (NUEVO) */
+/* -------------------------------------- */
+
+#moduloRepuestos {
+    border: 1px dashed var(--primario);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.item-repuesto {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+}
+
+/* Ajuste de flex para los inputs dentro del item-repuesto */
+.item-repuesto .autocomplete-container {
+    flex: 2;
+    min-width: 150px;
+}
+.item-repuesto input.cantidad-input {
+    flex: 0.5;
+    min-width: 60px;
+}
+.item-repuesto select.und-medida-select {
+    flex: 1;
+    min-width: 80px;
+}
+
+.item-repuesto input, .item-repuesto select {
+    margin: 0;
+}
+
+/* Botón de eliminar item de repuesto */
+.remove-item-btn {
+    background: none;
+    border: none;
+    color: var(--delete-btn-color);
+    font-size: 2.2rem;
+    cursor: pointer;
+    padding: 0 5px;
+    transition: color 0.2s ease;
+    align-self: center;
+}
+
+.remove-item-btn:hover {
+    color: #a00;
+}
+
+/* Botón de añadir repuesto */
+#addItemBtn {
+    background-color: var(--secundario);
+    color: var(--blanco);
+    border: none;
+    padding: 0.8rem 1.6rem;
+    font-size: 1.6rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+    display: block;
+    width: 100%;
+}
+
+#addItemBtn:hover {
+    background-color: #3b7afc;
+}
+
+/* -------------------------------------- */
+/* 7. BOTÓN DE ENVÍO Y MENSAJES */
+/* -------------------------------------- */
+
+.boton {
+    display: block;
+    background-color: var(--primario);
+    color: var(--blanco);
+    padding: 1.2rem 3rem;
+    font-size: 1.8rem;
+    border: none;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.boton:hover {
+    background-color: var(--secundario);
+    transform: scale(1.01);
+}
+
+.error-message {
+    background-color: var(--error-bg);
+    color: var(--error-text);
+    border: 1px solid var(--error-text);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+#confirmationMessage {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: var(--secundario);
+    color: var(--blanco);
+    border: 1px solid var(--secundario);
+    border-radius: 0.5rem;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: bold;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Spinner de carga */
+.spinner {
+    animation: rotate 2s linear infinite;
+    height: 50px;
+    width: 50px;
+    margin: 20px auto;
+}
+.spinner .path {
+    stroke: var(--primario);
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+}
+@keyframes rotate {
+    100% { transform: rotate(360deg); }
+}
+@keyframes dash {
+    0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
+    50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
+    100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+}
+
+/* -------------------------------------- */
+/* 8. MEDIA QUERIES (RESPONSIVE) */
+/* -------------------------------------- */
+
+@media (min-width: 768px) {
+    .item-repuesto {
+        gap: 15px;
     }
-    
-    // Función para crear un nuevo item de repuesto
-    function createNewItemRow() {
-        const itemContainer = document.createElement('div');
-        itemContainer.className = 'item-repuesto';
+}
 
-        // Estructura idéntica al HTML para autocompletado y estilos
-        itemContainer.innerHTML = `
-            <div class="autocomplete-container" style="flex: 2;">
-                <input type="text" name="descripcion[]" class="input-text descripcion-input" placeholder="Descripción del Repuesto" autocomplete="off" required>
-                <ul class="suggestions-list"></ul>
-            </div>
-            <input type="number" name="cantidad[]" class="input-text cantidad-input" placeholder="Cant." min="1" required style="flex: 0.5;">
-            <select name="und_de_medida[]" class="input-text und-medida-select" required style="flex: 1;">
-                <option value="">Und. Medida</option>
-            </select>
-            <button type="button" class="remove-item-btn" style="background: none; border: none; color: #dc3545; font-size: 1.2em; cursor: pointer; padding: 0;">&times;</button>
-        `;
-
-        const descInput = itemContainer.querySelector('.descripcion-input');
-        const umSelect = itemContainer.querySelector('.und-medida-select');
-        const removeButton = itemContainer.querySelector('.remove-item-btn');
-
-        // Poblar el select de unidad de medida
-        populateSelect(umSelect, datosUndDeMedida);
-
-        // Configurar autocompletado
-        setupAutocompleteForDescripcion(descInput);
-
-        // Configurar eliminación
-        removeButton.addEventListener('click', () => {
-            itemContainer.remove();
-            // Asegurar que haya al menos un item si todos son eliminados
-            if (document.querySelectorAll('.item-repuesto').length === 0) {
-                document.getElementById('itemsContainer').appendChild(createNewItemRow());
-            }
-        });
-        
-        return itemContainer;
+@media (max-width: 600px) {
+    .item-repuesto {
+        flex-direction: column;
+        gap: 0;
     }
-
-
-    // =========================================
-    // CARGA DE DATOS Y AUTOCLOMPLETADO SETUP
-    // =========================================
-    let datosMaquina = [];
-    let datosTecnico = [];
-    let datosDescripcion = []; // Repuestos
-    let datosUndDeMedida = []; // Repuestos
-    let datosTipoDePedido = []; // Repuestos
-    let datosSolicitante = []; // Repuestos
-    let datosJefeResponsable = []; // Repuestos
-    let datosTipoDeActividad = ["Emergencia", "Correctivo", "Preventivo"];
-
-    fetch('opciones.json')
-      .then(response => response.json())
-      .then(data => {
-        // Datos de Reporte
-        datosMaquina = data.maquina || [];
-        datosTecnico = data.tecnico || [];
-        populateSelect('tipo_de_actividadSelect', datosTipoDeActividad);
-
-        // Datos de Repuestos (Asumiendo que las claves existen en opciones.json)
-        datosDescripcion = data.items || [];
-        datosUndDeMedida = data.und_de_medida || [];
-        datosTipoDePedido = data.tipo_de_pedido || [];
-        datosSolicitante = data.solicitante || [];
-        datosJefeResponsable = data.jefe_responsable || [];
-
-        // Inicializar selects de Repuestos
-        populateSelect('tipo_de_pedidoSelect', datosTipoDePedido);
-        populateSelect('jefeResponsableSelect', datosJefeResponsable);
-        
-        // Inicializar los items de repuesto existentes
-        document.querySelectorAll('.item-repuesto').forEach(item => {
-            const descInput = item.querySelector('.descripcion-input');
-            const umSelect = item.querySelector('.und-medida-select');
-            populateSelect(umSelect, datosUndDeMedida);
-            setupAutocompleteForDescripcion(descInput);
-        });
-
-      })
-      .catch(error => console.error('Error al cargar el JSON:', error));
-
-    // Listeners de Autocompletado del Reporte
-    maquinaInput.addEventListener('input', debounce(() => {
-      mostrarSugerencias(maquinaInput, maquinaSuggestions, datosMaquina);
-    }, 300));
-    tecnicoInput.addEventListener('input', debounce(() => {
-      mostrarSugerencias(tecnicoInput, tecnicoSuggestions, datosTecnico);
-    }, 300));
-    solicitanteInput.addEventListener('input', debounce(() => {
-      mostrarSugerencias(solicitanteInput, solicitanteSuggestions, datosSolicitante);
-    }, 300));
-
-    // Listener para cerrar sugerencias
-    document.addEventListener('click', e => {
-      document.querySelectorAll('.autocomplete-container').forEach(container => {
-        if (!container.contains(e.target)) {
-          container.querySelectorAll('.suggestions-list').forEach(list => list.innerHTML = '');
-        }
-      });
-    });
-    
-    // Listener para mostrar/ocultar módulo de repuestos
-    document.getElementById('requiereRepuestos').addEventListener('change', function() {
-        const moduloRepuestos = document.getElementById('moduloRepuestos');
-        moduloRepuestos.style.display = this.checked ? 'block' : 'none';
-        
-        // Hacer requeridos/no requeridos los campos del módulo de repuestos
-        moduloRepuestos.querySelectorAll('input[required], select[required]').forEach(el => {
-            el.required = this.checked;
-        });
-    });
-
-    // Listener para añadir items de repuesto
-    document.getElementById('addItemBtn').addEventListener('click', function() {
-        document.getElementById('itemsContainer').appendChild(createNewItemRow());
-    });
-
-
-    // =========================================
-    // LÓGICA MAESTRA DE ENVÍO
-    // =========================================
-    
-    // Función para generar la OT (Orden de Trabajo Única)
-    function generarOT() {
-        const now = new Date();
-        // Formato YYYYMMDD
-        const datePart = now.getFullYear().toString() + 
-                         (now.getMonth() + 1).toString().padStart(2, '0') + 
-                         now.getDate().toString().padStart(2, '0');
-        // Formato HHmmssSSS
-        const timePart = now.getHours().toString().padStart(2, '0') + 
-                         now.getMinutes().toString().padStart(2, '0') + 
-                         now.getSeconds().toString().padStart(2, '0') + 
-                         now.getMilliseconds().toString().padStart(3, '0');
-        
-        return `OT-${datePart}-${timePart}`;
+    .item-repuesto .autocomplete-container,
+    .item-repuesto input,
+    .item-repuesto select {
+        width: 100%;
+        margin-bottom: 10px;
     }
-
-    document.getElementById('miFormulario').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      clearError();
-      const form = this;
-      
-      // **TU URL /EXEC DE GOOGLE APPS SCRIPT**
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbyGzzwebh6y0p40q_3CRnkH9FAfmL2leiJwb0aruHfo1tByMNSOzxy3JcxdeH_BbXAC/exec';
-      
-      // 1. Validaciones existentes (Mantenidas)
-      const tipoSelect = document.getElementById('tipo_de_actividadSelect');
-      if (tipoSelect.value === "") { showError('Selecciona un tipo de actividad.'); tipoSelect.focus(); return; }
-      const estadoEquipoSelect = document.getElementById('estado_equipo');
-      if (estadoEquipoSelect.value === "") { showError('Selecciona el estado del equipo.'); estadoEquipoSelect.focus(); return; }
-
-      // ... (Tu código de validación de máquina y técnico) ...
-      // --- VALIDACIÓN PARA MAQUINA ---
-      const maquinaValida = datosMaquina.some(item =>
-        (typeof item === 'object' && item.descripcion.toLowerCase() === maquinaInput.value.toLowerCase()) ||
-        (typeof item === 'string' && item.toLowerCase() === maquinaInput.value.toLowerCase())
-      );
-      if (!maquinaValida && maquinaInput.value.trim() !== "") {
-        showError('Selecciona una máquina válida de la lista.');
-        maquinaInput.focus();
-        return;
-      }
-
-      // --- VALIDACIÓN PARA TECNICO ---
-      const tecnicoValido = datosTecnico.some(item =>
-        (typeof item === 'object' && item.descripcion.toLowerCase() === tecnicoInput.value.toLowerCase()) ||
-        (typeof item === 'string' && item.toLowerCase() === tecnicoInput.value.toLowerCase())
-      );
-      if (!tecnicoValido && tecnicoInput.value.trim() !== "") {
-        showError('Selecciona un técnico válido de la lista.');
-        tecnicoInput.focus();
-        return;
-      }
-      // ------------------------------------
-
-      // 2. Control de UI y Generación de OT
-      const spinner = document.getElementById('spinner');
-      const confirmationMessage = document.getElementById('confirmationMessage');
-      spinner.style.display = 'block';
-      confirmationMessage.style.display = 'none';
-
-      const newOT = generarOT();
-      document.getElementById('otDisplay').value = newOT; // Mostrar al usuario
-      
-      const fetchPromises = [];
-
-      // 3. Preparar y Enviar Reporte de Mantenimiento (Reporte Principal)
-      const reporteData = {
-          // CLAVE PARA EL SCRIPT: Identifica qué hoja usar
-          dataType: "REPORTE_MANTENIMIENTO",
-          
-          ot: newOT, // OT GENERADA
-          maquina: maquinaInput.value,
-          tipo_de_actividad: document.getElementById('tipo_de_actividadSelect').value,
-          descripcion_evento: form.querySelector('textarea[name="descripcion_evento"]').value,
-          solucion_evento: form.querySelector('textarea[name="solucion_evento"]').value,
-          causa_raiz: form.querySelector('textarea[name="causa_raiz"]').value,
-          fecha_inicial: form.querySelector('input[name="fecha_inicial"]').value,
-          hora_inicial: form.querySelector('input[name="hora_inicial"]').value,
-          duracion: form.querySelector('input[name="duracion"]').value,
-          estado_equipo: estadoEquipoSelect.value,
-          observaciones: form.querySelector('textarea[name="observaciones"]').value,
-          prueba_funcionalidad: document.getElementById('prueba_funcionalidad').checked ? 'Sí' : 'No',
-          operando_normal: document.getElementById('operando_normal').checked ? 'Sí' : 'No',
-          requiere_seguimiento: document.getElementById('requiere_seguimiento').checked ? 'Sí' : 'No',
-          no_operativa_intervencion: document.getElementById('no_operativa_intervencion').checked ? 'Sí' : 'No',
-          tecnico: tecnicoInput.value
-      };
-
-      // Envío del Reporte de Mantenimiento (URL-Encoded para estabilidad)
-      fetchPromises.push(
-          fetch(scriptURL, {
-              method: 'POST',
-              mode: 'no-cors',
-              body: new URLSearchParams(reporteData).toString() // Envío Seguro
-          })
-      );
-      
-      // 4. Preparar y Enviar Solicitud de Repuestos (Si aplica)
-      const requiereRepuestos = document.getElementById('requiereRepuestos').checked;
-
-      if (requiereRepuestos) {
-          document.getElementById('otRepuestosEnlazada').value = newOT; 
-          
-          const items = document.querySelectorAll('#itemsContainer .item-repuesto');
-          let repuestosArray = [];
-          
-          // Recolectar items
-          items.forEach(item => {
-              const descInput = item.querySelector('input[name="descripcion[]"]');
-              const qtyInput = item.querySelector('input[name="cantidad[]"]');
-              const umSelect = item.querySelector('select[name="und_de_medida[]"]');
-              
-              if (descInput.value.trim() && qtyInput.value.trim() > 0 && umSelect.value) {
-                  repuestosArray.push({
-                      descripcion: descInput.value.trim(),
-                      cantidad: qtyInput.value.trim(),
-                      unidad: umSelect.value
-                  });
-              }
-          });
-          
-          if (repuestosArray.length === 0) {
-              // Si marcó el checkbox pero no puso items válidos (debe validarse)
-              showError('Marcaste requerir repuestos, pero no agregaste items válidos (Desc., Cantidad, Unidad).');
-              spinner.style.display = 'none';
-              return;
-          }
-
-          const repuestosData = {
-              // CLAVE PARA EL SCRIPT: Identifica qué hoja usar
-              dataType: "SOLICITUD_REPUESTOS",
-              
-              ot: newOT, // CLAVE: Enlace al Reporte
-              tipo_de_pedido: form.querySelector('select[name="tipo_de_pedido"]').value,
-              detalle_ubicacion_maquina: form.querySelector('input[name="detalle_ubicacion_maquina"]').value,
-              solicitante: form.querySelector('input[name="solicitante"]').value,
-              jefe_responsable: form.querySelector('select[name="jefe_responsable"]').value,
-              items: JSON.stringify(repuestosArray) // La lista de items va como un string JSON
-          };
-          
-          // Envío de la Solicitud de Repuestos (URL-Encoded para estabilidad)
-          fetchPromises.push(
-              fetch(scriptURL, {
-                  method: 'POST',
-                  mode: 'no-cors',
-                  body: new URLSearchParams(repuestosData).toString()
-              })
-          );
-      }
-
-      // 5. Ejecutar todos los envíos
-      try {
-          await Promise.all(fetchPromises);
-          spinner.style.display = 'none';
-          confirmationMessage.textContent = '✅ Reporte enviado y repuestos registrados (si aplica).';
-          confirmationMessage.style.display = 'block';
-          form.reset();
-          document.getElementById('moduloRepuestos').style.display = 'none';
-      } catch(error) {
-          spinner.style.display = 'none';
-          confirmationMessage.textContent = '❌ Error de conexión al enviar. Consulte el registro de errores.';
-          confirmationMessage.style.display = 'block';
-          console.error('Error en el envío total:', error);
-      }
-    });
-  </script>
-</body>
-</html>
+    .remove-item-btn {
+        align-self: flex-end;
+        margin-top: -30px;
+    }
+    .form-header h2 {
+        font-size: 1.6rem;
+    }
+}
