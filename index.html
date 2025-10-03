@@ -1,413 +1,360 @@
 <!DOCTYPE html>
-<html lang="es">
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte de Falla Industrial</title>
-
-    <link rel="stylesheet" href="normalize.css">
-    
-    <link rel="stylesheet" href="style1.css">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-    
-    </head>
+<html>
+<head>
+    <base target="_top">
+    <title>Registro de Trabajos Pendientes</title>
+</head>
 <body>
 
-    <form class="formulario" id="fallasForm">
-        <div class="form-header">
-            <svg class="header-icon-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M495.2 368.7c-5.7-18.3-15.6-35.1-28.5-49.6C448.3 301.6 422 288 394 288c-1.2 0-2.4 0-3.6 .1c2.1-15.2 3.6-31.1 3.6-48.1c0-14.7-1.7-28.9-4.8-42.5c23.5-12.8 45.4-30.8 63.8-53.1c11.2-13.8 20.3-29.3 27-45.9c3.2-8 3.2-16.7 0-24.7c-6.8-16.5-15.8-32.1-27.1-45.9C425.2 6.5 401.8 0 376 0c-43.2 0-82.9 20.8-107 54.3C258.9 57 256 57 253.1 54.3C228.9 20.8 189.2 0 146 0C120.2 0 96.8 6.5 76.7 19.3C65.5 33.1 56.5 48.7 49.8 65.3c-3.2 8-3.2 16.7 0 24.7c6.7 16.5 15.8 32.1 27.1 45.9c18.4 22.4 40.3 40.4 63.8 53.1c-3.1 13.6-4.8 27.8-4.8 42.5c0 17 1.5 32.9 3.6 48.1c-1.2-.1-2.4-.1-3.6-.1c-28 0-54.3 13.6-72.7 33.5c-12.9 14.5-22.8 31.3-28.5 49.6c-5.9 19.1-8.9 39.1-8.5 59.8c.6 27.1 11.2 53 29.8 74.3c18.5 21.3 43.8 37.6 72.1 47.9c11.1 4 22.8 6 34.6 6c18 0 35.7-3.9 51.5-11.6c4.6-2.2 9.5-2.2 14.1 0c15.8 7.7 33.5 11.6 51.5 11.6c11.8 0 23.5-2 34.6-6c28.3-10.3 53.6-26.6 72.1-47.9c18.6-21.3 29.2-47.2 29.8-74.3c.3-20.6-2.7-40.6-8.6-59.8zM256 368a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
-            <h2>Trabajos Pendientes</h2>
-            <svg class="header-icon-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M495.2 368.7c-5.7-18.3-15.6-35.1-28.5-49.6C448.3 301.6 422 288 394 288c-1.2 0-2.4 0-3.6 .1c2.1-15.2 3.6-31.1 3.6-48.1c0-14.7-1.7-28.9-4.8-42.5c23.5-12.8 45.4-30.8 63.8-53.1c11.2-13.8 20.3-29.3 27-45.9c3.2-8 3.2-16.7 0-24.7c-6.8-16.5-15.8-32.1-27.1-45.9C425.2 6.5 401.8 0 376 0c-43.2 0-82.9 20.8-107 54.3C258.9 57 256 57 253.1 54.3C228.9 20.8 189.2 0 146 0C120.2 0 96.8 6.5 76.7 19.3C65.5 33.1 56.5 48.7 49.8 65.3c-3.2 8-3.2 16.7 0 24.7c6.7 16.5 15.8 32.1 27.1 45.9c18.4 22.4 40.3 40.4 63.8 53.1c-3.1 13.6-4.8 27.8-4.8 42.5c0 17 1.5 32.9 3.6 48.1c-1.2-.1-2.4-.1-3.6-.1c-28 0-54.3 13.6-72.7 33.5c-12.9 14.5-22.8 31.3-28.5 49.6c-5.9 19.1-8.9 39.1-8.5 59.8c.6 27.1 11.2 53 29.8 74.3c18.5 21.3 43.8 37.6 72.1 47.9c11.1 4 22.8 6 34.6 6c18 0 35.7-3.9 51.5-11.6c4.6-2.2 9.5-2.2 14.1 0c15.8 7.7 33.5 11.6 51.5 11.6c11.8 0 23.5-2 34.6-6c28.3-10.3 53.6-26.6 72.1-47.9c18.6-21.3 29.2-47.2 29.8-74.3c.3-20.6-2.7-40.6-8.6-59.8zM256 368a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
-        </div>
+    <div class="container">
+        <h1>Registro de Trabajo Pendiente</h1>
 
-        <div id="errorMessage" class="error-message" style="display:none;"></div>
-        <div id="confirmationMessage" style="display:none;"></div>
-        
-        <h3>1. Información de la Intervención</h3>
+        <div id="errorMessage" class="message error" style="display: none;"></div>
+        <div id="confirmationMessage" class="message success" style="display: none;"></div>
 
-        <div class="campo">
-            <label for="ot">Orden de Trabajo (OT):</label>
-            <input type="text" id="ot" name="ot" class="input-text" value="PENDIENTE" readonly>
-        </div>
+        <form id="miFormulario">
 
-        <div style="display: flex; gap: 15px;">
-            <div class="campo" style="flex: 1;">
-                <label for="fecha_inicial">Fecha de Inicio del Evento:</label>
-                <input type="date" id="fecha_inicial" name="fecha_inicial" class="input-text" required>
-            </div>
-            <div class="campo" style="flex: 1;">
-                <label for="hora_inicial">Hora de Inicio del Evento:</label>
-                <input type="time" id="hora_inicial" name="hora_inicial" class="input-text" required>
-            </div>
-        </div>
+            <fieldset>
+                <legend>Detalles del Trabajo</legend>
 
-        <div class="campo">
-            <label for="duracion">Duración de la Intervención (Ej: 2.5 hrs):</label>
-            <input type="text" id="duracion" name="duracion" class="input-text" placeholder="Ej: 0.5, 2.5, 10" required>
-        </div>
-        
-        <h3>2. Equipo y Responsables</h3>
-        
-        <div class="campo">
-            <label for="codigo_maquina">Código de Máquina:</label>
-            <div class="autocomplete-container">
-                <input type="text" id="codigo_maquina" name="codigo_maquina" class="input-text" placeholder="Escriba el código de la máquina" required>
-                <ul id="suggestions_cod_maq" class="suggestions-list"></ul>
-            </div>
-        </div>
-
-        <div class="campo">
-            <label for="descripcion_maquina">Descripción de Máquina:</label>
-            <div class="autocomplete-container">
-                <input type="text" id="descripcion_maquina" name="descripcion_maquina" class="input-text" placeholder="Escriba la descripción de la máquina" required>
-                <ul id="suggestions_desc_maq" class="suggestions-list"></ul>
-            </div>
-        </div>
-
-        <div class="campo">
-            <label for="tecnico">Técnico Asignado:</label>
-            <select id="tecnico" name="tecnico" class="input-text" required>
-                <option value="">-- Cargando Técnicos... --</option>
-            </select>
-        </div>
-
-        <div class="campo">
-            <label for="jefe_responsable">Jefe Responsable:</label>
-            <select id="jefe_responsable" name="jefe_responsable" class="input-text" required>
-                <option value="">-- Cargando Jefes... --</option>
-            </select>
-        </div>
-        
-        <div class="campo">
-            <label for="tipo_de_pedido">Tipo de Pedido:</label>
-            <select id="tipo_de_pedido" name="tipo_de_pedido" class="input-text" required>
-                <option value="">-- Cargando Tipos... --</option>
-            </select>
-        </div>
-
-        <h3>3. Detalle del Evento</h3>
-
-        <div class="campo">
-            <label for="tipo_de_actividad">Tipo de Actividad:</label>
-            <select id="tipo_de_actividad" name="tipo_de_actividad" class="input-text" required>
-                <option value="">-- Seleccione una Actividad --</option>
-            </select>
-        </div>
-
-        <div class="campo">
-            <label for="descripcion_evento">Descripción Detallada del Evento/Falla:</label>
-            <textarea id="descripcion_evento" name="descripcion_evento" class="input-text" rows="4" placeholder="Describa la falla y las condiciones iniciales..." required></textarea>
-        </div>
-        
-        <div class="campo">
-            <label for="solucion_evento">Solución Aplicada:</label>
-            <textarea id="solucion_evento" name="solucion_evento" class="input-text" rows="4" placeholder="Describa los pasos y acciones tomadas para la reparación..." required></textarea>
-        </div>
-
-        <div class="campo">
-            <label for="causa_raiz">Causa Raíz del Evento/Falla:</label>
-            <textarea id="causa_raiz" name="causa_raiz" class="input-text" rows="2" placeholder="Ej: Falla mecánica por desgaste, error de operador..." required></textarea>
-        </div>
-
-        <div class="campo">
-            <label for="estado_equipo">Estado del Equipo al Entregar:</label>
-            <input type="text" id="estado_equipo" name="estado_equipo" class="input-text" placeholder="Ej: Operativo, Stand-by, Fuera de servicio (requiere repuesto)..." required>
-        </div>
-        
-        <h3>4. Repuestos Utilizados (Opcional)</h3>
-
-        <div id="moduloRepuestos">
-            <div id="itemsContainer">
+                <label for="descripcion_trabajo">Descripción del Trabajo (*)</label>
+                <textarea id="descripcion_trabajo" name="descripcion_trabajo" class="input-text" rows="3" required></textarea>
+                
+                <label for="maquinaInput">Máquina / Área (*)</label>
+                <div class="autocomplete-container">
+                    <input type="text" id="maquinaInput" name="maquina" class="input-text" placeholder="Buscar Máquina o Área" autocomplete="off" required>
+                    <ul id="maquinaSuggestions" class="suggestions-list"></ul>
+                    </div>
+                
+                <label for="asignado_aInput">Asignado a (*)</label>
+                <div class="autocomplete-container">
+                    <input type="text" id="asignado_aInput" name="asignado_a" class="input-text" placeholder="Buscar Técnico o Responsable" autocomplete="off" required>
+                    <ul id="asignado_aSuggestions" class="suggestions-list"></ul>
                 </div>
-            <button type="button" id="addItemBtn">➕ Añadir Repuesto</button>
-        </div>
 
-        <h3>5. Verificaciones y Estado Final</h3>
+                <label for="prioridadSelect">Prioridad (*)</label>
+                <select id="prioridadSelect" name="prioridad" class="input-text" required>
+                    <option value="">Seleccionar</option>
+                    <option value="Alta">Alta</option>
+                    <option value="Media">Media</option>
+                    <option value="Baja">Baja</option>
+                </select>
+
+                <label class="checkbox-label">
+                    <input type="checkbox" id="requiere_seguimiento" name="requiere_seguimiento">
+                    <span>Requiere Seguimiento Posterior</span>
+                </label>
+            </fieldset>
+
+            <button type="button" id="toggleRepuestos" class="btn-toggle">
+                ¿El trabajo requiere solicitar repuestos?
+            </button>
+
+            <div id="repuestos-seccion" style="display: none;">
+                <fieldset>
+                    <legend>Repuestos Requeridos</legend>
+                    <div id="descripcion-container">
+                        <div class="descripcion-item">
+                            <label>Ítem 1</label>
+                            <div class="input-group">
+                                <div class="autocomplete-container repuesto-desc-container">
+                                    <input type="text" name="descripcion_repuesto[]" class="input-text descripcion-input" placeholder="Descripción Repuesto (*)" autocomplete="off">
+                                    <ul class="suggestions-list"></ul>
+                                    <input type="hidden" name="codigo_repuesto[]" class="codigo-repuesto-hidden">
+                                </div>
+
+                                <input type="number" name="cantidad_requerida[]" class="input-text cantidad-input" placeholder="Cantidad (*)" min="1">
+                                
+                                <select name="und_de_medida[]" class="input-text und-medida-select">
+                                    <option value="">Und. Medida (*)</option>
+                                    </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="addDescripcion" class="btn-add">+</button>
+                </fieldset>
+            </div>
+            
+            <button type="submit" class="btn-submit">Registrar Trabajo Pendiente</button>
+
+            <div id="spinner" class="spinner" style="display: none;"></div>
+        </form>
+    </div>
+
+    <script>
+        // *** CONFIGURACIÓN ***
+        // Reemplaza esta URL con la URL de despliegue de tu nueva App Web de Apps Script
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzz5QQoA2vVvVn0MZYCh_Irjl3_pZx4dpEUw1iGweFAfAeMxXctVRkDZtbCuqk9dYcL/exec';
         
-        <div class="checkbox-group">
-            <label class="checkbox-label">
-                <input type="checkbox" name="prueba_funcionalidad" value="on"> 
-                ¿Se realizó Prueba de Funcionalidad y fue exitosa?
-            </label>
-        </div>
-        <div class="checkbox-group">
-            <label class="checkbox-label">
-                <input type="checkbox" name="operando_normal" value="on"> 
-                El equipo está operando en condiciones normales (Producción).
-            </label>
-        </div>
-        <div class="checkbox-group">
-            <label class="checkbox-label">
-                <input type="checkbox" name="requiere_seguimiento" value="on"> 
-                El trabajo Requiere Seguimiento.
-            </label>
-        </div>
-        <div class="checkbox-group">
-            <label class="checkbox-label">
-                <input type="checkbox" name="no_operativa_intervencion" value="on"> 
-                La máquina No quedó operativa (Requiere intervención adicional).
-            </label>
-        </div>
+        // Variables para almacenar datos (se cargan desde un JSON externo como en tus apps)
+        let datosMaquina = [];
+        let datosTecnico = []; // Usaremos esto para 'Asignado a'
+        let datosRepuesto = [];
+        let datosUndDeMedida = [];
         
-        <div class="campo">
-            <label for="observaciones">Observaciones Adicionales:</label>
-            <textarea id="observaciones" name="observaciones" class="input-text" rows="2" placeholder="Información relevante no cubierta por otros campos..."></textarea>
-        </div>
+        // Cargar datos desde opciones.json (Deberás subir este JSON a tu servidor web o cargarlo vía Apps Script)
+        fetch('opciones.json')
+            .then(response => response.json())
+            .then(data => {
+                datosMaquina = data.maquina || [];
+                datosTecnico = data.tecnico || [];
+                datosRepuesto = data.items || []; // Tomamos los ítems de repuesto
+                datosUndDeMedida = data.und_de_medida || [];
 
-        <button type="submit" class="boton" id="submitBtn">Enviar Reporte de Intervención</button>
-        
-        <svg id="spinner" class="spinner" viewBox="0 0 50 50" style="display: none;">
-            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-        </svg>
+                // Poblar select de Unidad de Medida del primer ítem
+                document.querySelectorAll('.und-medida-select').forEach(select => {
+                    populateUnidadSelect(select, datosUndDeMedida);
+                });
+                // Inicializar autocompletado para el primer input de repuesto
+                setupAutocompleteForDescripcion(document.querySelector('.descripcion-input'));
+            })
+            .catch(error => console.error('Error al cargar opciones.json:', error));
 
-    </form>
+        /* --- FUNCIONES DE UTILIDAD Y AUTOCPMLETADO (Reutilizadas) --- */
 
-    <footer>
-        <p>Sistema Trabajos Pendientes - V1.0</p>
-    </footer>
+        function debounce(func, delay) {
+            let timeout;
+            return function(...args) {
+                const context = this;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), delay);
+            };
+        }
 
-<script>
-    // 🔴 1. URL de la API de Apps Script (Tu URL actual)
-    // Asegúrate que esta URL es la del ÚLTIMO DESPLIEGUE hecho después de modificar doPost(e)
-    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbwN9qqiXy7RF0nXyoD3Vq49z0SwuUO-UBuGHIRsg3AQhNVZ4dYXZXjntNZ0nuwt_lgi/exec';
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        let dataLists = {};
-        
-        // --- Funciones de Utilidad (SIN CAMBIOS) ---
-        function loadSelectOptions(elementId, optionsArray) { 
-            const select = document.getElementById(elementId);
-            if (select) {
-                const placeholderText = select.options.length > 0 ? select.options[0].textContent : "-- Seleccione una Opción --";
-                select.innerHTML = `<option value="">${placeholderText}</option>`;
-                optionsArray.forEach(option => {
-                    if (option) { 
-                        const opt = document.createElement('option');
-                        opt.value = option;
-                        opt.textContent = option;
-                        select.appendChild(opt);
+        function populateUnidadSelect(selectElement, optionsArray) {
+            optionsArray.forEach(optionValue => {
+                const option = document.createElement('option');
+                option.value = optionValue;
+                option.textContent = optionValue;
+                selectElement.appendChild(option);
+            });
+        }
+
+        function mostrarSugerencias(inputElement, suggestionsElement, datos, isRepuesto = false) {
+            const query = inputElement.value.toLowerCase();
+            suggestionsElement.innerHTML = '';
+            
+            let filtrados = [];
+            // Filtramos por la propiedad 'descripcion' o si es un array simple de strings
+            if (datos.length > 0 && typeof datos[0] === 'object') {
+                filtrados = datos.filter(item => item.descripcion.toLowerCase().includes(query));
+            } else {
+                filtrados = datos.filter(item => item.toLowerCase().includes(query));
+            }
+
+            const fragment = document.createDocumentFragment();
+            filtrados.forEach(item => {
+                const li = document.createElement('li');
+                const isObject = typeof item === 'object';
+                
+                li.textContent = isObject ? item.descripcion : item;
+                if (isObject) {
+                    li.setAttribute('data-codigo', item.codigo);
+                }
+
+                li.addEventListener('click', () => {
+                    inputElement.value = isObject ? item.descripcion : item;
+                    suggestionsElement.innerHTML = '';
+                    
+                    if (isRepuesto && isObject) {
+                        // Lógica para guardar el código del repuesto en el input hidden
+                        const container = inputElement.closest('.repuesto-desc-container');
+                        let hiddenInput = container.querySelector('input.codigo-repuesto-hidden');
+                        if (!hiddenInput) {
+                            hiddenInput = document.createElement('input');
+                            hiddenInput.type = 'hidden';
+                            hiddenInput.name = 'codigo_repuesto[]';
+                            hiddenInput.className = 'codigo-repuesto-hidden';
+                            container.appendChild(hiddenInput);
+                        }
+                        hiddenInput.value = li.getAttribute('data-codigo') || '';
                     }
                 });
-            }
+                fragment.appendChild(li);
+            });
+            suggestionsElement.appendChild(fragment);
         }
         
-        function setupAutocomplete(inputId, listKey) {
-            const input = document.getElementById(inputId);
-            const suggestionsList = input.parentNode.querySelector('.suggestions-list'); 
-
-            if (!input || !suggestionsList || !dataLists[listKey]) return;
-
-            const listSource = dataLists[listKey];
-
-            input.addEventListener('input', function() {
-                const val = input.value.toString().toLowerCase().trim();
-                suggestionsList.innerHTML = '';
-                
-                if (val.length < 2) { 
-                    suggestionsList.style.display = 'none';
-                    return;
-                }
-
-                const filteredList = listSource.filter(item => 
-                    item.toString().toLowerCase().includes(val)
-                ).slice(0, 10);
-
-                filteredList.forEach(item => {
-                    const li = document.createElement('li');
-                    li.textContent = item;
-                    li.addEventListener('click', () => {
-                        input.value = item;
-                        suggestionsList.style.display = 'none';
-                    });
-                    suggestionsList.appendChild(li);
-                });
-
-                suggestionsList.style.display = filteredList.length > 0 ? 'block' : 'none';
-            });
-            
-            document.addEventListener('click', (e) => {
-                if (e.target !== input && !suggestionsList.contains(e.target)) {
-                    suggestionsList.style.display = 'none';
-                }
-            });
+        // Función general de autocompletado para Máquina y Asignado
+        function setupAutocomplete(inputElement, suggestionsElement, dataArray) {
+            inputElement.addEventListener('input', debounce(() => {
+                mostrarSugerencias(inputElement, suggestionsElement, dataArray);
+            }, 300));
         }
 
+        // Función específica de autocompletado para Repuestos
+        function setupAutocompleteForDescripcion(input) {
+            const container = input.closest('.repuesto-desc-container');
+            const suggestionsList = container.querySelector('.suggestions-list');
+            input.addEventListener('input', debounce(function() {
+                mostrarSugerencias(input, suggestionsList, datosRepuesto, true); // true para isRepuesto
+            }, 300));
+        }
 
-        // --- Módulo de Repuestos (SIN CAMBIOS) ---
-        const itemsContainer = document.getElementById('itemsContainer');
-        const addItemBtn = document.getElementById('addItemBtn');
-        let repuestoIndex = 0;
+        // Configurar autocompletado para MAQUINA
+        const maquinaInput = document.getElementById('maquinaInput');
+        const maquinaSuggestions = document.getElementById('maquinaSuggestions');
+        setupAutocomplete(maquinaInput, maquinaSuggestions, datosMaquina);
 
-        function createRepuestoItem(index) {
-            const itemDiv = document.createElement('div');
-            itemDiv.classList.add('item-repuesto');
-            itemDiv.setAttribute('data-index', index);
+        // Configurar autocompletado para ASIGNADO A (usando datos de Técnico)
+        const asignadoInput = document.getElementById('asignado_aInput');
+        const asignadoSuggestions = document.getElementById('asignado_aSuggestions');
+        setupAutocomplete(asignadoInput, asignadoSuggestions, datosTecnico);
+
+        // Cerrar sugerencias al hacer clic fuera
+        document.addEventListener('click', e => {
+            document.querySelectorAll('.autocomplete-container').forEach(container => {
+                if (!container.contains(e.target)) {
+                    container.querySelectorAll('.suggestions-list').forEach(list => list.innerHTML = '');
+                }
+            });
+        });
+
+        /* --- LÓGICA DE REPUESTOS Y SUBIDA DE DATOS --- */
+
+        // Lógica para mostrar/ocultar la sección de repuestos (Nuevo)
+        document.getElementById('toggleRepuestos').addEventListener('click', function() {
+            const repuestosSection = document.getElementById('repuestos-seccion');
+            const isHidden = repuestosSection.style.display === 'none';
             
-            const itemHtml = `
-                <div class="autocomplete-container">
-                    <input type="text" id="repuesto_${index}_codigo" name="repuesto_${index}_codigo" class="input-text" placeholder="Código Repuesto">
-                    <ul id="suggestions_rep_cod_${index}" class="suggestions-list"></ul>
-                </div>
-                
-                <div class="autocomplete-container">
-                    <input type="text" id="repuesto_${index}_descripcion" name="repuesto_${index}_descripcion" class="input-text" placeholder="Descripción Repuesto">
-                    <ul id="suggestions_rep_desc_${index}" class="suggestions-list"></ul>
-                </div>
-                
-                <input type="number" id="repuesto_${index}_cantidad" name="repuesto_${index}_cantidad" class="input-text cantidad-input" placeholder="Cant." min="0.01" step="any">
-                
-                <select id="repuesto_${index}_unidad" name="repuesto_${index}_unidad" class="input-text und-medida-select">
-                    <option value="">UND</option>
+            repuestosSection.style.display = isHidden ? 'block' : 'none';
+            this.textContent = isHidden 
+                ? 'Cancelar solicitud de repuestos' 
+                : '¿El trabajo requiere solicitar repuestos?';
+
+            // Si se muestra la sección, hacemos los campos requeridos. Si se oculta, los quitamos.
+            repuestosSection.querySelectorAll('input[type="text"], input[type="number"], select').forEach(el => {
+                el.required = isHidden;
+            });
+        });
+
+        // Lógica para agregar nuevas filas de repuestos (Reutilizada de App 1)
+        document.getElementById('addDescripcion').addEventListener('click', function() {
+            const container = document.getElementById('descripcion-container');
+            const lastIndex = container.querySelectorAll('.descripcion-item').length;
+            
+            const newDiv = document.createElement('div');
+            newDiv.className = 'descripcion-item';
+            newDiv.innerHTML = `
+                <label>Ítem ${lastIndex + 1}</label>
+                <div class="input-group">
+                    <div class="autocomplete-container repuesto-desc-container">
+                        <input type="text" name="descripcion_repuesto[]" class="input-text descripcion-input" placeholder="Descripción Repuesto (*)" autocomplete="off" required>
+                        <ul class="suggestions-list"></ul>
+                        <input type="hidden" name="codigo_repuesto[]" class="codigo-repuesto-hidden">
+                    </div>
+                    <input type="number" name="cantidad_requerida[]" class="input-text cantidad-input" placeholder="Cantidad (*)" min="1" required>
+                    <select name="und_de_medida[]" class="input-text und-medida-select" required>
+                        <option value="">Und. Medida (*)</option>
                     </select>
-                
-                <button type="button" class="remove-item-btn" data-index="${index}">&times;</button>
+                </div>
             `;
+            container.appendChild(newDiv);
             
-            itemDiv.innerHTML = itemHtml;
-            itemsContainer.appendChild(itemDiv);
-            
-            setupAutocomplete(`repuesto_${index}_codigo`, 'Codigo_Repuesto');
-            setupAutocomplete(`repuesto_${index}_descripcion`, 'Descripcion_Repuesto');
-            
-            loadSelectOptions(`repuesto_${index}_unidad`, dataLists.Unidad_Medida || []);
-            const defaultUnit = document.getElementById(`repuesto_${index}_unidad`);
-            if (defaultUnit.options.length > 1) {
-                defaultUnit.selectedIndex = 1; 
-            }
-
-            repuestoIndex++;
-        }
-
-        function removeRepuestoItem(indexToRemove) {
-            const item = document.querySelector(`.item-repuesto[data-index="${indexToRemove}"]`);
-            if (item) {
-                item.remove();
-            }
-        }
-
-        addItemBtn.addEventListener('click', () => createRepuestoItem(repuestoIndex));
-        
-        itemsContainer.addEventListener('click', (e) => {
-            if (e.target.classList.contains('remove-item-btn')) {
-                const indexToRemove = e.target.getAttribute('data-index');
-                removeRepuestoItem(indexToRemove);
-            }
+            // Re-poblar y configurar el nuevo select y autocompletado
+            const newDescInput = newDiv.querySelector('.descripcion-input');
+            const newUmSelect = newDiv.querySelector('.und-medida-select');
+            populateUnidadSelect(newUmSelect, datosUndDeMedida);
+            setupAutocompleteForDescripcion(newDescInput);
         });
 
-        // Crear el primer ítem al cargar la página
-        createRepuestoItem(repuestoIndex); 
-
-
-        // 🔴 2. Carga Inicial de Datos (MODIFICACIÓN CLAVE: Cambiado de GET a POST)
-        // Esto obliga a usar doPost(e) en GAS, lo que resuelve el error CORS.
-        fetch(GAS_API_URL + '?method=getInitialData', {
-            method: 'POST', // <-- CAMBIADO DE 'GET' a 'POST'
-            mode: 'cors'
-        })
-        .then(response => {
-            // Manejar un posible error 500 si el servidor falla antes de devolver JSON
-            if (!response.ok) {
-                throw new Error(`Error HTTP: ${response.status} - Verifica la configuración del despliegue en Apps Script.`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success && data.initialData) {
-                dataLists = data.initialData; 
-                
-                // Configurar SELECTs Principales
-                loadSelectOptions('tecnico', dataLists.Tecnico || []);
-                loadSelectOptions('jefe_responsable', dataLists.Jefe_Responsable || []);
-                loadSelectOptions('tipo_de_pedido', dataLists.Tipo_de_Pedido || []);
-                loadSelectOptions('tipo_de_actividad', dataLists.Tipo_de_Actividad || []);
-                
-                // Configurar Autocompletado Principal
-                setupAutocomplete('codigo_maquina', 'Codigo_Maquina');
-                setupAutocomplete('descripcion_maquina', 'Descripcion_Maquina');
-
-                // Actualizar todas las unidades de medida en el módulo de repuestos 
-                document.querySelectorAll('.und-medida-select').forEach(select => {
-                    loadSelectOptions(select.id, dataLists.Unidad_Medida || []);
-                });
-            } else {
-                onError(data.message || "Error al cargar datos iniciales del servidor.");
-            }
-        })
-        .catch(error => {
-            onError("Fallo de conexión o error en el servidor. Mensaje: " + error.message);
-            console.error(error);
-        });
-
-
-        // --- Manejo del Envío del Formulario (SIN CAMBIOS) ---
-        const form = document.getElementById('fallasForm');
-        const submitButton = document.getElementById('submitBtn');
-        const spinner = document.getElementById('spinner');
-        const errorDiv = document.getElementById('errorMessage');
-        const confirmationDiv = document.getElementById('confirmationMessage');
-
-        form.addEventListener('submit', function(e) {
+        // Envío del formulario con integración a Google Sheets
+        document.getElementById('miFormulario').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            errorDiv.style.display = 'none';
-            confirmationDiv.style.display = 'none';
+            clearError();
 
+            const form = this;
+            const repuestosSection = document.getElementById('repuestos-seccion');
+            const items = repuestosSection.style.display !== 'none' 
+                ? document.querySelectorAll('#descripcion-container .descripcion-item')
+                : [];
+            
+            // Recopilar arrays de repuestos (Lógica de App 1)
+            let descripcionArray = [];
+            let cantidadArray = [];
+            let undArray = [];
+            let codigoRepuestoArray = [];
+
+            items.forEach(item => {
+                const descInput = item.querySelector('input[name="descripcion_repuesto[]"]');
+                const qtyInput = item.querySelector('input[name="cantidad_requerida[]"]');
+                const umSelect = item.querySelector('select[name="und_de_medida[]"]');
+                const hiddenCodigoInput = item.querySelector('input.codigo-repuesto-hidden');
+
+                // Validaciones de repuestos opcionales
+                if (descInput.value.trim() !== "") {
+                     // Solo si hay descripción, se recopilan los demás datos.
+                     // Aquí podrías agregar validaciones más estrictas si son requeridos
+                     // (aunque la propiedad required del HTML ya debería manejarlo).
+                    descripcionArray.push(descInput.value.trim());
+                    cantidadArray.push(qtyInput.value.trim());
+                    undArray.push(umSelect.value);
+                    codigoRepuestoArray.push(hiddenCodigoInput && hiddenCodigoInput.value ? hiddenCodigoInput.value.trim() : "");
+                }
+            });
+
+            // Recopilar datos principales del trabajo (Lógica de App 2)
+            const data = {
+                // Campos principales (coinciden con la Hoja 'TrabajosPendientes' en Apps Script)
+                descripcion_trabajo: form.querySelector('textarea[name="descripcion_trabajo"]').value,
+                maquina: maquinaInput.value,
+                asignado_a: asignadoInput.value,
+                prioridad: document.getElementById('prioridadSelect').value,
+                requiere_seguimiento: document.getElementById('requiere_seguimiento').checked ? 'Sí' : 'No',
+                
+                // Arrays de repuestos (coinciden con la Hoja 'SolicitudRepuestos' en Apps Script)
+                codigo_repuesto: codigoRepuestoArray,
+                descripcion_repuesto: descripcionArray,
+                cantidad_requerida: cantidadArray,
+                und_de_medida: undArray
+            };
+
+            // Validación de campos principales... (puedes añadir más aquí si es necesario)
+            if (data.prioridad === "" || data.descripcion_trabajo.trim() === "" || data.maquina.trim() === "" || data.asignado_a.trim() === "") {
+                showError('Por favor, rellena todos los campos principales obligatorios (*).');
+                return;
+            }
+
+            // Enviar datos
+            const spinner = document.getElementById('spinner');
+            const confirmationMessage = document.getElementById('confirmationMessage');
             spinner.style.display = 'block';
-            submitButton.disabled = true;
+            confirmationMessage.style.display = 'none';
 
-            const formData = new FormData(form);
-            
-            // 🔴 3. Envío del Formulario (Ya estaba bien como POST)
-            fetch(GAS_API_URL, {
+            fetch(scriptURL, {
                 method: 'POST',
-                // Convertimos FormData al formato que doPost(e) espera
-                body: new URLSearchParams(formData), 
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                mode: 'cors'
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
             })
-            .then(response => response.json()) 
-            .then(result => {
-                onSuccess(result);
+            .then(() => {
+                spinner.style.display = 'none';
+                confirmationMessage.textContent = 'El trabajo pendiente ha sido registrado correctamente.';
+                confirmationMessage.style.display = 'block';
+                form.reset();
+                // Ocultar sección de repuestos después de enviar
+                repuestosSection.style.display = 'none';
+                document.getElementById('toggleRepuestos').textContent = '¿El trabajo requiere solicitar repuestos?';
+
             })
             .catch(error => {
-                onError("Error de conexión con el servidor. " + error.message);
-                console.error(error);
+                spinner.style.display = 'none';
+                confirmationMessage.textContent = 'Error al registrar el trabajo. Por favor, intente de nuevo.';
+                confirmationMessage.style.display = 'block';
+                console.error('Error!', error.message);
             });
         });
 
-        function onSuccess(result) {
-            spinner.style.display = 'none';
-            submitButton.disabled = false;
-            
-            if (result.success) {
-                const otMsg = result.ot ? ` (OT: ${result.ot})` : '';
-                confirmationDiv.textContent = `Reporte enviado exitosamente${otMsg}.`;
-                confirmationDiv.style.display = 'block';
-                form.reset(); 
-                
-                itemsContainer.innerHTML = '';
-                repuestoIndex = 0;
-                createRepuestoItem(0); 
-            } else {
-                onError(result.message || "Error desconocido al procesar el formulario.");
-            }
-        }
-
-        function onError(error) {
-            spinner.style.display = 'none';
-            submitButton.disabled = false;
-            errorDiv.textContent = 'Error: ' + (error.message || error.toString());
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
             errorDiv.style.display = 'block';
         }
-    });
-</script>
+        function clearError() {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = '';
+            errorDiv.style.display = 'none';
+        }
+    </script>
 </body>
 </html>
-
-
-
-
-
