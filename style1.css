@@ -187,6 +187,14 @@ select.input-text {
     box-shadow: 0 4px 8px rgba(39, 174, 96, 0.5);
 }
 
+/* [CORRECCIÓN CRÍTICA] Forzamos el color verde en el estado activo (click/touch) para evitar el flash negro */
+.btn-add:active {
+    background-color: #27ae60; /* Color del hover, forzado en active */
+    transform: scale(0.98); 
+    border-color: #27ae60; 
+    box-shadow: 0 2px 4px rgba(39, 174, 96, 0.5);
+}
+
 /* ------------------------------------------------------------------- */
 /* 5. BOTONES DE ENVÍO Y TOGGLE */
 /* ------------------------------------------------------------------- */
@@ -213,6 +221,11 @@ select.input-text {
     background-color: var(--secundario);
     transform: scale(1.02);
 }
+/* [CORRECCIÓN] Forzamos color en el estado activo para evitar el flash negro */
+.btn-submit:active {
+    background-color: var(--secundario);
+    transform: scale(0.98); 
+}
 
 /* Botón de Toggle de Repuestos */
 .btn-toggle {
@@ -231,6 +244,11 @@ select.input-text {
 
 .btn-toggle:hover {
     background-color: var(--oscuro);
+}
+/* [CORRECCIÓN] Forzamos color en el estado activo para evitar el flash negro */
+.btn-toggle:active {
+    background-color: var(--oscuro);
+    transform: scale(0.98);
 }
 
 /* ------------------------------------------------------------------- */
