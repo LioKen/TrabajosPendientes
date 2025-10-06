@@ -2,14 +2,14 @@
     /* Paleta unificada (Basada en Reportes - Azul Profundo) */
     --blanco: #ffffff;
     --oscuro: #202124;
-    --primario: #3367d6;       /* Azul profundo (Botones, Foco) */
-    --secundario: #4285f4;     /* Azul claro (Hover, Confirmación) */
-    --terciario: #2ecc71;      /* Verde vibrante (Tomado de Repuestos para Botón 'Agregar') */
+    --primario: #3367d6;       /* Azul profundo (Botones, Foco) */
+    --secundario: #4285f4;     /* Azul claro (Hover, Confirmación) */
+    --terciario: #2ecc71;      /* Verde vibrante (Tomado de Repuestos para Botón 'Agregar') */
     --gris: #80868B;
-    --grisclaro: #e8f0fe;      /* Fondo muy suave para inputs / hover */
-    --fondo: #f1f3f4;          /* Fondo general */
+    --grisclaro: #e8f0fe;      /* Fondo muy suave para inputs / hover */
+    --fondo: #f1f3f4;          /* Fondo general */
     --input-bg: #ffffff;
-    --input-border: #d2e3fc;   /* Borde azul suave */
+    --input-border: #d2e3fc;   /* Borde azul suave */
     --input-focus: #3367d6;
     --header-bg: #3367d6;
     --header-text: #ffffff;
@@ -19,7 +19,7 @@
 }
 
 /* ------------------------------------------------------------------- */
-/* 1. RESET Y BASE (Asume normalize.css está enlazado) */
+/* 1. RESET Y BASE */
 /* ------------------------------------------------------------------- */
 html {
     font-size: 62.5%;
@@ -32,11 +32,13 @@ html {
 
 body {
     margin: 0;
-    padding-top: 0; /* No necesitamos padding en el body si el header es fijo */
+    padding-top: 0;
     font-size: 16px;
     font-family: 'Krub', sans-serif;
     background-color: var(--fondo);
     color: var(--oscuro);
+    /* [OPTIMIZACIÓN MÓVIL] Asegura que el cuerpo ocupe al menos toda la altura de la pantalla */
+    min-height: 100vh;
 }
 
 /* Encabezados */
@@ -60,13 +62,14 @@ legend {
 }
 
 /* ------------------------------------------------------------------- */
-/* 2. CONTENEDORES Y ESTRUCTURA GENERAL */
+/* 2. CONTENEDORES Y ESTRUCTURA GENERAL (Desktop) */
 /* ------------------------------------------------------------------- */
 .container {
-    width: min(120rem, 96%);
-    margin: 4rem auto 2rem auto; /* Se añade margin top para dejar espacio al header */
+    /* Mantiene el ancho máximo para desktop */
+    width: min(120rem, 96%); 
+    margin: 4rem auto 2rem auto; 
     background-color: var(--blanco);
-    padding: 3rem; 
+    padding: 3rem; 
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     border: 2px solid var(--form-border);
@@ -96,13 +99,13 @@ label {
     margin-bottom: 0.8rem;
     font-weight: 600;
     color: var(--oscuro);
-    display: block; /* Asegura que la etiqueta tome su propia línea */
+    display: block; 
 }
 
 /* Estilo base para todos los inputs, selects y textareas */
 .input-text {
     width: 100%;
-    padding: 1rem;
+    padding: 1.2rem; /* Aumento de padding para mejor 'touch target' */
     font-size: 1.6rem;
     border: 1px solid var(--input-border);
     border-radius: 0.5rem;
@@ -121,6 +124,7 @@ select.input-text {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    /* Icono SVG para el dropdown, manteniendo el color primario */
     background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10"><path fill="%233367d6" d="M7 10L0 0h14z"/></svg>');
     background-repeat: no-repeat;
     background-position: right 1rem center;
@@ -144,37 +148,21 @@ select.input-text {
     margin-bottom: 0.5rem;
 }
 
+/* Uso de Grid para mejor control de columnas en desktop/tablet */
 .input-group {
-    display: flex;
+    display: grid;
+    grid-template-columns: 20% 35% 25% 20%; /* Distribución de espacio optimizada */
     gap: 1rem;
+    align-items: end;
 }
-
-.input-group > div,
-.input-group > input,
-.input-group > select {
-    flex-grow: 1; /* Distribuye el espacio entre los campos de repuesto */
+/* Estas clases ya no son tan necesarias con Grid, pero se dejan por compatibilidad */
+.repuesto-desc-container, .cantidad-input, .und-medida-select {
+    grid-column: span 1;
 }
-.repuesto-desc-container {
-    flex-basis: 50%; /* Da más espacio a la descripción */
-}
-.cantidad-input {
-    flex-basis: 20%;
-}
-.und-medida-select {
-    flex-basis: 30%;
-}
-
-@media (max-width: 768px) {
-    .input-group {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-}
-
 
 /* Botón de Agregar Repuesto (+) */
 .btn-add {
-    background-color: var(--terciario); /* Usamos el verde de Repuestos */
+    background-color: var(--terciario); 
     color: var(--blanco);
     border: none;
     padding: 0.8rem 1.6rem;
@@ -201,7 +189,7 @@ select.input-text {
     display: block;
     background-color: var(--primario);
     color: var(--blanco);
-    padding: 1.2rem 3rem;
+    padding: 1.5rem 3rem; /* Aumento de padding para mejor 'touch target' */
     font-size: 1.8rem;
     border: none;
     border-radius: 0.5rem;
@@ -211,6 +199,7 @@ select.input-text {
     transition: background-color 0.3s ease, transform 0.2s ease;
     width: 100%;
     margin-top: 3rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para resaltar */
 }
 
 .btn-submit:hover {
@@ -218,7 +207,7 @@ select.input-text {
     transform: scale(1.02);
 }
 
-/* Botón de Toggle de Repuestos (Nuevo) */
+/* Botón de Toggle de Repuestos */
 .btn-toggle {
     display: block;
     background-color: var(--gris);
@@ -250,6 +239,8 @@ select.input-text {
     font-weight: 600;
 }
 
+/* ... (resto de estilos de mensajes y spinner) ... */
+
 .error {
     background-color: var(--error-bg);
     color: var(--error-text);
@@ -269,7 +260,6 @@ select.input-text {
     75% { transform: translateX(5px); }
 }
 
-/* Spinner de carga (Reutilizado) */
 .spinner {
     animation: rotate 2s linear infinite;
     height: 50px;
@@ -332,4 +322,39 @@ select.input-text {
     width: 1.8rem;
     height: 1.8rem;
     accent-color: var(--primario);
+}
+
+
+/* ------------------------------------------------------------------- */
+/* 8. MEDIA QUERIES (OPTIMIZACIÓN MÓVIL) */
+/* ------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    /* [AJUSTE CRÍTICO MÓVIL] Contenedor de ancho completo y sin márgenes */
+    .container {
+        width: 100%;
+        margin: 0; 
+        padding: 1.5rem; /* Ajustado para dar un ligero respiro a los lados */
+        border: none; 
+        box-shadow: none; 
+        border-radius: 0; 
+        min-height: 100vh; /* Asegura que ocupe todo el alto si es necesario */
+    }
+
+    /* Reducir el padding de los fieldsets en móvil */
+    fieldset {
+        padding: 1rem;
+    }
+
+    /* Columnas de Repuestos en Móvil */
+    .input-group {
+        /* Vuelve a la disposición de columna para móviles */
+        grid-template-columns: 1fr; 
+        gap: 0.5rem;
+    }
+    
+    /* Etiqueta más pequeña para ahorrar espacio */
+    .descripcion-item label {
+        font-size: 1.1rem;
+    }
 }
