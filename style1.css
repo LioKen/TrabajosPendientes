@@ -33,7 +33,8 @@ html {
 body {
     margin: 0;
     padding-top: 0;
-    font-size: 16px;
+    /* [MEJORA DE LEGIBILIDAD] Aumentamos la fuente base a 17px */
+    font-size: 17px;
     font-family: 'Krub', sans-serif;
     background-color: var(--fondo);
     color: var(--oscuro);
@@ -94,7 +95,8 @@ fieldset {
 /* ------------------------------------------------------------------- */
 
 label {
-    font-size: 1.4rem;
+    /* [MEJORA DE LEGIBILIDAD] Aumentamos ligeramente el tamaño de la etiqueta */
+    font-size: 1.5rem;
     margin-top: 1rem;
     margin-bottom: 0.8rem;
     font-weight: 600;
@@ -105,8 +107,8 @@ label {
 /* Estilo base para todos los inputs, selects y textareas */
 .input-text {
     width: 100%;
-    padding: 1.2rem; /* Aumento de padding para mejor 'touch target' */
-    font-size: 1.6rem;
+    padding: 1.2rem; /* Ya aumentado para mejor 'touch target' */
+    font-size: 1.7rem; /* Ligeramente más grande para que coincida con el nuevo body font-size */
     border: 1px solid var(--input-border);
     border-radius: 0.5rem;
     background-color: var(--input-bg);
@@ -164,13 +166,16 @@ select.input-text {
 .btn-add {
     background-color: var(--terciario); 
     color: var(--blanco);
-    border: none;
+    /* [MEJORA] Añadimos un borde y sombra para que sea visible y resalte */
+    border: 2px solid var(--terciario); 
+    box-shadow: 0 2px 4px rgba(46, 204, 113, 0.4); 
     padding: 0.8rem 1.6rem;
     font-size: 2rem;
     line-height: 1;
     border-radius: 0.5rem;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    /* Incluimos box-shadow en la transición */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     display: block;
     margin-top: 1rem;
 }
@@ -178,6 +183,8 @@ select.input-text {
 .btn-add:hover {
     background-color: #27ae60;
     transform: scale(1.05);
+    /* [MEJORA] Sombra más oscura al hacer hover */
+    box-shadow: 0 4px 8px rgba(39, 174, 96, 0.5);
 }
 
 /* ------------------------------------------------------------------- */
@@ -213,7 +220,7 @@ select.input-text {
     background-color: var(--gris);
     color: var(--blanco);
     padding: 1rem 2rem;
-    font-size: 1.6rem;
+    font-size: 1.7rem; /* Ligeramente más grande */
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
@@ -235,7 +242,7 @@ select.input-text {
     border-radius: 0.5rem;
     margin-bottom: 2rem;
     text-align: center;
-    font-size: 1.6rem;
+    font-size: 1.7rem; /* Ligeramente más grande */
     font-weight: 600;
 }
 
@@ -289,13 +296,13 @@ select.input-text {
     background-color: var(--blanco);
     border: 1px solid var(--input-border);
     border-top: none;
-    max-height: 400px; /* Reducido un poco para que sea más práctico */
+    max-height: 400px; 
     overflow-y: auto;
     z-index: 1000;
     list-style: none;
     padding: 0;
     margin: 0;
-    font-size: 1.4rem;
+    font-size: 1.6rem; /* Aumentado */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
@@ -315,6 +322,7 @@ select.input-text {
     margin-top: 1.5rem;
     font-weight: 400;
     cursor: pointer;
+    font-size: 1.7rem; /* Aumentado */
 }
 
 .checkbox-label input[type="checkbox"] {
@@ -352,9 +360,18 @@ select.input-text {
         grid-template-columns: 1fr; 
         gap: 0.5rem;
     }
+
+    /* [CORRECCIÓN VISIBILIDAD] Hace que el botón '+' sea un objetivo táctil claro y visible */
+    .btn-add {
+        width: 100%;
+        padding: 1.5rem 1.6rem; /* Aumentar el padding vertical para altura y visibilidad */
+        font-size: 2.2rem; /* Símbolo '+' más grande */
+        text-align: center; /* Centrar el símbolo */
+        margin-top: 1.5rem;
+    }
     
     /* Etiqueta más pequeña para ahorrar espacio */
     .descripcion-item label {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
     }
 }
