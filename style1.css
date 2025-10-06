@@ -2,17 +2,16 @@
     /* Paleta unificada (Basada en Reportes - Azul Profundo) */
     --blanco: #ffffff;
     --oscuro: #202124;
-    --primario: #3367d6;       /* Azul profundo (Botones, Foco) */
-    --secundario: #4285f4;     /* Azul claro (Hover, Confirmación) */
-    --terciario: #2ecc71;      /* Verde vibrante (Tomado de Repuestos para Botón 'Agregar') */
+    --primario: #3367d6;        /* Azul profundo (Botones, Foco) */
+    --secundario: #4285f4;      /* Azul claro (Hover, Confirmación) */
+    --terciario: #2ecc71;       /* Verde vibrante (Tomado de Repuestos para Botón 'Agregar') */
+    --atencion: #f1c40f;        /* Amarillo para Toggle/Alerta suave */
     --gris: #80868B;
-    --grisclaro: #e8f0fe;      /* Fondo muy suave para inputs / hover */
-    --fondo: #f1f3f4;          /* Fondo general */
+    --grisclaro: #e8f0fe;       /* Fondo muy suave para inputs / hover */
+    --fondo: #f1f3f4;           /* Fondo general */
     --input-bg: #ffffff;
-    --input-border: #d2e3fc;   /* Borde azul suave */
+    --input-border: #d2e3fc;    /* Borde azul suave */
     --input-focus: #3367d6;
-    --header-bg: #3367d6;
-    --header-text: #ffffff;
     --error-bg: #fce8e6;
     --error-text: #d93025;
     --form-border: #3367d6;
@@ -33,47 +32,48 @@ html {
 body {
     margin: 0;
     padding-top: 0;
-    /* [MEJORA DE LEGIBILIDAD] Aumentamos la fuente base a 17px */
     font-size: 17px;
-    font-family: 'Krub', sans-serif;
+    /* Usando 'Roboto' o 'Bebas Neue' de tus links, asumo 'Roboto' para el cuerpo */
+    font-family: 'Roboto', sans-serif; 
     background-color: var(--fondo);
     color: var(--oscuro);
-    /* [OPTIMIZACIÓN MÓVIL] Asegura que el cuerpo ocupe al menos toda la altura de la pantalla */
     min-height: 100vh;
 }
 
 /* Encabezados */
 h1 {
-    font-size: 2.4rem;
+    /* Usando 'Bebas Neue' para un estilo más distintivo, si está enlazado */
+    font-family: 'Bebas Neue', cursive; 
+    font-size: 3.2rem; /* Más impactante */
     font-weight: 600;
     text-align: center;
     color: var(--primario);
     margin-bottom: 2rem;
-}
-h2 {
-    font-size: 1.8rem;
-    font-weight: 500;
-    margin: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--input-border);
 }
 legend {
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--primario);
     padding: 0 1rem;
+    /* [UX] Añade un pequeño margen para separarlo del contenido */
+    margin-bottom: 1rem; 
 }
 
 /* ------------------------------------------------------------------- */
-/* 2. CONTENEDORES Y ESTRUCTURA GENERAL (Desktop) */
+/* 2. CONTENEDORES Y ESTRUCTURA GENERAL */
 /* ------------------------------------------------------------------- */
 .container {
-    /* Mantiene el ancho máximo para desktop */
-    width: min(120rem, 96%); 
-    margin: 4rem auto 2rem auto; 
+    /* Ajustado para mejor control en todos los dispositivos */
+    max-width: 800px; 
+    width: 96%;
+    margin: 2rem auto;
     background-color: var(--blanco);
-    padding: 3rem; 
+    padding: 2.5rem;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    border: 2px solid var(--form-border);
+    border: 2px solid var(--input-border); /* Borde suave */
     animation: fadeIn 0.8s ease-out;
 }
 
@@ -82,10 +82,9 @@ legend {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Estilo para el grupo de campos principal */
 fieldset {
     border: 1px solid var(--input-border);
-    border-radius: 0.5rem;
+    border-radius: 0.8rem; /* Borde ligeramente más redondeado */
     padding: 2rem;
     margin-bottom: 2.5rem;
 }
@@ -95,30 +94,28 @@ fieldset {
 /* ------------------------------------------------------------------- */
 
 label {
-    /* [MEJORA DE LEGIBILIDAD] Aumentamos ligeramente el tamaño de la etiqueta */
     font-size: 1.5rem;
-    margin-top: 1rem;
-    margin-bottom: 0.8rem;
+    margin-top: 1.5rem; /* Aumento para mejor separación */
+    margin-bottom: 0.5rem;
     font-weight: 600;
     color: var(--oscuro);
     display: block; 
 }
 
-/* Estilo base para todos los inputs, selects y textareas */
 .input-text {
     width: 100%;
-    padding: 1.2rem; /* Ya aumentado para mejor 'touch target' */
-    font-size: 1.7rem; /* Ligeramente más grande para que coincida con el nuevo body font-size */
-    border: 1px solid var(--input-border);
-    border-radius: 0.5rem;
+    padding: 1.4rem; /* Aumentado para un mejor 'touch target' móvil */
+    font-size: 1.7rem;
+    border: 1px solid var(--gris); /* Borde gris más claro */
+    border-radius: 0.8rem; /* Más redondeado */
     background-color: var(--input-bg);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .input-text:focus {
     outline: none;
-    border-color: var(--input-focus);
-    box-shadow: 0 0 5px rgba(66,133,244,0.5);
+    border: 2px solid var(--input-focus); /* Borde más grueso al enfocar */
+    box-shadow: 0 0 0 3px rgba(51, 103, 214, 0.2); /* Sombra suave azul */
 }
 
 /* Estilo para Selects */
@@ -126,12 +123,38 @@ select.input-text {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    /* Icono SVG para el dropdown, manteniendo el color primario */
     background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10"><path fill="%233367d6" d="M7 10L0 0h14z"/></svg>');
     background-repeat: no-repeat;
-    background-position: right 1rem center;
+    background-position: right 1.5rem center; /* Ajustado por el padding mayor */
     background-size: 1rem;
 }
+
+/* ------------------------------------------------------------------- */
+/* 3.1. NUEVOS ESTILOS (FOTOS) */
+/* ------------------------------------------------------------------- */
+
+/* Estilo para el input de tipo file */
+input[type="file"] {
+    /* Hereda estilos base para coherencia */
+    width: 100%;
+    display: block;
+    padding: 1.2rem;
+    border: 1px solid var(--gris);
+    border-radius: 0.8rem;
+    background-color: var(--grisclaro); /* Fondo suave para destacarlo */
+    cursor: pointer;
+    font-size: 1.6rem;
+}
+
+/* Mensaje informativo debajo del input de archivo */
+.file-info {
+    font-size: 1.3rem; /* Letra pequeña */
+    color: var(--gris);
+    margin-top: 0.5rem;
+    font-style: italic;
+    padding-left: 0.5rem;
+}
+
 
 /* ------------------------------------------------------------------- */
 /* 4. SECCIÓN DE REPUESTOS (Multi-Fila) */
@@ -139,60 +162,58 @@ select.input-text {
 
 .descripcion-item {
     margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px dashed var(--grisclaro);
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed var(--input-border); /* Borde más visible */
+    padding: 1rem; /* Padding interno para el item */
+    background-color: var(--grisclaro); /* Fondo suave para cada item de repuesto */
+    border-radius: 0.5rem;
+}
+.descripcion-item:last-child {
+    border-bottom: none;
 }
 
 .descripcion-item label {
-    font-size: 1.2rem;
-    font-weight: 400;
-    color: var(--gris);
-    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--oscuro);
+    margin-top: 0.5rem;
 }
 
 /* Uso de Grid para mejor control de columnas en desktop/tablet */
 .input-group {
     display: grid;
-    grid-template-columns: 20% 35% 25% 20%; /* Distribución de espacio optimizada */
+    /* Distribución de espacio: Descripción (50%) | Cantidad (25%) | Unidad (25%) */
+    grid-template-columns: 2fr 1fr 1fr; 
     gap: 1rem;
-    align-items: end;
-}
-/* Estas clases ya no son tan necesarias con Grid, pero se dejan por compatibilidad */
-.repuesto-desc-container, .cantidad-input, .und-medida-select {
-    grid-column: span 1;
+    align-items: center;
 }
 
 /* Botón de Agregar Repuesto (+) */
 .btn-add {
     background-color: var(--terciario); 
     color: var(--blanco);
-    /* [MEJORA] Añadimos un borde y sombra para que sea visible y resalte */
     border: 2px solid var(--terciario); 
     box-shadow: 0 2px 4px rgba(46, 204, 113, 0.4); 
-    padding: 0.8rem 1.6rem;
+    padding: 1rem 1.6rem; /* Aumentado */
     font-size: 2rem;
     line-height: 1;
     border-radius: 0.5rem;
     cursor: pointer;
-    /* Incluimos box-shadow en la transición */
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     display: block;
-    margin-top: 1rem;
+    margin-top: 1.5rem; /* Separación */
+    margin-left: auto; /* A la derecha */
 }
 
 .btn-add:hover {
     background-color: #27ae60;
     transform: scale(1.05);
-    /* [MEJORA] Sombra más oscura al hacer hover */
     box-shadow: 0 4px 8px rgba(39, 174, 96, 0.5);
 }
-
-/* [CORRECCIÓN CRÍTICA] Forzamos el color verde en el estado activo (click/touch) para evitar el flash negro */
 .btn-add:active {
-    background-color: #27ae60; /* Color del hover, forzado en active */
-    transform: scale(0.98); 
-    border-color: #27ae60; 
-    box-shadow: 0 2px 4px rgba(39, 174, 96, 0.5);
+    background-color: #27ae60;
+    transform: scale(0.95); /* Más pronunciado */
+    box-shadow: 0 1px 3px rgba(39, 174, 96, 0.5);
 }
 
 /* ------------------------------------------------------------------- */
@@ -204,94 +225,99 @@ select.input-text {
     display: block;
     background-color: var(--primario);
     color: var(--blanco);
-    padding: 1.5rem 3rem; /* Aumento de padding para mejor 'touch target' */
+    padding: 1.6rem 3rem; 
     font-size: 1.8rem;
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 0.8rem; /* Más redondeado */
     text-transform: uppercase;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     width: 100%;
-    margin-top: 3rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para resaltar */
+    margin-top: 4rem; /* Más separación */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
 
 .btn-submit:hover {
     background-color: var(--secundario);
-    transform: scale(1.02);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
 }
-/* [CORRECCIÓN] Forzamos color en el estado activo para evitar el flash negro */
 .btn-submit:active {
     background-color: var(--secundario);
     transform: scale(0.98); 
 }
+.btn-submit:disabled {
+    background-color: var(--gris);
+    cursor: not-allowed;
+    box-shadow: none;
+}
 
-/* Botón de Toggle de Repuestos */
+/* Botón de Toggle de Repuestos (Usamos el amarillo de Atención) */
 .btn-toggle {
     display: block;
-    background-color: var(--gris);
-    color: var(--blanco);
-    padding: 1rem 2rem;
-    font-size: 1.7rem; /* Ligeramente más grande */
+    background-color: var(--atencion);
+    color: var(--oscuro); /* Texto oscuro para contraste */
+    padding: 1.2rem 2rem;
+    font-size: 1.6rem; 
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
     width: 100%;
     margin: 2.5rem 0;
+    font-weight: 600;
 }
 
 .btn-toggle:hover {
-    background-color: var(--oscuro);
+    background-color: #e6b300; /* Amarillo más oscuro */
 }
-/* [CORRECCIÓN] Forzamos color en el estado activo para evitar el flash negro */
 .btn-toggle:active {
-    background-color: var(--oscuro);
-    transform: scale(0.98);
+    background-color: #e6b300;
+    transform: scale(0.99);
 }
+
 
 /* ------------------------------------------------------------------- */
 /* 6. MENSAJES Y SPINNER */
 /* ------------------------------------------------------------------- */
 
 .message {
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    margin-bottom: 2rem;
+    padding: 1.8rem; /* Más padding para que resalte */
+    border-radius: 0.8rem;
+    margin-bottom: 2.5rem;
     text-align: center;
-    font-size: 1.7rem; /* Ligeramente más grande */
-    font-weight: 600;
+    font-size: 1.7rem; 
+    font-weight: 700;
+    border-left: 5px solid; /* Borde izquierdo para destacar */
 }
-
-/* ... (resto de estilos de mensajes y spinner) ... */
 
 .error {
     background-color: var(--error-bg);
     color: var(--error-text);
-    border: 1px solid var(--error-text);
+    border-color: var(--error-text);
     animation: shake 0.3s ease-in-out;
 }
 
 .success {
     background-color: var(--grisclaro);
     color: var(--primario);
-    border: 1px solid var(--primario);
+    border-color: var(--primario);
 }
 
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
+    25% { transform: translateX(-8px); } /* Movimiento más notorio */
+    75% { transform: translateX(8px); }
 }
 
+/* Spinner */
 .spinner {
-    animation: rotate 2s linear infinite;
-    height: 50px;
-    width: 50px;
-    margin: 2rem auto;
-    border: 5px solid var(--primario);
-    border-top: 5px solid transparent;
+    animation: rotate 1s linear infinite; /* Animación más rápida */
+    height: 40px;
+    width: 40px;
+    margin: 3rem auto;
+    border: 5px solid rgba(51, 103, 214, 0.2); /* Borde base transparente/suave */
+    border-top: 5px solid var(--primario);
     border-radius: 50%;
 }
 @keyframes rotate {
@@ -312,22 +338,22 @@ select.input-text {
     left: 0;
     right: 0;
     background-color: var(--blanco);
-    border: 1px solid var(--input-border);
+    border: 1px solid var(--gris);
     border-top: none;
-    max-height: 400px; 
+    max-height: 250px; /* Altura máxima razonable en móvil */
     overflow-y: auto;
     z-index: 1000;
     list-style: none;
     padding: 0;
     margin: 0;
-    font-size: 1.6rem; /* Aumentado */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    font-size: 1.6rem;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* Sombra pronunciada */
+    border-radius: 0 0 0.8rem 0.8rem;
 }
 
 .suggestions-list li {
-    padding: 1rem;
+    padding: 1.2rem;
     cursor: pointer;
-    transition: background-color 0.2s ease;
 }
 
 .suggestions-list li:hover {
@@ -337,16 +363,16 @@ select.input-text {
 .checkbox-label {
     display: flex;
     align-items: center;
-    margin-top: 1.5rem;
-    font-weight: 400;
+    margin-top: 2rem;
+    font-weight: 500;
     cursor: pointer;
-    font-size: 1.7rem; /* Aumentado */
+    font-size: 1.7rem; 
 }
 
 .checkbox-label input[type="checkbox"] {
-    margin-right: 10px;
-    width: 1.8rem;
-    height: 1.8rem;
+    margin-right: 12px;
+    width: 2rem; /* Más grande para fácil toque */
+    height: 2rem;
     accent-color: var(--primario);
 }
 
@@ -355,41 +381,48 @@ select.input-text {
 /* 8. MEDIA QUERIES (OPTIMIZACIÓN MÓVIL) */
 /* ------------------------------------------------------------------- */
 
-@media (max-width: 768px) {
-    /* [AJUSTE CRÍTICO MÓVIL] Contenedor de ancho completo y sin márgenes */
+@media (max-width: 600px) {
+    /* [AJUSTE CRÍTICO MÓVIL] Experiencia Full-Screen */
     .container {
         width: 100%;
-        margin: 0; 
-        padding: 1.5rem; /* Ajustado para dar un ligero respiro a los lados */
-        border: none; 
-        box-shadow: none; 
-        border-radius: 0; 
-        min-height: 100vh; /* Asegura que ocupe todo el alto si es necesario */
+        margin: 0;
+        padding: 1.5rem;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        min-height: 100vh;
+    }
+    
+    h1 {
+        font-size: 2.8rem;
     }
 
     /* Reducir el padding de los fieldsets en móvil */
     fieldset {
-        padding: 1rem;
+        padding: 1.5rem;
     }
 
-    /* Columnas de Repuestos en Móvil */
+    /* Columnas de Repuestos en Móvil - Apiladas */
     .input-group {
-        /* Vuelve a la disposición de columna para móviles */
         grid-template-columns: 1fr; 
-        gap: 0.5rem;
+        gap: 1.5rem; /* Separación clara entre campos apilados */
     }
 
-    /* [CORRECCIÓN VISIBILIDAD] Hace que el botón '+' sea un objetivo táctil claro y visible */
+    .descripcion-item {
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    /* Ajuste de Botón de Agregar Repuesto (+) para Móvil */
     .btn-add {
         width: 100%;
-        padding: 1.5rem 1.6rem; /* Aumentar el padding vertical para altura y visibilidad */
-        font-size: 2.2rem; /* Símbolo '+' más grande */
-        text-align: center; /* Centrar el símbolo */
+        padding: 1.5rem 1.6rem; 
+        font-size: 2.2rem; 
         margin-top: 1.5rem;
     }
     
-    /* Etiqueta más pequeña para ahorrar espacio */
-    .descripcion-item label {
-        font-size: 1.2rem;
+    /* El campo de cantidad y unidad de medida ahora ocupan todo el ancho */
+    .cantidad-input, .und-medida-select {
+        grid-column: 1 / -1; 
     }
 }
