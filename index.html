@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trabajos Pendientes</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajos Pendientes</title>
 
-  <!-- Preload y enlaces a hojas de estilo externas -->
-  <link rel="preload" href="normalize.css" as="style">
-  <link rel="stylesheet" href="normalize.css">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto&display=swap" rel="stylesheet">
-  
-  <link rel="preload" href="style1.css" as="style">
-  <link rel="stylesheet" href="style1.css">
+    <link rel="preload" href="normalize.css" as="style">
+    <link rel="stylesheet" href="normalize.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto&display=swap" rel="stylesheet">
+    
+    <link rel="preload" href="style1.css" as="style">
+    <link rel="stylesheet" href="style1.css">
 
-  <!-- Estilos adicionales para autocompletado y header -->
-</head>
+    </head>
 <body>
 
     <div class="container">
@@ -38,7 +36,10 @@
                 <div class="autocomplete-container">
                     <input type="text" id="maquinaInput" name="maquina" class="input-text" placeholder="Buscar Máquina o Área" autocomplete="off" required>
                     <ul id="maquinaSuggestions" class="suggestions-list"></ul>
-                    </div>
+                </div>
+                
+                <label for="jefe_responsable">Jefe Responsable (*)</label>
+                <input type="text" id="jefe_responsable" name="jefe_responsable" class="input-text" placeholder="Nombre del Jefe o Supervisor" required>
                 
                 <label for="asignado_aInput">Asignado a (*)</label>
                 <div class="autocomplete-container">
@@ -55,9 +56,16 @@
                 </select>
 
                 <label class="checkbox-label">
-                    <input type="checkbox" id="requiere_seguimiento" name="requiere_seguimiento">
+                    <input type="checkbox" id="requiere_seguimiento" name="requiere_seguimiento" value="Sí">
                     <span>Requiere Seguimiento Posterior</span>
                 </label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Evidencia Fotográfica</legend>
+                <label for="foto_trabajo">Seleccionar Foto(s) de la falla:</label>
+                <input type="file" id="foto_trabajo" name="foto_trabajo" accept="image/*" multiple>
+                <p class="file-info">Puedes seleccionar hasta 2 imágenes (JPG, PNG).</p>
             </fieldset>
 
             <button type="button" id="toggleRepuestos" class="btn-toggle">
@@ -89,7 +97,7 @@
                 </fieldset>
             </div>
             
-            <button type="submit" class="btn-submit">Registrar Trabajo Pendiente</button>
+            <button type="submit" class="btn-submit" id="submitButton">Registrar Trabajo Pendiente</button>
 
             <div id="spinner" class="spinner" style="display: none;"></div>
         </form>
@@ -100,45 +108,42 @@
         // Reemplaza esta URL con la URL de despliegue de tu nueva App Web de Apps Script
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwa8tv9641hlS3gSZ3O-cOgynbN5YySk7-Hrvngw_dwZouQ2W4dg3yAzoezd6_XVzw/exec';
         
-        // Variables para almacenar datos (se cargan desde un JSON externo como en tus apps)
+        // Variables para almacenar datos (se cargan desde opciones.json)
         let datosMaquina = [];
-        let datosTecnico = []; // Usaremos esto para 'Asignado a'
+        let datosTecnico = [];
         let datosRepuesto = [];
         let datosUndDeMedida = [];
         
-        // Cargar datos desde opciones.json (Deberás subir este JSON a tu servidor web o cargarlo vía Apps Script)
-  fetch('opciones.json')
-    .then(response => response.json())
-    .then(data => {
-        // *** 1. ASIGNACIÓN DE DATOS (Mantenemos esta parte) ***
-        datosMaquina = data.maquina || [];
-        datosTecnico = data.tecnico || [];
-        datosRepuesto = data.items || [];
-        datosUndDeMedida = data.und_de_medida || [];
+        // Cargar datos desde opciones.json
+        fetch('opciones.json')
+            .then(response => response.json())
+            .then(data => {
+                // 1. ASIGNACIÓN DE DATOS 
+                datosMaquina = data.maquina || [];
+                datosTecnico = data.tecnico || [];
+                datosRepuesto = data.items || [];
+                datosUndDeMedida = data.und_de_medida || [];
 
-        // Poblar select de Unidad de Medida del primer ítem
-        document.querySelectorAll('.und-medida-select').forEach(select => {
-            populateUnidadSelect(select, datosUndDeMedida);
-        });
-        
-        // Inicializar autocompletado para el primer input de repuesto
-        setupAutocompleteForDescripcion(document.querySelector('.descripcion-input'));
+                // Poblar select de Unidad de Medida del primer ítem
+                document.querySelectorAll('.und-medida-select').forEach(select => {
+                    populateUnidadSelect(select, datosUndDeMedida);
+                });
+                
+                // Inicializar autocompletado para el primer input de repuesto
+                setupAutocompleteForDescripcion(document.querySelector('.descripcion-input'));
+                
+                // Configurar autocompletado para MAQUINA
+                const maquinaInput = document.getElementById('maquinaInput');
+                const maquinaSuggestions = document.getElementById('maquinaSuggestions');
+                setupAutocomplete(maquinaInput, maquinaSuggestions, datosMaquina);
 
-        
-        // *** 2. ¡LA SOLUCIÓN! MOVER LA INICIALIZACIÓN AQUÍ ADENTRO ***
-        
-        // Configurar autocompletado para MAQUINA
-        const maquinaInput = document.getElementById('maquinaInput');
-        const maquinaSuggestions = document.getElementById('maquinaSuggestions');
-        setupAutocomplete(maquinaInput, maquinaSuggestions, datosMaquina);
+                // Configurar autocompletado para ASIGNADO A (usando datos de Técnico)
+                const asignadoInput = document.getElementById('asignado_aInput');
+                const asignadoSuggestions = document.getElementById('asignado_aSuggestions');
+                setupAutocomplete(asignadoInput, asignadoSuggestions, datosTecnico);
 
-        // Configurar autocompletado para ASIGNADO A (usando datos de Técnico)
-        const asignadoInput = document.getElementById('asignado_aInput');
-        const asignadoSuggestions = document.getElementById('asignado_aSuggestions');
-        setupAutocomplete(asignadoInput, asignadoSuggestions, datosTecnico);
-
-    })
-    .catch(error => console.error('Error al cargar opciones.json:', error));
+            })
+            .catch(error => console.error('Error al cargar opciones.json:', error));
 
         /* --- FUNCIONES DE UTILIDAD Y AUTOCPMLETADO (Reutilizadas) --- */
 
@@ -165,12 +170,14 @@
             suggestionsElement.innerHTML = '';
             
             let filtrados = [];
-            // Filtramos por la propiedad 'descripcion' o si es un array simple de strings
+            
             if (datos.length > 0 && typeof datos[0] === 'object') {
                 filtrados = datos.filter(item => item.descripcion.toLowerCase().includes(query));
             } else {
                 filtrados = datos.filter(item => item.toLowerCase().includes(query));
             }
+            
+            if (query.length < 2 || filtrados.length === 0) return;
 
             const fragment = document.createDocumentFragment();
             filtrados.forEach(item => {
@@ -178,6 +185,7 @@
                 const isObject = typeof item === 'object';
                 
                 li.textContent = isObject ? item.descripcion : item;
+                
                 if (isObject) {
                     li.setAttribute('data-codigo', item.codigo);
                 }
@@ -187,16 +195,8 @@
                     suggestionsElement.innerHTML = '';
                     
                     if (isRepuesto && isObject) {
-                        // Lógica para guardar el código del repuesto en el input hidden
                         const container = inputElement.closest('.repuesto-desc-container');
                         let hiddenInput = container.querySelector('input.codigo-repuesto-hidden');
-                        if (!hiddenInput) {
-                            hiddenInput = document.createElement('input');
-                            hiddenInput.type = 'hidden';
-                            hiddenInput.name = 'codigo_repuesto[]';
-                            hiddenInput.className = 'codigo-repuesto-hidden';
-                            container.appendChild(hiddenInput);
-                        }
                         hiddenInput.value = li.getAttribute('data-codigo') || '';
                     }
                 });
@@ -205,31 +205,19 @@
             suggestionsElement.appendChild(fragment);
         }
         
-        // Función general de autocompletado para Máquina y Asignado
         function setupAutocomplete(inputElement, suggestionsElement, dataArray) {
             inputElement.addEventListener('input', debounce(() => {
                 mostrarSugerencias(inputElement, suggestionsElement, dataArray);
             }, 300));
         }
 
-        // Función específica de autocompletado para Repuestos
         function setupAutocompleteForDescripcion(input) {
             const container = input.closest('.repuesto-desc-container');
             const suggestionsList = container.querySelector('.suggestions-list');
             input.addEventListener('input', debounce(function() {
-                mostrarSugerencias(input, suggestionsList, datosRepuesto, true); // true para isRepuesto
+                mostrarSugerencias(input, suggestionsList, datosRepuesto, true);
             }, 300));
         }
-
-        // Configurar autocompletado para MAQUINA
-        const maquinaInput = document.getElementById('maquinaInput');
-        const maquinaSuggestions = document.getElementById('maquinaSuggestions');
-        setupAutocomplete(maquinaInput, maquinaSuggestions, datosMaquina);
-
-        // Configurar autocompletado para ASIGNADO A (usando datos de Técnico)
-        const asignadoInput = document.getElementById('asignado_aInput');
-        const asignadoSuggestions = document.getElementById('asignado_aSuggestions');
-        setupAutocomplete(asignadoInput, asignadoSuggestions, datosTecnico);
 
         // Cerrar sugerencias al hacer clic fuera
         document.addEventListener('click', e => {
@@ -242,7 +230,7 @@
 
         /* --- LÓGICA DE REPUESTOS Y SUBIDA DE DATOS --- */
 
-        // Lógica para mostrar/ocultar la sección de repuestos (Nuevo)
+        // Lógica para mostrar/ocultar la sección de repuestos
         document.getElementById('toggleRepuestos').addEventListener('click', function() {
             const repuestosSection = document.getElementById('repuestos-seccion');
             const isHidden = repuestosSection.style.display === 'none';
@@ -252,13 +240,13 @@
                 ? 'Cancelar solicitud de repuestos' 
                 : '¿El trabajo requiere solicitar repuestos?';
 
-            // Si se muestra la sección, hacemos los campos requeridos. Si se oculta, los quitamos.
+            // Si se muestra la sección, hacemos los campos requeridos.
             repuestosSection.querySelectorAll('input[type="text"], input[type="number"], select').forEach(el => {
                 el.required = isHidden;
             });
         });
 
-        // Lógica para agregar nuevas filas de repuestos (Reutilizada de App 1)
+        // Lógica para agregar nuevas filas de repuestos
         document.getElementById('addDescripcion').addEventListener('click', function() {
             const container = document.getElementById('descripcion-container');
             const lastIndex = container.querySelectorAll('.descripcion-item').length;
@@ -281,12 +269,21 @@
             `;
             container.appendChild(newDiv);
             
-            // Re-poblar y configurar el nuevo select y autocompletado
             const newDescInput = newDiv.querySelector('.descripcion-input');
             const newUmSelect = newDiv.querySelector('.und-medida-select');
             populateUnidadSelect(newUmSelect, datosUndDeMedida);
             setupAutocompleteForDescripcion(newDescInput);
         });
+
+        // Validación de límite de archivos
+        document.getElementById('foto_trabajo').addEventListener('change', function() {
+            clearError();
+            if (this.files.length > 2) {
+                showError('Solo puedes subir un máximo de 2 fotos para la evidencia.');
+                this.value = null; // Limpia la selección
+            }
+        });
+
 
         // Envío del formulario con integración a Google Sheets
         document.getElementById('miFormulario').addEventListener('submit', function(e) {
@@ -295,73 +292,61 @@
 
             const form = this;
             const repuestosSection = document.getElementById('repuestos-seccion');
-            const items = repuestosSection.style.display !== 'none' 
-                ? document.querySelectorAll('#descripcion-container .descripcion-item')
-                : [];
-            
-            // Recopilar arrays de repuestos (Lógica de App 1)
-            let descripcionArray = [];
-            let cantidadArray = [];
-            let undArray = [];
-            let codigoRepuestoArray = [];
 
-            items.forEach(item => {
-                const descInput = item.querySelector('input[name="descripcion_repuesto[]"]');
-                const qtyInput = item.querySelector('input[name="cantidad_requerida[]"]');
-                const umSelect = item.querySelector('select[name="und_de_medida[]"]');
-                const hiddenCodigoInput = item.querySelector('input.codigo-repuesto-hidden');
-
-                // Validaciones de repuestos opcionales
-                if (descInput.value.trim() !== "") {
-                     // Solo si hay descripción, se recopilan los demás datos.
-                     // Aquí podrías agregar validaciones más estrictas si son requeridos
-                     // (aunque la propiedad required del HTML ya debería manejarlo).
-                    descripcionArray.push(descInput.value.trim());
-                    cantidadArray.push(qtyInput.value.trim());
-                    undArray.push(umSelect.value);
-                    codigoRepuestoArray.push(hiddenCodigoInput && hiddenCodigoInput.value ? hiddenCodigoInput.value.trim() : "");
-                }
-            });
-
-            // Recopilar datos principales del trabajo (Lógica de App 2)
-            const data = {
-                // Campos principales (coinciden con la Hoja 'TrabajosPendientes' en Apps Script)
-                descripcion_trabajo: form.querySelector('textarea[name="descripcion_trabajo"]').value,
-                maquina: maquinaInput.value,
-                asignado_a: asignadoInput.value,
-                prioridad: document.getElementById('prioridadSelect').value,
-                requiere_seguimiento: document.getElementById('requiere_seguimiento').checked ? 'Sí' : 'No',
-                
-                // Arrays de repuestos (coinciden con la Hoja 'SolicitudRepuestos' en Apps Script)
-                codigo_repuesto: codigoRepuestoArray,
-                descripcion_repuesto: descripcionArray,
-                cantidad_requerida: cantidadArray,
-                und_de_medida: undArray
-            };
-
-            // Validación de campos principales... (puedes añadir más aquí si es necesario)
-            if (data.prioridad === "" || data.descripcion_trabajo.trim() === "" || data.maquina.trim() === "" || data.asignado_a.trim() === "") {
-                showError('Por favor, rellena todos los campos principales obligatorios (*).');
+            // Validación básica de campos requeridos
+            if (!form.checkValidity()) {
+                showError('Por favor, rellena todos los campos obligatorios (*) y revisa el límite de fotos.');
                 return;
             }
 
-            // Enviar datos
             const spinner = document.getElementById('spinner');
-            const confirmationMessage = document.getElementById('confirmationMessage');
+            const submitButton = document.getElementById('submitButton');
             spinner.style.display = 'block';
-            confirmationMessage.style.display = 'none';
+            submitButton.disabled = true;
+            document.getElementById('confirmationMessage').style.display = 'none';
+            
+            // *** CAMBIO CRÍTICO: USO DE FORM DATA ***
+            // FormData recopila todos los campos por 'name', incluyendo las fotos y arrays de repuestos.
+            const formData = new FormData(form);
 
+            // Limpieza de campos de repuestos si la sección no está visible
+            if (repuestosSection.style.display === 'none') {
+                formData.delete('descripcion_repuesto[]');
+                formData.delete('cantidad_requerida[]');
+                formData.delete('und_de_medida[]');
+                formData.delete('codigo_repuesto[]');
+            }
+
+            // Enviar datos
             fetch(scriptURL, {
                 method: 'POST',
-                mode: 'no-cors', 
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                // El Content-Type se establece automáticamente como multipart/form-data por FormData
+                body: formData
             })
-            .then(() => {
+            .then(response => {
+                // Leer la respuesta (asumiendo que Apps Script devuelve JSON o un texto)
+                return response.text().then(text => {
+                    try {
+                        return JSON.parse(text);
+                    } catch {
+                        // Respuesta vacía o no JSON = éxito en entorno no-cors
+                        return { result: "Success" }; 
+                    }
+                });
+            })
+            .then(result => {
                 spinner.style.display = 'none';
-                confirmationMessage.textContent = 'El trabajo pendiente ha sido registrado correctamente.';
-                confirmationMessage.style.display = 'block';
+                submitButton.disabled = false;
+
+                if (result.result === "Error") {
+                    showError(`Error al registrar el trabajo: ${result.message}`);
+                    return;
+                }
+
+                document.getElementById('confirmationMessage').textContent = `El trabajo pendiente (ID: ${result.trabajoID || 'N/A'}) ha sido registrado y el correo enviado.`;
+                document.getElementById('confirmationMessage').style.display = 'block';
                 form.reset();
+                
                 // Ocultar sección de repuestos después de enviar
                 repuestosSection.style.display = 'none';
                 document.getElementById('toggleRepuestos').textContent = '¿El trabajo requiere solicitar repuestos?';
@@ -369,8 +354,8 @@
             })
             .catch(error => {
                 spinner.style.display = 'none';
-                confirmationMessage.textContent = 'Error al registrar el trabajo. Por favor, intente de nuevo.';
-                confirmationMessage.style.display = 'block';
+                submitButton.disabled = false;
+                showError('Error de red o comunicación. Por favor, intente de nuevo.');
                 console.error('Error!', error.message);
             });
         });
@@ -379,6 +364,7 @@
             const errorDiv = document.getElementById('errorMessage');
             errorDiv.textContent = message;
             errorDiv.style.display = 'block';
+            document.getElementById('confirmationMessage').style.display = 'none';
         }
         function clearError() {
             const errorDiv = document.getElementById('errorMessage');
@@ -388,8 +374,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
