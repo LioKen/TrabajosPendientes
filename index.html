@@ -284,7 +284,6 @@
             }
         });
 
-
         // Envío del formulario con integración a Google Sheets
         document.getElementById('miFormulario').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -305,24 +304,47 @@
             submitButton.disabled = true;
             document.getElementById('confirmationMessage').style.display = 'none';
             
-            // *** CAMBIO CRÍTICO: USO DE FORM DATA ***
-            // FormData recopila todos los campos por 'name', incluyendo las fotos y arrays de repuestos.
-            const formData = new FormData(form);
-
-            // Limpieza de campos de repuestos si la sección no está visible
-                if (repuestosSection.style.display === 'none') {
-                formData.delete('descripcion_repuesto');
-                formData.delete('cantidad_requerida');
-                formData.delete('und_de_medida');
-                formData.delete('codigo_repuesto');
+ // 1. Recoger Repuestos *MANUALMENTE*
+    let repuestosData = [];
+    if (repuestosSection.style.display !== 'none') {
+        const descripciones = form.querySelectorAll('input[name="descripcion_repuesto[]"]');
+        const codigos = form.querySelectorAll('input[name="codigo_repuesto[]"]');
+        const cantidades = form.querySelectorAll('input[name="cantidad_requerida[]"]');
+        const unidades = form.querySelectorAll('select[name="und_de_medida[]"]');
+        
+        descripciones.forEach((descInput, i) => {
+            if (descInput.value.trim() !== "") {
+                repuestosData.push({
+                    codigo: codigos[i]?.value || "",
+                    descripcion: descInput.value,
+                    cantidad: cantidades[i]?.value || "",
+                    unidad: unidades[i]?.value || ""
+                });
             }
+        });
+    }
 
-            // Enviar datos
-            fetch(scriptURL, {
-                method: 'POST',
-                // El Content-Type se establece automáticamente como multipart/form-data por FormData
-                body: formData
-            })
+    // 2. Crear FormData
+    const formData = new FormData(form);
+
+    // 3. Serializar y Añadir los Repuestos al FormData
+    // Se añade como un campo de texto simple llamado 'repuestos_json'
+    formData.append('repuestos_json', JSON.stringify(repuestosData));
+    
+    // 4. Limpiar los campos individuales de repuestos del FormData, 
+    // ya que ya los serializamos arriba.
+    formData.delete('descripcion_repuesto[]');
+    formData.delete('cantidad_requerida[]');
+    formData.delete('und_de_medida[]');
+    formData.delete('codigo_repuesto[]');
+    
+    // Enviar datos
+    fetch(scriptURL, {
+        method: 'POST',
+        body: formData
+    })
+
+        
             .then(response => {
                 // Leer la respuesta (asumiendo que Apps Script devuelve JSON o un texto)
                 return response.text().then(text => {
@@ -374,6 +396,7 @@
     </script>
 </body>
 </html>
+
 
 
 
