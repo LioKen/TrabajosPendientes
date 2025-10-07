@@ -292,6 +292,8 @@
             const form = this;
             const repuestosSection = document.getElementById('repuestos-seccion');
 
+             const fotoInput = document.getElementById('foto_trabajo');
+
             // Validación básica de campos requeridos
             if (!form.checkValidity()) {
                 showError('Por favor, rellena todos los campos obligatorios (*) y revisa el límite de fotos.');
@@ -304,14 +306,16 @@
             submitButton.disabled = true;
             document.getElementById('confirmationMessage').style.display = 'none';
             
- // 1. Recoger Repuestos *MANUALMENTE*
-    let repuestosData = [];
+ let formData = new FormData();
+    const repuestosData = [];
+
+    // 1. Recoger Repuestos MANUALMENTE (Serialización a JSON)
     if (repuestosSection.style.display !== 'none') {
         const descripciones = form.querySelectorAll('input[name="descripcion_repuesto[]"]');
         const codigos = form.querySelectorAll('input[name="codigo_repuesto[]"]');
         const cantidades = form.querySelectorAll('input[name="cantidad_requerida[]"]');
         const unidades = form.querySelectorAll('select[name="und_de_medida[]"]');
-        
+
         descripciones.forEach((descInput, i) => {
             if (descInput.value.trim() !== "") {
                 repuestosData.push({
@@ -324,19 +328,32 @@
         });
     }
 
-    // 2. Crear FormData
-    const formData = new FormData(form);
+    // 2. Añadir CAMPOS DE TEXTO MANUALMENTE
+    // Recorremos todos los campos estándar (evitando archivos y arrays de repuestos viejos)
+    const elements = form.elements;
+    for (let i = 0; i < elements.length; i++) {
+        const element = elements[i];
+        
+        // Solo añadimos campos que tienen nombre y no son de archivo o arrays de repuestos
+        if (element.type !== 'file' && element.name && !element.name.endsWith('[]')) {
+            formData.append(element.name, element.value);
+        }
+    }
 
-    // 3. Serializar y Añadir los Repuestos al FormData
-    // Se añade como un campo de texto simple llamado 'repuestos_json'
+    // 3. Serializar y Añadir Repuestos (JSON)
     formData.append('repuestos_json', JSON.stringify(repuestosData));
-    
-    // 4. Limpiar los campos individuales de repuestos del FormData, 
-    // ya que ya los serializamos arriba.
-    formData.delete('descripcion_repuesto[]');
-    formData.delete('cantidad_requerida[]');
-    formData.delete('und_de_medida[]');
-    formData.delete('codigo_repuesto[]');
+
+
+    // 4. ** PASO CRUCIAL: ADJUNTAR LA FOTO MANUALMENTE **
+    if (fotoInput && fotoInput.files.length > 0) {
+        // Itera sobre todos los archivos seleccionados (máx 2)
+        for (let i = 0; i < fotoInput.files.length; i++) {
+            // Usamos el nombre 'foto_upload' para que coincida con Code.gs
+            formData.append('foto_upload', fotoInput.files[i], fotoInput.files[i].name);
+        }
+    }
+
+            
 
             debugger; 
     // Enviar datos
@@ -397,6 +414,7 @@
     </script>
 </body>
 </html>
+
 
 
 
