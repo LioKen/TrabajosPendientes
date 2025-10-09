@@ -247,6 +247,7 @@
         });
 
         // Lógica para agregar nuevas filas de repuestos
+        
         document.getElementById('addDescripcion').addEventListener('click', function() {
             const container = document.getElementById('descripcion-container');
             const lastIndex = container.querySelectorAll('.descripcion-item').length;
@@ -284,130 +285,150 @@
             }
         });
 
+        
         // Envío del formulario con integración a Google Sheets
         document.getElementById('miFormulario').addEventListener('submit', function(e) {
-            e.preventDefault();
-            clearError();
+        e.preventDefault();
+        clearError();
+        const form = this;
 
-            const form = this;
-            const repuestosSection = document.getElementById('repuestos-seccion');
-
-             const fotoInput = document.getElementById('foto_trabajo');
-
-            // Validación básica de campos requeridos
-            if (!form.checkValidity()) {
-                showError('Por favor, rellena todos los campos obligatorios (*) y revisa el límite de fotos.');
-                return;
-            }
-
-            const spinner = document.getElementById('spinner');
-            const submitButton = document.getElementById('submitButton');
-            spinner.style.display = 'block';
-            submitButton.disabled = true;
-            document.getElementById('confirmationMessage').style.display = 'none';
-            
- let formData = new FormData();
-    const repuestosData = [];
-
-    // 1. Recoger Repuestos MANUALMENTE (Serialización a JSON)
-    if (repuestosSection.style.display !== 'none') {
-        const descripciones = form.querySelectorAll('input[name="descripcion_repuesto[]"]');
-        const codigos = form.querySelectorAll('input[name="codigo_repuesto[]"]');
-        const cantidades = form.querySelectorAll('input[name="cantidad_requerida[]"]');
-        const unidades = form.querySelectorAll('select[name="und_de_medida[]"]');
-
-        descripciones.forEach((descInput, i) => {
-            if (descInput.value.trim() !== "") {
-                repuestosData.push({
-                    codigo: codigos[i]?.value || "",
-                    descripcion: descInput.value,
-                    cantidad: cantidades[i]?.value || "",
-                    unidad: unidades[i]?.value || ""
-                });
-            }
-        });
-    }
-
-    // 2. Añadir CAMPOS DE TEXTO MANUALMENTE
-const elements = form.elements;
-for (let i = 0; i < elements.length; i++) {
-    const element = elements[i];
-    
-    // Agregamos solo elementos que tienen nombre y no son de tipo archivo o arrays de repuestos,
-    // ni son botones de submit, ni contenedores que Apps Script no necesita.
-    if (element.name && element.type !== 'file' && !element.name.endsWith('[]') && element.type !== 'submit') {
-        
-        // Manejo especial para checkboxes (como requiere_seguimiento)
-        if (element.type === 'checkbox' && !element.checked) {
-            continue; // No añadimos checkboxes no marcados
+        if (!form.checkValidity()) {
+            showError('Por favor, rellena todos los campos obligatorios (*).');
+            return;
         }
-        
-        // Aseguramos que el campo tenga un valor válido (evita fallos con campos vacíos)
-        if (element.value !== undefined && element.value !== null) {
-            formData.append(element.name, element.value);
-        }
-    }
-}
 
+        const spinner = document.getElementById('spinner');
+        const submitButton = document.getElementById('submitButton');
+        spinner.style.display = 'block';
+        submitButton.disabled = true;
+
+        const fotoInput = document.getElementById('foto_trabajo');
+        const file = fotoInput.files.length > 0 ? fotoInput.files[0] : null;
+
+        // Si el usuario seleccionó un archivo, lo leemos y convertimos.
+        if (file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file); // Lee el archivo y lo convierte a DataURL (Base64)
             
-    // 3. Serializar y Añadir Repuestos (JSON)
-    formData.append('repuestos_json', JSON.stringify(repuestosData));
-
-
-    // 4. ** PASO CRUCIAL: ADJUNTAR LA FOTO MANUALMENTE **
-    if (fotoInput && fotoInput.files.length > 0) {
-        // Itera sobre todos los archivos seleccionados (máx 2)
-        for (let i = 0; i < fotoInput.files.length; i++) {
-            // Usamos el nombre 'foto_upload' para que coincida con Code.gs
-            formData.append('foto_upload', fotoInput.files[i], fotoInput.files[i].name);
-        }
-    }
-
+            // Cuando la lectura es exitosa, se ejecuta esta función
+            reader.onload = () => {
+                // Preparamos los datos del formulario junto con la imagen convertida
+                const datosParaEnviar = prepararDatosDelFormulario(reader.result, file.type);
+                enviarDatos(datosParaEnviar); // Enviamos el paquete de datos
+            };
             
-    // Enviar datos
-    fetch(scriptURL, {
-        method: 'POST',
-        body: formData
-    })
-
-        
-            .then(response => {
-                // Leer la respuesta (asumiendo que Apps Script devuelve JSON o un texto)
-                return response.text().then(text => {
-                    try {
-                        return JSON.parse(text);
-                    } catch {
-                        // Respuesta vacía o no JSON = éxito en entorno no-cors
-                        return { result: "Success" }; 
-                    }
-                });
-            })
-            .then(result => {
+            // En caso de error al leer el archivo
+            reader.onerror = (error) => {
+                showError('Error al procesar el archivo de imagen.');
                 spinner.style.display = 'none';
                 submitButton.disabled = false;
+            };
+        } else {
+            // Si no se seleccionó ningún archivo, preparamos y enviamos los datos sin imagen.
+            const datosParaEnviar = prepararDatosDelFormulario(null, null);
+            enviarDatos(datosParaEnviar);
+        }
+    });
 
-                if (result.result === "Error") {
-                    showError(`Error al registrar el trabajo: ${result.message}`);
-                    return;
+    /**
+     * Recolecta todos los datos del formulario y los empaqueta en un objeto simple.
+     * @param {string|null} imagenDataUrl - La imagen convertida a DataURL, o null.
+     * @param {string|null} mimeType - El tipo MIME de la imagen, o null.
+     * @returns {object} Un objeto listo para ser convertido a JSON.
+     */
+    function prepararDatosDelFormulario(imagenDataUrl, mimeType) {
+        const form = document.getElementById('miFormulario');
+        const repuestosSection = document.getElementById('repuestos-seccion');
+        const repuestosData = [];
+
+        // Recolectar datos de repuestos (tu lógica original)
+        if (repuestosSection.style.display !== 'none') {
+            const descripciones = form.querySelectorAll('input[name="descripcion_repuesto[]"]');
+            const codigos = form.querySelectorAll('input[name="codigo_repuesto[]"]');
+            const cantidades = form.querySelectorAll('input[name="cantidad_requerida[]"]');
+            const unidades = form.querySelectorAll('select[name="und_de_medida[]"]');
+            descripciones.forEach((descInput, i) => {
+                if (descInput.value.trim() !== "") {
+                    repuestosData.push({
+                        codigo: codigos[i]?.value || "",
+                        descripcion: descInput.value,
+                        cantidad: cantidades[i]?.value || "",
+                        unidad: unidades[i]?.value || ""
+                    });
                 }
-
-                document.getElementById('confirmationMessage').textContent = `El trabajo pendiente (ID: ${result.trabajoID || 'N/A'}) ha sido registrado y el correo enviado.`;
-                document.getElementById('confirmationMessage').style.display = 'block';
-                form.reset();
-                
-                // Ocultar sección de repuestos después de enviar
-                repuestosSection.style.display = 'none';
-                document.getElementById('toggleRepuestos').textContent = '¿El trabajo requiere solicitar repuestos?';
-
-            })
-            .catch(error => {
-                spinner.style.display = 'none';
-                submitButton.disabled = false;
-                showError('Error de red o comunicación. Por favor, intente de nuevo.');
-                console.error('Error!', error.message);
             });
-        });
+        }
+        
+        // Empaquetamos todo en un solo objeto
+        const paqueteDeDatos = {
+            maquina: form.maquina.value,
+            descripcion_trabajo: form.descripcion_trabajo.value,
+            asignado_a: form.asignado_a.value,
+            prioridad: form.prioridad.value,
+            jefe_responsable: form.jefe_responsable.value,
+            requiere_seguimiento: form.requiere_seguimiento.checked ? 'Sí' : 'No',
+            repuestos_json: JSON.stringify(repuestosData),
+            // Añadimos la imagen como texto, separando el prefijo 'data:image/jpeg;base64,'
+            imagenBase64: imagenDataUrl ? imagenDataUrl.split(',')[1] : null,
+            mimeType: mimeType
+        };
 
+        return paqueteDeDatos;
+    }
+
+    /**
+     * Envía los datos empaquetados al Google Apps Script.
+     * @param {object} datos - El objeto con toda la información del formulario.
+     */
+    function enviarDatos(datos) {
+        fetch(scriptURL, {
+            method: 'POST',
+            // Este modo es importante para evitar problemas de CORS
+            mode: 'no-cors', 
+            // El cuerpo ahora es un string JSON, no un FormData
+            body: JSON.stringify(datos)
+        })
+        .then(response => {
+             // En modo 'no-cors', la respuesta es opaca, así que asumimos éxito si la petición se completó
+             console.log("Petición enviada. Asumiendo éxito por modo 'no-cors'.");
+             const result = { result: "Success", trabajoID: "N/A (no-cors)" };
+             manejarResultado(result);
+        })
+        .catch(error => {
+            showError('Error de red o comunicación. Por favor, intente de nuevo.');
+            console.error('Error!', error.message);
+            manejarResultado({ result: "Error", message: error.message });
+        });
+    }
+
+    /**
+     * Maneja la respuesta del servidor para mostrar mensajes al usuario.
+     */
+    function manejarResultado(result) {
+        const form = document.getElementById('miFormulario');
+        const spinner = document.getElementById('spinner');
+        const submitButton = document.getElementById('submitButton');
+        const repuestosSection = document.getElementById('repuestos-seccion');
+
+        spinner.style.display = 'none';
+        submitButton.disabled = false;
+
+        if (result.result === "Error") {
+            showError(`Error al registrar el trabajo: ${result.message}`);
+            return;
+        }
+
+        document.getElementById('confirmationMessage').textContent = `El trabajo pendiente ha sido registrado y el correo enviado.`;
+        document.getElementById('confirmationMessage').style.display = 'block';
+        form.reset();
+        
+        repuestosSection.style.display = 'none';
+        document.getElementById('toggleRepuestos').textContent = '¿El trabajo requiere solicitar repuestos?';
+    }
+
+
+
+        
         function showError(message) {
             const errorDiv = document.getElementById('errorMessage');
             errorDiv.textContent = message;
@@ -422,6 +443,7 @@ for (let i = 0; i < elements.length; i++) {
     </script>
 </body>
 </html>
+
 
 
 
