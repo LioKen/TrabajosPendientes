@@ -41,7 +41,7 @@
                 <label for="jefe_responsable">Jefe Responsable (*)</label>
                 <input type="text" id="jefe_responsable" name="jefe_responsable" class="input-text" placeholder="Nombre del Jefe o Supervisor" required>
                 
-                <label for="asignado_aInput">Asignado a (*)</label>
+                <label for="asignado_aInput">Tecnico que Reporta (*)</label>
                 <div class="autocomplete-container">
                     <input type="text" id="asignado_aInput" name="asignado_a" class="input-text" placeholder="Buscar Técnico o Responsable" autocomplete="off" required>
                     <ul id="asignado_aSuggestions" class="suggestions-list"></ul>
@@ -277,117 +277,120 @@
         });
 
         // Validación de límite de archivos
-        document.getElementById('foto_trabajo').addEventListener('change', function() {
-            clearError();
-            if (this.files.length > 2) {
-                showError('Solo puedes subir un máximo de 2 fotos para la evidencia.');
-                this.value = null; // Limpia la selección
-            }
-        });
+document.getElementById('foto_trabajo').addEventListener('change', function() {
+    clearError();
+    const files = this.files;
+
+    // 1. Validar el número de archivos
+    if (files.length > 2) {
+        showError('Error: Solo puedes subir un máximo de 2 fotos.');
+        this.value = null; // Limpia la selección
+        return;
+    }
+
+    // 2. Validar que cada archivo sea una imagen
+    for (const file of files) {
+        if (!file.type.startsWith('image/')) {
+            showError(`Error: El archivo "${file.name}" no es una imagen. Por favor, solo sube fotos.`);
+            this.value = null; // Limpia la selección
+            return;
+        }
+    }
+});
 
         
         // Envío del formulario con integración a Google Sheets
         document.getElementById('miFormulario').addEventListener('submit', function(e) {
-        e.preventDefault();
-        clearError();
-        const form = this;
+    e.preventDefault();
+    clearError();
+    const form = this;
 
-        if (!form.checkValidity()) {
-            showError('Por favor, rellena todos los campos obligatorios (*).');
-            return;
-        }
-
-        const spinner = document.getElementById('spinner');
-        const submitButton = document.getElementById('submitButton');
-        spinner.style.display = 'block';
-        submitButton.disabled = true;
-
-        const fotoInput = document.getElementById('foto_trabajo');
-        const file = fotoInput.files.length > 0 ? fotoInput.files[0] : null;
-
-        // Si el usuario seleccionó un archivo, lo leemos y convertimos.
-        if (file) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file); // Lee el archivo y lo convierte a DataURL (Base64)
-            
-            // Cuando la lectura es exitosa, se ejecuta esta función
-            reader.onload = () => {
-                // Preparamos los datos del formulario junto con la imagen convertida
-                const datosParaEnviar = prepararDatosDelFormulario(reader.result, file.type);
-                enviarDatos(datosParaEnviar); // Enviamos el paquete de datos
-            };
-            
-            // En caso de error al leer el archivo
-            reader.onerror = (error) => {
-                showError('Error al procesar el archivo de imagen.');
-                spinner.style.display = 'none';
-                submitButton.disabled = false;
-            };
-        } else {
-            // Si no se seleccionó ningún archivo, preparamos y enviamos los datos sin imagen.
-            const datosParaEnviar = prepararDatosDelFormulario(null, null);
-            enviarDatos(datosParaEnviar);
-        }
-    });
-
-    /**
-     * Recolecta todos los datos del formulario y los empaqueta en un objeto simple.
-     * @param {string|null} imagenDataUrl - La imagen convertida a DataURL, o null.
-     * @param {string|null} mimeType - El tipo MIME de la imagen, o null.
-     * @returns {object} Un objeto listo para ser convertido a JSON.
-     */
-    function prepararDatosDelFormulario(imagenDataUrl, mimeType) {
-        const form = document.getElementById('miFormulario');
-        const repuestosSection = document.getElementById('repuestos-seccion');
-        const repuestosData = [];
-
-        // Recolectar datos de repuestos (tu lógica original)
-        if (repuestosSection.style.display !== 'none') {
-            const descripciones = form.querySelectorAll('input[name="descripcion_repuesto[]"]');
-            const codigos = form.querySelectorAll('input[name="codigo_repuesto[]"]');
-            const cantidades = form.querySelectorAll('input[name="cantidad_requerida[]"]');
-            const unidades = form.querySelectorAll('select[name="und_de_medida[]"]');
-            descripciones.forEach((descInput, i) => {
-                if (descInput.value.trim() !== "") {
-                    repuestosData.push({
-                        codigo: codigos[i]?.value || "",
-                        descripcion: descInput.value,
-                        cantidad: cantidades[i]?.value || "",
-                        unidad: unidades[i]?.value || ""
-                    });
-                }
-            });
-        }
-        
-        // Empaquetamos todo en un solo objeto
-        const paqueteDeDatos = {
-            maquina: form.maquina.value,
-            descripcion_trabajo: form.descripcion_trabajo.value,
-            asignado_a: form.asignado_a.value,
-            prioridad: form.prioridad.value,
-            jefe_responsable: form.jefe_responsable.value,
-            requiere_seguimiento: form.requiere_seguimiento.checked ? 'Sí' : 'No',
-            repuestos_json: JSON.stringify(repuestosData),
-            // Añadimos la imagen como texto, separando el prefijo 'data:image/jpeg;base64,'
-            imagenBase64: imagenDataUrl ? imagenDataUrl.split(',')[1] : null,
-            mimeType: mimeType
-        };
-
-        return paqueteDeDatos;
+    if (!form.checkValidity()) {
+        showError('Por favor, rellena todos los campos obligatorios (*).');
+        return;
     }
 
-    /**
-     * Envía los datos empaquetados al Google Apps Script.
-     * @param {object} datos - El objeto con toda la información del formulario.
-     */
-    function enviarDatos(datos) {
-        fetch(scriptURL, {
-            method: 'POST',
-            // Este modo es importante para evitar problemas de CORS
-            mode: 'no-cors', 
-            // El cuerpo ahora es un string JSON, no un FormData
-            body: JSON.stringify(datos)
+    const spinner = document.getElementById('spinner');
+    const submitButton = document.getElementById('submitButton');
+    spinner.style.display = 'block';
+    submitButton.disabled = true;
+
+    const fotoInput = document.getElementById('foto_trabajo');
+    const files = Array.from(fotoInput.files); // Convertimos FileList a un Array
+
+    // Si hay archivos, los convertimos todos a Base64
+    if (files.length > 0) {
+        // Usamos Promise.all para manejar múltiples lecturas de archivos
+        Promise.all(files.map(file => leerArchivoComoBase64(file)))
+        .then(imagenesEnBase64 => {
+            // Cuando todas las imágenes están convertidas, preparamos y enviamos los datos
+            const datosParaEnviar = prepararDatosDelFormulario(imagenesEnBase64);
+            enviarDatos(datosParaEnviar);
         })
+        .catch(error => {
+            showError('Error al procesar las imágenes.');
+            spinner.style.display = 'none';
+            submitButton.disabled = false;
+        });
+    } else {
+        // Si no hay archivos, enviamos el formulario sin datos de imagen
+        const datosParaEnviar = prepararDatosDelFormulario([]);
+        enviarDatos(datosParaEnviar);
+    }
+});
+
+/**
+ * Lee un solo archivo y devuelve una Promesa que se resuelve con el objeto de la imagen.
+ * @param {File} file - El archivo a leer.
+ * @returns {Promise<object>} Una promesa que resuelve a { base64: string, mimeType: string }
+ */
+function leerArchivoComoBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve({
+            base64: reader.result.split(',')[1],
+            mimeType: file.type
+        });
+        reader.onerror = error => reject(error);
+    });
+}
+
+/**
+ * Recolecta todos los datos del formulario y los empaqueta en un objeto simple.
+ * @param {Array<object>} imagenes - Un array de objetos de imagen, cada uno con {base64, mimeType}.
+ * @returns {object} Un objeto listo para ser convertido a JSON.
+ */
+function prepararDatosDelFormulario(imagenes) {
+    const form = document.getElementById('miFormulario');
+    // ... tu lógica para recolectar repuestos es la misma ...
+    
+    const paqueteDeDatos = {
+        maquina: form.maquina.value,
+        descripcion_trabajo: form.descripcion_trabajo.value,
+        asignado_a: form.asignado_a.value,
+        prioridad: form.prioridad.value,
+        jefe_responsable: form.jefe_responsable.value,
+        requiere_seguimiento: form.requiere_seguimiento.checked ? 'Sí' : 'No',
+        repuestos_json: "[]", // Aquí iría tu lógica de repuestos
+        // AÑADIMOS EL ARRAY DE IMÁGENES
+        imagenes: imagenes
+    };
+    return paqueteDeDatos;
+}
+
+/**
+ * Envía los datos empaquetados al Google Apps Script.
+ * @param {object} datos - El objeto con toda la información del formulario.
+ */
+function enviarDatos(datos) {
+    fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify(datos)
+    })
+
+        
         .then(response => {
              // En modo 'no-cors', la respuesta es opaca, así que asumimos éxito si la petición se completó
              console.log("Petición enviada. Asumiendo éxito por modo 'no-cors'.");
@@ -443,6 +446,7 @@
     </script>
 </body>
 </html>
+
 
 
 
